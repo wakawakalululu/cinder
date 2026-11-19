@@ -37,6 +37,9 @@
                                 ToolTip.Tip="在真正发送内容之前，先检查该地址是否有响应。" />
                         <Button Classes="tb" Height="28" Content="清空对话" Command="{Binding ClearCommand}" />
                     </StackPanel>
+                    <Button Classes="tb" Height="28" Content="⇥ 停靠为右侧 AI 面板（Ctrl+Shift+A）"
+                            Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).ToggleAiPanelCommand}"
+                            ToolTip.Tip="把助手停靠到窗口右侧：随提问自动附带当前检材信息、选中行、网格结果与书签。" />
                     <TextBlock Text="{Binding StatusLine}" Classes="muted" FontSize="12" TextWrapping="Wrap"
                                IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}" />
 

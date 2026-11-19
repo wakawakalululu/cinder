@@ -115,6 +115,32 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void ToggleInspector() => IsInspectorOpen = !IsInspectorOpen;
 
+    /// <summary>Docked AI panel (Ctrl+Shift+A): a right-side chat that sees the current evidence.</summary>
+    [ObservableProperty]
+    private bool _isAiPanelOpen;
+
+    public bool ShowAiPanel => IsAiPanelOpen;
+
+    /// <summary>The panel's grid column collapses to zero while closed, so the evidence keeps the room.</summary>
+    public Avalonia.Controls.GridLength AiPanelWidth => IsAiPanelOpen
+        ? new Avalonia.Controls.GridLength(1, Avalonia.Controls.GridUnitType.Star)
+        : new Avalonia.Controls.GridLength(0);
+
+    public AiPanelViewModel AiPanel { get; private set; } = null!;
+
+    [RelayCommand]
+    private void ToggleAiPanel()
+    {
+        IsAiPanelOpen = !IsAiPanelOpen;
+        if (IsAiPanelOpen)
+        {
+            AiPanel.RefreshContext();
+        }
+    }
+
+    [RelayCommand]
+    private void OpenAiPanel() => ToggleAiPanel();
+
     /// <summary>The case tab strip only earns its row when there is more than one case to switch between.</summary>
     public bool HasMultipleCases => OpenCases.Count > 1;
 
@@ -155,11 +181,16 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         Reports = new ReportsToolViewModel(() => ActiveCaseName ?? "Untitled case");
 
         OpenCases.CollectionChanged += (_, _) => OnPropertyChanged(nameof(HasMultipleCases));
+        AiPanel = new AiPanelViewModel(this);
         Workspace.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName == nameof(WorkspaceViewModel.SelectedTool))
             {
                 OnPropertyChanged(nameof(ShowInspector));
+                if (IsAiPanelOpen)
+                {
+                    AiPanel.RefreshContext();
+                }
             }
         };
 
@@ -323,6 +354,16 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                 ActivityHeadline = "就绪";
             }
         }, visibleFor);
+    }
+
+    partial void OnIsAiPanelOpenChanged(bool value)
+    {
+        OnPropertyChanged(nameof(ShowAiPanel));
+        OnPropertyChanged(nameof(AiPanelWidth));
+        if (value)
+        {
+            AiPanel.RefreshContext();
+        }
     }
 
     partial void OnActiveCaseNameChanged(string? value)

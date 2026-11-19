@@ -364,6 +364,8 @@ public static class CommandRegistration
         Action("view.rail", "切换侧栏", "视图", "Ctrl B", () => mainVm.ToggleRailCommand.Execute(null));
         Action("view.inspector", "切换检查器", "视图", "Ctrl Shift B", () => mainVm.ToggleInspectorCommand.Execute(null),
             "十六进制查看器旁边的字节检查器。");
+        Action("view.aipanel", "切换 AI 助手面板", "视图", "Ctrl Shift A", () => mainVm.ToggleAiPanelCommand.Execute(null),
+            "右侧停靠的 AI 助手：随提问附带当前检材信息、选中行、网格结果与书签。");
         Action("hex.findinline", "在十六进制查看器中查找", "十六进制", "Ctrl F", () => mainVm.FocusFindCommand.Execute(null));
         Action("hex.findnext", "查找下一个", "十六进制", "F3", () => mainVm.Hex.FindNextCommand.Execute(null));
         Action("hex.findprev", "查找上一个", "十六进制", "Shift F3", () => mainVm.Hex.FindPreviousCommand.Execute(null));

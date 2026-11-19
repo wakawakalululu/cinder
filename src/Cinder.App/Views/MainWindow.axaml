@@ -30,6 +30,7 @@
         <KeyBinding Gesture="Ctrl+B" Command="{Binding ToggleRailCommand}" />
         <!-- Not Ctrl+Alt+B: that is AltGr+B, which types "{" on Czech, Slovak, Hungarian and Croatian keyboards. -->
         <KeyBinding Gesture="Ctrl+Shift+B" Command="{Binding ToggleInspectorCommand}" />
+        <KeyBinding Gesture="Ctrl+Shift+A" Command="{Binding ToggleAiPanelCommand}" />
         <KeyBinding Gesture="Ctrl+OemComma" Command="{Binding OpenSettingsCommand}" />
         <KeyBinding Gesture="Ctrl+Shift+O" Command="{Binding OpenCaseFromPickerCommand}" />
         <KeyBinding Gesture="F1" Command="{Binding OpenHelpCommand}" />
@@ -181,7 +182,14 @@
         </Border>
 
         <!-- ============================ BODY ============================ -->
-        <Grid Grid.Row="3" x:Name="BodyGrid" ColumnDefinitions="232,4,*,4,300">
+        <Grid Grid.Row="3" x:Name="BodyGrid">
+            <ColumnDefinition Width="232" />
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="4" />
+            <ColumnDefinition Width="{Binding AiPanelWidth}" />
 
             <!-- ===== Rail ===== -->
             <Border Grid.Column="0" x:Name="Rail"
@@ -322,6 +330,17 @@
                     BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="1,0,0,0">
                 <views:HexInspectorView DataContext="{Binding Hex}" />
             </Border>
+
+            <GridSplitter Grid.Column="5" x:Name="AiSplitter" ResizeDirection="Columns"
+                          IsVisible="{Binding ShowAiPanel}" />
+
+            <!-- ===== Docked AI panel (Ctrl+Shift+A): chats about the evidence on screen ===== -->
+            <Border Grid.Column="6" x:Name="AiDock"
+                    Background="{DynamicResource CinderSurface0Brush}"
+                    BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="1,0,0,0"
+                    IsVisible="{Binding ShowAiPanel}">
+                <views:AiPanelView DataContext="{Binding AiPanel}" />
+            </Border>
         </Grid>
 
         <!-- ============================ STATUS BAR ============================ -->
@@ -390,6 +409,10 @@
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Classes="kbd"><TextBlock Text="Ctrl B" /></Border>
                         <TextBlock Text="侧栏" Classes="legend" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <Border Classes="kbd"><TextBlock Text="Ctrl ⇧ A" /></Border>
+                        <TextBlock Text="AI" Classes="legend" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

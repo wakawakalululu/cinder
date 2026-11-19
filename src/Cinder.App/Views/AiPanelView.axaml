@@ -1,0 +1,114 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="using:Cinder.App.Controls"
+             xmlns:vm="using:Cinder.App.ViewModels"
+             x:Class="Cinder.App.Views.AiPanelView"
+             x:DataType="vm:AiPanelViewModel">
+    <!-- The docked AI assistant: chats with the model about the evidence currently on screen.
+         Context toggles decide what travels with each question; the preview shows exactly that. -->
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- ================= Header: title + model switch ================= -->
+        <Border Grid.Row="0" Padding="12,8,8,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1"
+                Background="{DynamicResource CinderSurface1Brush}">
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto">
+                <StackPanel Grid.RowSpan="2" Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
+                    <c:CinderIcon Data="{x:Static c:Icons.Spark}" Width="15" Height="15"
+                                  Foreground="{DynamicResource CinderAccentBrush}" VerticalAlignment="Center" />
+                    <TextBlock Text="AI 助手" FontSize="13.5" FontWeight="600" VerticalAlignment="Center" />
+                    <TextBlock Text="结合当前检材" Classes="dim" FontSize="11.5" VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Grid.Column="1" Classes="ghost icon" Width="26" Height="26"
+                        ToolTip.Tip="收起面板 (Ctrl+Shift+A)"
+                        Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).ToggleAiPanelCommand}">
+                    <c:CinderIcon Data="{x:Static c:Icons.Close}" Width="12" Height="12" />
+                </Button>
+
+                <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                    <AutoCompleteBox Height="28" FontSize="12"
+                                     ItemsSource="{Binding ModelOptions}"
+                                     Text="{Binding Model, Mode=TwoWay}"
+                                     MinimumPrefixLength="0"
+                                     Watermark="模型名（去设置填密钥/地址）" />
+                    <Button Grid.Column="1" Classes="tb" Height="28" Padding="8,0" Margin="6,0,0,0"
+                            Content="刷新" Command="{Binding RefreshModelsCommand}" ToolTip.Tip="从上游拉取模型列表"
+                            IsEnabled="{Binding !IsFetchingModels}" />
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- ================= Context toggles + preview ================= -->
+        <Border Grid.Row="1" Padding="12,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1">
+            <StackPanel Spacing="6">
+                <WrapPanel Orientation="Horizontal">
+                    <CheckBox Margin="0,0,10,2" FontSize="11.5" Content="检材文件信息" IsChecked="{Binding IncludeFileInfo}" />
+                    <CheckBox Margin="0,0,10,2" FontSize="11.5" Content="选中行" IsChecked="{Binding IncludeSelectedRow}" />
+                    <CheckBox Margin="0,0,10,2" FontSize="11.5" Content="网格前40行" IsChecked="{Binding IncludeGridRows}" />
+                    <CheckBox Margin="0,0,4,2" FontSize="11.5" Content="案件书签" IsChecked="{Binding IncludeBookmarks}" />
+                </WrapPanel>
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <Button Classes="tb" Height="24" Padding="8,0" FontSize="11.5" Content="刷新上下文预览"
+                            Command="{Binding RefreshContextPreviewCommand}" />
+                    <TextBlock Classes="dim" FontSize="11" VerticalAlignment="Center"
+                               Text="随每条提问一并发送；解析结果而非原始字节" />
+                </StackPanel>
+                <Expander IsExpanded="False" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                          IsVisible="{Binding HasContextPreview}">
+                    <Expander.Header>
+                        <TextBlock Text="上下文预览" FontSize="11.5" Classes="dim" />
+                    </Expander.Header>
+                    <ScrollViewer MaxHeight="150" VerticalScrollBarVisibility="Auto">
+                        <SelectableTextBlock Text="{Binding ContextPreview}" FontSize="11" TextWrapping="Wrap"
+                                             FontFamily="{DynamicResource CinderFontFamilyMono}" />
+                    </ScrollViewer>
+                </Expander>
+            </StackPanel>
+        </Border>
+
+        <!-- ================= Conversation ================= -->
+        <Panel Grid.Row="2">
+            <ScrollViewer Padding="10,10" VerticalScrollBarVisibility="Auto" IsVisible="{Binding Messages.Count}">
+                <ItemsControl ItemsSource="{Binding Messages}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="vm:ChatMessageVm">
+                            <Border Padding="10,8" Margin="0,0,0,8" CornerRadius="8"
+                                    Background="{DynamicResource CinderSurface2Brush}">
+                                <StackPanel Spacing="3">
+                                    <TextBlock Text="{Binding Role}" Classes="section" FontSize="11" />
+                                    <SelectableTextBlock Text="{Binding Content}" TextWrapping="Wrap" FontSize="12.5" LineHeight="17" />
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <c:EmptyState Icon="{x:Static c:Icons.Spark}" Title="就着当前证据提问" IsVisible="{Binding !Messages.Count}"
+                          Message="下方勾选项决定随提问附带的上下文：当前检材文件（路径/大小/SHA-256）、解析网格的选中行与前 40 行、案件书签。模型只能看到这些结构化结果——采信它的说法前，仍请回到网格核对。" />
+        </Panel>
+
+        <!-- ================= Input ================= -->
+        <Border Grid.Row="3" Padding="10,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,1,0,0">
+            <Grid RowDefinitions="Auto,Auto">
+                <Border Classes="field" Height="32" Padding="9,0,8,0">
+                    <TextBox Classes="bare" FontSize="12.5" Text="{Binding Input, Mode=TwoWay}" AcceptsReturn="False"
+                             Watermark="就当前检材/选中行提问，例如：这条注册表值说明什么？">
+                        <TextBox.KeyBindings>
+                            <KeyBinding Gesture="Return" Command="{Binding SendCommand}" />
+                        </TextBox.KeyBindings>
+                    </TextBox>
+                </Border>
+                <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,6,0,0">
+                    <TextBlock Text="{Binding StatusLine}" Classes="dim" FontSize="11" TextWrapping="Wrap"
+                               VerticalAlignment="Center" MaxHeight="34" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+                        <Button Classes="tb" Height="28" Padding="10,0" Content="清空" Command="{Binding ClearCommand}" />
+                        <Button Classes="tb" Height="28" Padding="10,0" Content="停止" Command="{Binding SendCancelCommand}"
+                                IsVisible="{Binding IsStreaming}" />
+                        <Button Classes="accent" Height="28" Padding="14,0" Content="发送"
+                                Command="{Binding SendCommand}" IsEnabled="{Binding !IsStreaming}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
