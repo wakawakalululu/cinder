@@ -77,6 +77,66 @@
                             <TextBlock Classes="dim" FontSize="12" TextWrapping="Wrap" Text="留空则签名时不加时间戳。" />
                         </StackPanel>
                     </Border>
+
+                    <Border Classes="note" Padding="18,16">
+                        <StackPanel Spacing="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="外部工具集成" Classes="section" VerticalAlignment="Center" />
+                                <Button Grid.Column="1" Classes="tb" Height="26" Padding="10,0"
+                                        Content="自动检测全部" Command="{Binding DetectAllExternalToolsCommand}" />
+                            </Grid>
+                            <TextBlock Classes="dim" FontSize="12" TextWrapping="Wrap"
+                                       Text="自动探测外部程序，供命令面板与相关功能调用。探测顺序：手动指定 → 程序目录 tools.json → 注册表 → 系统 PATH → 默认安装路径。仅读取，不安装、不联网。" />
+                            <ItemsControl ItemsSource="{Binding ExternalToolRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:ExternalToolRowVm">
+                                        <Border BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1"
+                                                Padding="0,8" IsVisible="{Binding IsFound, Mode=OneWay}">
+                                            <StackPanel Spacing="3">
+                                                <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                                                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                                        <Ellipse Width="8" Height="8" VerticalAlignment="Center"
+                                                                 Classes="status-dot ok" IsVisible="{Binding IsFound}" />
+                                                        <TextBlock Text="{Binding DisplayName}" FontWeight="500" />
+                                                        <TextBlock Text="{Binding Purpose}" Classes="dim" FontSize="11.5" />
+                                                    </StackPanel>
+                                                    <TextBlock Grid.Column="1" Text="{Binding SourceLabel}" Classes="dim" FontSize="11.5"
+                                                               HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10,0" />
+                                                    <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6">
+                                                        <Button Classes="tb" Height="26" Padding="10,0" Content="自动检测"
+                                                                Command="{Binding DetectCommand}" />
+                                                        <Button Classes="tb" Height="26" Padding="10,0" Content="浏览指定…"
+                                                                Command="{Binding BrowseCommand}" />
+                                                        <Button Classes="tb" Height="26" Padding="10,0" Content="清除"
+                                                                Command="{Binding ClearOverrideCommand}"
+                                                                IsVisible="{Binding OverridePath, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <TextBlock Text="{Binding DetectedPath}" Classes="mono dim" FontSize="11.5"
+                                                           TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding DetectedPath}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <!-- 未找到的工具也列出来，便于知道缺什么。 -->
+                            <ItemsControl ItemsSource="{Binding ExternalToolRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="vm:ExternalToolRowVm">
+                                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,3"
+                                                    IsVisible="{Binding !IsFound}">
+                                            <Ellipse Width="8" Height="8" VerticalAlignment="Center" Classes="status-dot warn" />
+                                            <TextBlock Text="{Binding DisplayName}" FontWeight="500" VerticalAlignment="Center" />
+                                            <TextBlock Text="{Binding Purpose}" Classes="dim" FontSize="11.5"
+                                                       VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                                            <Button Classes="tb" Height="24" Padding="10,0" Content="浏览指定…" Margin="10,0,0,0"
+                                                    VerticalAlignment="Center" Command="{Binding BrowseCommand}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Spacing="16" Margin="10,0,0,0">
@@ -91,18 +151,27 @@
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Classes="field-label" Text="地址" />
-                                <TextBox Text="{Binding AiEndpoint}" Watermark="http://localhost:11434"
+                                <TextBox Text="{Binding AiEndpoint}" Watermark="http://localhost:11434（Ollama 默认；LM Studio 默认 http://localhost:1234）"
                                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
+                            </StackPanel>
+                            <StackPanel>
+                                <TextBlock Classes="field-label" Text="API 密钥（先填密钥，再获取模型列表；本地 Ollama/LM Studio 可留空）" />
+                                <TextBox Text="{Binding AiApiKey}" PasswordChar="•" Watermark="仅托管服务需要" />
                             </StackPanel>
                             <StackPanel>
                                 <TextBlock Classes="field-label" Text="模型名称" />
-                                <TextBox Text="{Binding AiModel}" Watermark="llama3"
-                                         FontFamily="{DynamicResource CinderFontFamilyMono}" />
+                                <Grid ColumnDefinitions="*,Auto" >
+                                    <AutoCompleteBox HorizontalAlignment="Stretch" Height="30"
+                                                     ItemsSource="{Binding AiModelOptions}"
+                                                     Text="{Binding AiModel, Mode=TwoWay}"
+                                                     MinimumPrefixLength="0"
+                                                     Watermark="先填好地址与密钥，点右侧“获取模型列表”自动填充" />
+                                    <Button Grid.Column="1" Classes="tb" Height="30" Padding="12,0" Margin="8,0,0,0"
+                                            Content="获取模型列表" Command="{Binding FetchModelsCommand}" />
+                                </Grid>
                             </StackPanel>
-                            <StackPanel>
-                                <TextBlock Classes="field-label" Text="API 密钥" />
-                                <TextBox Text="{Binding AiApiKey}" PasswordChar="•" Watermark="仅托管服务需要" />
-                            </StackPanel>
+                            <TextBlock Text="{Binding AiStatusLine}" IsVisible="{Binding AiStatusLine, Converter={x:Static ObjectConverters.IsNotNull}}"
+                                       Classes="dim" FontSize="12" TextWrapping="Wrap" />
                             <TextBlock Classes="dim" FontSize="12" LineHeight="17" TextWrapping="Wrap"
                                        Text="密钥保存在你的设置文件中，并按 Windows 账户加密。在 Linux 和 macOS 上仅做混淆，并非安全加密。" />
                         </StackPanel>

@@ -379,6 +379,77 @@ public static class CommandRegistration
         Action("hex.close", "关闭文件标签页", "十六进制", "Ctrl W", () => mainVm.CloseBufferCommand.Execute(mainVm.Hex));
         Action("case.close", "关闭案件", "案件", null, () => mainVm.CloseCaseCommand.Execute(mainVm.ActiveCase));
         Action("help.tool", "本工具的帮助", "帮助", "F1", () => mainVm.OpenHelpCommand.Execute(null));
+
+        RegisterExternalToolCommands(registry, mainVm);
+    }
+
+    /// <summary>
+    /// Commands that hand the file open in the Hex Viewer to an external program the locator
+    /// found (Wireshark for captures, IDA / x64dbg / x32dbg for reversing, VMware for images).
+    /// A tool that is not installed gets no command, so the palette stays honest; re-running
+    /// Cinder after installing one is enough for it to appear.
+    /// </summary>
+    private static void RegisterExternalToolCommands(CommandRegistry registry, MainWindowViewModel mainVm)
+    {
+        var locator = new ExternalToolLocator();
+
+        void Launch(string id, string title, string toolId, bool needsFile, bool prefixDashR)
+        {
+            if (locator.Locate(toolId) is not { Found: true } info || info.Path is null)
+            {
+                return;
+            }
+            var exe = info.Path;
+            registry.Register(new CommandDescriptor(
+                Id: id,
+                Title: title,
+                Subtitle: info.Path,
+                Category: "外部工具",
+                Invoke: _ =>
+                {
+                    Dispatcher.UIThread.Post(() =>
+                    {
+                        var file = mainVm.Hex.SourcePath;
+                        if (needsFile && string.IsNullOrEmpty(file))
+                        {
+                            mainVm.AnnounceError("请先在十六进制查看器中打开一个文件，再交给外部工具。");
+                            return;
+                        }
+                        try
+                        {
+                            // Wireshark reads a capture as -r <file>; IDA and the debuggers take
+                            // the file bare; VMware just starts.
+                            var start = new System.Diagnostics.ProcessStartInfo
+                            {
+                                FileName = exe,
+                                UseShellExecute = false,
+                                WorkingDirectory = System.IO.Path.GetDirectoryName(exe) ?? "",
+                            };
+                            if (prefixDashR)
+                            {
+                                start.Arguments = $"-r \"{file}\"";
+                            }
+                            else if (needsFile)
+                            {
+                                start.Arguments = $"\"{file}\"";
+                            }
+                            System.Diagnostics.Process.Start(start);
+                            mainVm.Announce($"已交给外部工具：{info.Path}{(needsFile ? $"（{file}）" : "")}");
+                        }
+                        catch (Exception ex)
+                        {
+                            mainVm.AnnounceError($"无法启动 {info.Path}：{ex.Message}");
+                        }
+                    });
+                    return Task.CompletedTask;
+                }));
+        }
+
+        Launch("ext.vmware", "启动 VMware Workstation（仿真取证）", "vmware", needsFile: false, prefixDashR: false);
+        Launch("ext.wireshark", "在 Wireshark 中打开当前文件", "wireshark", needsFile: true, prefixDashR: true);
+        Launch("ext.ida", "在 IDA Pro 中打开当前文件", "ida", needsFile: true, prefixDashR: false);
+        Launch("ext.x64dbg", "用 x64dbg 调试当前文件", "x64dbg", needsFile: true, prefixDashR: false);
+        Launch("ext.x32dbg", "用 x32dbg 调试当前文件", "x32dbg", needsFile: true, prefixDashR: false);
     }
 
     /// <summary>

@@ -1,8 +1,68 @@
+using System.Collections.ObjectModel;
 using Cinder.App.Services;
+using Cinder.App.ViewModels.Tools;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Cinder.App.ViewModels;
+
+/// <summary>One row on the Settings page's external-tools block: what was detected and where.</summary>
+public sealed partial class ExternalToolRowVm : ObservableObject
+{
+    private readonly SettingsFormViewModel _owner;
+
+    public ExternalToolRowVm(SettingsFormViewModel owner, ExternalToolDefinition def, string? overridePath, string? detectedPath, string sourceLabel)
+    {
+        _owner = owner;
+        Id = def.Id;
+        DisplayName = def.DisplayName;
+        Purpose = def.Purpose;
+        _overridePath = overridePath;
+        _detectedPath = detectedPath;
+        _sourceLabel = sourceLabel;
+        _isFound = detectedPath is not null;
+    }
+
+    public string Id { get; }
+    public string DisplayName { get; }
+    public string Purpose { get; }
+
+    [ObservableProperty] private string? _detectedPath;
+    [ObservableProperty] private string _sourceLabel;
+    [ObservableProperty] private bool _isFound;
+
+    /// <summary>The path the examiner pinned, or null to follow auto-detection.</summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(OverrideDisplay))]
+    private string? _overridePath;
+
+    public string OverrideDisplay => string.IsNullOrWhiteSpace(OverridePath) ? "" : OverridePath;
+
+    /// <summary>Re-runs detection for this tool (layers: override → tools.json → registry → PATH → defaults).</summary>
+    [RelayCommand]
+    private void Detect() => _owner.RefreshExternalTool(this);
+
+    /// <summary>Picks an executable to pin, then re-detects so the result is visible at once.</summary>
+    [RelayCommand]
+    private async Task BrowseAsync()
+    {
+        var picked = await ToolDialog.PickFileAsync($"选择 {DisplayName} 的可执行文件", "可执行文件", "*.exe");
+        if (string.IsNullOrWhiteSpace(picked))
+        {
+            return;
+        }
+        OverridePath = picked;
+        _owner.RefreshExternalTool(this);
+    }
+
+    /// <summary>Drops the pin so auto-detection applies again.</summary>
+    [RelayCommand]
+    private void ClearOverride()
+    {
+        OverridePath = null;
+        _owner.RefreshExternalTool(this);
+    }
+}
 
 public sealed partial class SettingsFormViewModel : ViewModelBase
 {
@@ -37,6 +97,17 @@ public sealed partial class SettingsFormViewModel : ViewModelBase
     [ObservableProperty] private string? _aiEndpoint;
     [ObservableProperty] private string? _aiModel;
     [ObservableProperty] private string? _aiApiKey;
+
+    /// <summary>Model ids fetched from the configured endpoint; the model box becomes a dropdown.</summary>
+    public ObservableCollection<string> AiModelOptions { get; } = new();
+
+    /// <summary>Feedback for the fetch-models button, shown beside it.</summary>
+    [ObservableProperty] private string? _aiStatusLine;
+
+    [ObservableProperty] private bool _isFetchingModels;
+
+    /// <summary>External programs (VMware / Wireshark / Volatility 3 / IDA / x64dbg / x32dbg / OCR).</summary>
+    public ObservableCollection<ExternalToolRowVm> ExternalToolRows { get; } = new();
 
     // Hash sets (NSRL) — shared by the Hash sets tool and the Filesystem walk.
     [ObservableProperty] private string? _hashSetDatabase;
@@ -95,6 +166,7 @@ public sealed partial class SettingsFormViewModel : ViewModelBase
         HashFilesOnEnumerate = s.HashFilesOnEnumerate;
         HashSizeLimitMb = s.HashSizeLimitMb;
         TimestampAuthorityUrl = s.TimestampAuthorityUrl;
+        RefreshAllExternalTools(s.ExternalToolOverrides);
     }
 
     /// <summary>
@@ -141,6 +213,7 @@ public sealed partial class SettingsFormViewModel : ViewModelBase
                 HashFilesOnEnumerate = HashFilesOnEnumerate,
                 HashSizeLimitMb = Math.Clamp(HashSizeLimitMb, 1, 4096),
                 TimestampAuthorityUrl = string.IsNullOrWhiteSpace(TimestampAuthorityUrl) ? null : TimestampAuthorityUrl.Trim(),
+                ExternalToolOverrides = CollectToolOverrides(),
             });
 
             SaveError = null;
@@ -163,6 +236,105 @@ public sealed partial class SettingsFormViewModel : ViewModelBase
         else
         {
             map[key] = value;
+        }
+    }
+
+    // ============================================================ external tools ========
+
+    /// <summary>Overrides the rows have pinned right now — the dictionary saved to settings.</summary>
+    internal Dictionary<string, string> CollectToolOverrides()
+    {
+        var map = new Dictionary<string, string>(StringComparer.Ordinal);
+        foreach (var row in ExternalToolRows)
+        {
+            if (!string.IsNullOrWhiteSpace(row.OverridePath))
+            {
+                map[row.Id] = row.OverridePath;
+            }
+        }
+        return map;
+    }
+
+    /// <summary>Builds the rows once: detect with the overrides already saved in settings.</summary>
+    private void RefreshAllExternalTools(IReadOnlyDictionary<string, string> savedOverrides)
+    {
+        ExternalToolRows.Clear();
+        foreach (var def in ExternalToolDefinition.All)
+        {
+            savedOverrides.TryGetValue(def.Id, out var pinned);
+            var row = new ExternalToolRowVm(this, def, pinned, null, "未检测到");
+            ExternalToolRows.Add(row);
+            RefreshExternalTool(row);
+        }
+    }
+
+    /// <summary>Re-detects one tool: layers are override → tools.json → registry → PATH → defaults.</summary>
+    internal void RefreshExternalTool(ExternalToolRowVm row)
+    {
+        var info = new ExternalToolLocator(CollectToolOverrides()).Locate(row.Id);
+        row.DetectedPath = info.Path;
+        row.SourceLabel = info.SourceLabel;
+        row.IsFound = info.Found;
+        // Show what detection found even when the override is broken: the row must never look
+        // configured while pointing at a file that is not there.
+        if (row.OverridePath is not null && info.Source != "override" && info.Found)
+        {
+            row.DetectedPath = $"{info.Path}（指定的路径无效，已自动改用{info.SourceLabel}）";
+        }
+    }
+
+    /// <summary>Re-detects every tool (the block's 自动检测全部 button).</summary>
+    [RelayCommand]
+    private void DetectAllExternalTools()
+    {
+        foreach (var row in ExternalToolRows)
+        {
+            RefreshExternalTool(row);
+        }
+    }
+
+    // ============================================================ model list ========
+
+    /// <summary>
+    /// Asks the configured endpoint which models it serves and fills the model dropdown.
+    /// Needs only what is already on the page: provider, address and (for hosted services) the
+    /// API key. Never throws; the reason lands in <see cref="AiStatusLine"/>.
+    /// </summary>
+    [RelayCommand]
+    private async Task FetchModelsAsync(CancellationToken ct)
+    {
+        if (AiProviderId is not ("ollama" or "lm-studio" or "openai-compatible" or "openai" or "mistral"))
+        {
+            AiStatusLine = "请先选择一个模型运行位置（disabled 表示未启用 AI）。";
+            return;
+        }
+        IsFetchingModels = true;
+        AiStatusLine = null;
+        try
+        {
+            var models = await AiModelCatalog.FetchAsync(AiProviderId, AiEndpoint, AiApiKey, ct).ConfigureAwait(true);
+            AiModelOptions.Clear();
+            foreach (var m in models)
+            {
+                AiModelOptions.Add(m);
+            }
+            AiStatusLine = $"已获取 {models.Count} 个模型，从下拉框中选择。";
+            if (models.Count > 0 && string.IsNullOrWhiteSpace(AiModel))
+            {
+                AiModel = models[0];
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            AiStatusLine = "已取消获取模型列表。";
+        }
+        catch (Exception ex)
+        {
+            AiStatusLine = ex.Message;
+        }
+        finally
+        {
+            IsFetchingModels = false;
         }
     }
 }

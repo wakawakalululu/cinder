@@ -41,6 +41,13 @@ public sealed record CinderSettings
     /// the machine.
     /// </summary>
     public string? TimestampAuthorityUrl { get; init; }
+
+    /// <summary>
+    /// Paths the examiner pinned for external tools (VMware / Wireshark / Volatility 3 / IDA /
+    /// x64dbg / x32dbg / Tesseract), keyed by tool id. A pinned path is searched before the
+    /// automatic layers; absent entries fall back to auto-detection.
+    /// </summary>
+    public Dictionary<string, string> ExternalToolOverrides { get; init; } = new();
 }
 
 public sealed class SettingsStore
