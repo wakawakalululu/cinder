@@ -1,0 +1,66 @@
+# zh-cn 分支的自动构建流水线（本地开发 → CI 构建 → 下载 Release 本地测试 的循环）。
+# 只在本分支上触发，不影响上游自己的工作流。
+# 产物：每次 push 上传 Artifact（30 天）；并滚动更新 zh-latest 预发布（覆盖式），
+# 本地用 `gh release download zh-latest -R wakawakalululu/cinder` 拉取后做本地测试。
+
+name: zh-cn build
+
+on:
+  push:
+    branches: [zh-cn]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build Cinder.slnx -c Release
+
+      - name: Test
+        run: dotnet test Cinder.slnx -c Release --no-build
+        env:
+          DOTNET_CLI_TELEMETRY_OPTOUT: 1
+
+      - name: Publish (self-contained win-x64)
+        run: dotnet publish src/Cinder.App -c Release -r win-x64 --self-contained true -o publish/
+
+      - name: Stage zip + SHA256SUMS
+        shell: pwsh
+        run: |
+          Compress-Archive -Path publish/* -DestinationPath cinder-zh-cn-win-x64.zip -Force
+          $h = (Get-FileHash cinder-zh-cn-win-x64.zip -Algorithm SHA256).Hash.ToLower()
+          "$h  cinder-zh-cn-win-x64.zip" | Out-File -Encoding ascii SHA256SUMS.txt
+          Get-Content SHA256SUMS.txt
+
+      - name: Upload artifact (every push, kept 30 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cinder-zh-cn-${{ github.sha }}
+          path: |
+            cinder-zh-cn-win-x64.zip
+            SHA256SUMS.txt
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Refresh rolling pre-release zh-latest
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete zh-latest --yes --cleanup-tag 2>$null
+          gh release create zh-latest cinder-zh-cn-win-x64.zip SHA256SUMS.txt `
+            --prerelease --target ${{ github.sha }} `
+            --title "zh-cn 滚动构建（自包含 win-x64）" `
+            --notes "commit ${{ github.sha }} 的自动构建。解压即用（自包含，无需安装 .NET）。tools.json 为机器相关配置，不在产物内——部署时按 packaging/tools.json.example 手写放在 Cinder.exe 旁。"
