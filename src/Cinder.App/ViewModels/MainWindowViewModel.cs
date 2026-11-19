@@ -67,10 +67,10 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     public ObservableCollection<string> CaseTreeItems { get; } = ["No case open"];
 
-    public ObservableCollection<string> ActivityLog { get; } = ["Cinder started."];
+    public ObservableCollection<string> ActivityLog { get; } = ["Cinder 已启动。"];
 
     [ObservableProperty]
-    private string _activityHeadline = "Cinder started.";
+    private string _activityHeadline = "Cinder 已启动。";
 
     [ObservableProperty]
     private string _statusBar = "🛡 WriteBlock OFF · No case · Ctrl+K for the command palette";
@@ -163,12 +163,12 @@ public sealed partial class MainWindowViewModel : ViewModelBase
             }
         };
 
-        // Status-bar headline auto-fades to "Ready" after 3s if nothing else is happening.
+        // [zh-cn] 状态栏标题在无其他事件 3 秒后自动淡回「就绪」。
         DispatcherTimer.RunOnce(() =>
         {
-            if (ActivityHeadline == "Cinder started.")
+            if (ActivityHeadline == "Cinder 已启动。")
             {
-                ActivityHeadline = "Ready";
+                ActivityHeadline = "就绪";
             }
         }, TimeSpan.FromSeconds(3));
     }
@@ -320,7 +320,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         {
             if (ActivityHeadline == headline)
             {
-                ActivityHeadline = "Ready";
+                ActivityHeadline = "就绪";
             }
         }, visibleFor);
     }
