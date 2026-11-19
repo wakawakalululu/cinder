@@ -13,17 +13,17 @@
                     <Button Classes="tb" Command="{Binding PickFolderCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                            <TextBlock Text="Plugin folder…" VerticalAlignment="Center" />
+                            <TextBlock Text="插件文件夹…" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="accent" Height="26" Padding="12,0" Content="Trust and load" Command="{Binding TrustSelectedCommand}"
+                    <Button Classes="accent" Height="26" Padding="12,0" Content="信任并加载" Command="{Binding TrustSelectedCommand}"
                             IsVisible="{Binding CanTrustSelected}"
-                            ToolTip.Tip="Records this exact file (by its SHA-256) as trusted in your profile, then runs it. If the file changes, it has to be trusted again." />
-                    <Button Classes="tb" Content="Remove trust" Command="{Binding RevokeSelectedCommand}"
+                            ToolTip.Tip="将这一文件本体（按其 SHA-256）记录为个人配置中的受信任项，然后运行它。若文件发生变化，需重新信任。" />
+                    <Button Classes="tb" Content="移除信任" Command="{Binding RevokeSelectedCommand}"
                             IsVisible="{Binding CanRevokeSelected}" />
                 </StackPanel>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding Folder}" ToolTip.Tip="{Binding Folder}" />
-                <Button Grid.Column="2" Classes="tb" VerticalAlignment="Center" Content="Turn plugins off"
+                <Button Grid.Column="2" Classes="tb" VerticalAlignment="Center" Content="关闭插件"
                         Command="{Binding DisablePluginsCommand}" />
             </Grid>
         </Border>
@@ -32,25 +32,25 @@
             <DataGrid ItemsSource="{Binding Loaded}" SelectedItem="{Binding Selected}" AutoGenerateColumns="False" IsReadOnly="True"
                       IsVisible="{Binding Loaded.Count}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="File" Binding="{Binding FileName}" Width="220" />
-                    <DataGridTextColumn Header="State" Binding="{Binding Status}" Width="110" />
-                    <DataGridTextColumn Header="Signed by" Binding="{Binding SignatureDisplay}" Width="240" />
+                    <DataGridTextColumn Header="文件" Binding="{Binding FileName}" Width="220" />
+                    <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="110" />
+                    <DataGridTextColumn Header="签名者" Binding="{Binding SignatureDisplay}" Width="240" />
                     <DataGridTextColumn Header="SHA-256" Binding="{Binding Sha256}" Width="*"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Problem" Binding="{Binding Error}" Width="*" />
+                    <DataGridTextColumn Header="问题" Binding="{Binding Error}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
 
             <!-- Plugins switched off (the default). -->
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="Plugins are off" IsVisible="{Binding !PluginsEnabled}"
-                          Message="A plugin is a .dll that adds a tool to Cinder. It runs with the same access to this computer and your evidence as Cinder itself, so plugins stay off until you turn them on, and even then nothing runs until you trust that specific file. Trust is stored in your user profile, not in the plugin folder.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Turn plugins on" Command="{Binding EnablePluginsCommand}" />
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="插件已关闭" IsVisible="{Binding !PluginsEnabled}"
+                          Message="插件是扩展 Cinder 功能的 .dll 文件。它对本机和检材的访问权限与 Cinder 本身相同，因此插件默认保持关闭，直到你手动开启；而且即使开启，也要先信任具体文件，任何插件才会运行。信任信息保存在你的用户配置中，而不是插件文件夹里。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="开启插件" Command="{Binding EnablePluginsCommand}" />
             </c:EmptyState>
 
             <!-- On, but nothing listed yet. -->
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="No plugins listed" IsVisible="{Binding ShowPickFolder}"
-                          Message="Pick the folder your plugins are in. Each .dll is listed with its SHA-256 and who signed it. Files you have not trusted are shown as not trusted and are not run; select one and choose Trust and load when you have checked where it came from.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Plugin folder…" Command="{Binding PickFolderCommand}" />
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="尚未列出插件" IsVisible="{Binding ShowPickFolder}"
+                          Message="选择插件所在的文件夹。每个 .dll 都会连同其 SHA-256 和签名者一起列出。你未信任的文件会显示为未信任，且不会运行；核实其来源后，选中它并选择「信任并加载」。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="插件文件夹…" Command="{Binding PickFolderCommand}" />
             </c:EmptyState>
         </Panel>
 

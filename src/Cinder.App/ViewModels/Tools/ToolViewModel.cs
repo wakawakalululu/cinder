@@ -65,18 +65,25 @@ public abstract partial class ToolViewModel : ViewModelBase
     /// otherwise one word that tells the examiner what to expect before they click. Kept in one
     /// table so it can be audited against docs/FEATURES.md at a glance.
     /// </summary>
-    public string Maturity => MaturityById.TryGetValue(Id, out var m) ? m : "";
-
-    public bool HasMaturity => Maturity.Length > 0;
-
-    public string MaturityTip => Maturity switch
+    public string Maturity => MaturityById.TryGetValue(Id, out var m) ? m switch
     {
-        "partial" => "Works, with gaps. The ? help lists what is not covered yet.",
-        "subset" => "Supports part of the format or rule language, not all of it.",
-        "external" => "Needs a separate program installed (for example Volatility 3) before it can run.",
-        "shell" => "Preview only: this screen does not do anything yet.",
+        "partial" => "部分完成",
+        "subset" => "子集",
+        "external" => "需外部程序",
+        "shell" => "仅预览",
+        _ => m,
+    } : "";
+
+    public bool HasMaturity => MaturityById.ContainsKey(Id);
+
+    public string MaturityTip => MaturityById.TryGetValue(Id, out var m) ? m switch
+    {
+        "partial" => "功能可用但有缺口。\"?\" 帮助中列出了尚未覆盖的部分。",
+        "subset" => "仅支持该格式或规则语言的一部分，并非全部。",
+        "external" => "需要先安装单独的程序（例如 Volatility 3）才能运行。",
+        "shell" => "仅预览：此页面尚未实现任何功能。",
         _ => "",
-    };
+    } : "";
 
     private static readonly Dictionary<string, string> MaturityById = new(StringComparer.Ordinal)
     {

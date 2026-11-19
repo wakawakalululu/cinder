@@ -30,12 +30,12 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
         [
             new()
             {
-                Title = "Home",
+                Title = "主页",
                 Tools = [Dashboard],
             },
             new()
             {
-                Title = "Examine",
+                Title = "检查",
                 Tools =
                 [
                     new HexTool(),
@@ -67,7 +67,7 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
             },
             new()
             {
-                Title = "Analyze",
+                Title = "分析",
                 Tools =
                 [
                     new TimelineTool(),
@@ -83,7 +83,7 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
             },
             new()
             {
-                Title = "Acquire",
+                Title = "采集",
                 Tools =
                 [
                     new ImagerTool(),
@@ -98,7 +98,7 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
             },
             new()
             {
-                Title = "Case",
+                Title = "案件管理",
                 Tools =
                 [
                     new CasesTool(Dashboard),
@@ -122,7 +122,7 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
 
         // Rail: Home is a lone item at the top and Settings is pinned at the foot, so neither
         // gets a group header. Examine (where almost every session starts) opens by default.
-        RailSections = new ObservableCollection<ToolSection>(Sections.Where(s => s.Title != "Home"));
+        RailSections = new ObservableCollection<ToolSection>(Sections.Where(s => s.Title != "主页"));
         SettingsEntry = Sections.SelectMany(s => s.Tools).First(t => t.Kind == "settings");
         ApplyRailFilter();
 
@@ -200,7 +200,7 @@ public sealed partial class WorkspaceViewModel : ViewModelBase
     /// clearing the filter left everything open and the examiner's own arrangement was lost.
     /// Examine (where almost every session starts) is open by default.
     /// </summary>
-    private readonly HashSet<string> _expanded = new(StringComparer.Ordinal) { "Examine" };
+    private readonly HashSet<string> _expanded = new(StringComparer.Ordinal) { "检查" };
 
     /// <summary>Titles of the open groups, for saving with the window layout.</summary>
     public IReadOnlyCollection<string> ExpandedSections => _expanded;

@@ -21,13 +21,13 @@ public class ExportButton : Button
 
     private static readonly Dictionary<string, string> Labels = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["csv"] = "CSV (opens in a spreadsheet)",
+        ["csv"] = "CSV（可用电子表格打开）",
         ["json"] = "JSON",
         ["jsonl"] = "JSON Lines",
-        ["kml"] = "KML (Google Earth)",
-        ["bodyfile"] = "Bodyfile (mactime)",
-        ["pdf"] = "PDF (archival PDF/A)",
-        ["docx"] = "Word (DOCX)",
+        ["kml"] = "KML（Google Earth）",
+        ["bodyfile"] = "Bodyfile（mactime）",
+        ["pdf"] = "PDF（归档 PDF/A）",
+        ["docx"] = "Word（DOCX）",
         ["html"] = "HTML",
         ["md"] = "Markdown",
     };
@@ -44,11 +44,11 @@ public class ExportButton : Button
             Children =
             {
                 new CinderIcon { Data = Icons.Download, Width = 14, Height = 14 },
-                new TextBlock { Text = "Export", VerticalAlignment = VerticalAlignment.Center },
+                new TextBlock { Text = "导出", VerticalAlignment = VerticalAlignment.Center },
                 new CinderIcon { Data = Icons.ChevronDown, Width = 12, Height = 12 },
             },
         };
-        ToolTip.SetTip(this, "Save the rows shown here to a file");
+        ToolTip.SetTip(this, "将此处显示的行保存到文件。");
         RebuildMenu();
     }
 

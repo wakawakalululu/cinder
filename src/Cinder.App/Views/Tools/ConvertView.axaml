@@ -9,56 +9,56 @@
     <c:TaskPage>
         <StackPanel Spacing="18">
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Image to convert" />
+                <TextBlock Classes="field-label" Text="要转换的镜像" />
                 <Grid ColumnDefinitions="*,Auto">
-                    <TextBox Text="{Binding Source}" Watermark="Raw, E01, AFF4, VHD or VHDX"
+                    <TextBox Text="{Binding Source}" Watermark="Raw、E01、AFF4、VHD 或 VHDX"
                              FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="Pick…" Command="{Binding PickSourceCommand}" />
+                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="选择…" Command="{Binding PickSourceCommand}" />
                 </Grid>
             </StackPanel>
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Save the copy as" />
+                <TextBlock Classes="field-label" Text="副本保存为" />
                 <Grid ColumnDefinitions="*,Auto">
-                    <TextBox Text="{Binding Output}" Watermark="A new file"
+                    <TextBox Text="{Binding Output}" Watermark="一个新文件"
                              FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="Save as…" Command="{Binding PickOutputCommand}" />
+                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="另存为…" Command="{Binding PickOutputCommand}" />
                 </Grid>
             </StackPanel>
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Format of the copy" />
+                <TextBlock Classes="field-label" Text="副本格式" />
                 <ComboBox ItemsSource="{Binding Formats}" SelectedItem="{Binding Format}" MinWidth="160" />
             </StackPanel>
-            <CheckBox IsChecked="{Binding Overwrite}" Content="Replace an existing image at this path"
-                      ToolTip.Tip="Off by default. Without it, converting refuses to start if a file is already there, including what is left of an earlier failed run." />
+            <CheckBox IsChecked="{Binding Overwrite}" Content="替换此路径下已有的镜像文件"
+                      ToolTip.Tip="默认关闭。不勾选时，若该路径已有文件（包括此前失败运行留下的残余），转换将拒绝开始。" />
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
                 <Button Classes="accent" Height="30" Padding="14,0" Command="{Binding RunCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <c:CinderIcon Data="{x:Static c:Icons.Swap}" Width="15" Height="15" />
-                        <TextBlock Text="Convert image" VerticalAlignment="Center" />
+                        <TextBlock Text="转换镜像" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Button Classes="tb" Height="30" Padding="12,0" Content="Stop converting"
+                <Button Classes="tb" Height="30" Padding="12,0" Content="停止转换"
                         Command="{Binding RunCancelCommand}" IsVisible="{Binding RunCommand.IsRunning}"
-                        ToolTip.Tip="Stops and deletes the unfinished output" />
+                        ToolTip.Tip="停止转换并删除未完成的输出" />
             </StackPanel>
         </StackPanel>
 
         <c:TaskPage.Aside>
             <StackPanel>
                 <StackPanel IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNull}}">
-                    <TextBlock Classes="section" Text="WHAT HAPPENS" Margin="0,0,0,14" />
-                    <c:Step Number="1" Title="Reads the image in whatever format it is in"
-                            Text="Raw, E01, AFF4, VHD and VHDX can each be turned into any of the others. The source is opened read-only and is not changed." />
-                    <c:Step Number="2" Title="Writes the same disk content in the new format"
-                            Text="The copy appears under its final name only once it is complete." />
-                    <c:Step Number="3" Title="Checks the copy"
-                            Text="The new file is read back and must hash to exactly what was written. The result is reported as the output check." />
-                    <c:Step Number="4" Title="Checks the source, where it can"
-                            Text="An E01 or AFF4 source carries the hash recorded when it was acquired, and is checked against it. A raw, VHD or VHDX source carries none, so that check is reported as not possible rather than passed." />
+                    <TextBlock Classes="section" Text="执行过程" Margin="0,0,0,14" />
+                    <c:Step Number="1" Title="以镜像现有格式读取"
+                            Text="Raw、E01、AFF4、VHD 和 VHDX 可互相转换。源以只读方式打开，不会被改动。" />
+                    <c:Step Number="2" Title="以新格式写入相同的磁盘内容"
+                            Text="副本只有在完成后才会以最终名称出现。" />
+                    <c:Step Number="3" Title="校验副本"
+                            Text="新文件会被回读，其哈希必须与写入内容完全一致，结果以「输出校验」形式报告。" />
+                    <c:Step Number="4" Title="在可行时校验源"
+                            Text="E01 或 AFF4 源带有采集时记录的哈希，会据此进行校验；raw、VHD 或 VHDX 源不带哈希，该项将报告为「无法校验」而非「通过」。" />
                 </StackPanel>
 
                 <StackPanel Spacing="12" IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Classes="section" Text="RESULT" />
+                    <TextBlock Classes="section" Text="结果" />
                     <StackPanel Spacing="8" IsVisible="{Binding RunCommand.IsRunning}">
                         <ProgressBar IsIndeterminate="True" />
                         <TextBlock Text="{Binding BytesConverted, StringFormat='{}{0:N0} bytes converted so far'}" Classes="mono dim" FontSize="12" />

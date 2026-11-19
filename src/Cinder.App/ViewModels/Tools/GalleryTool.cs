@@ -13,9 +13,9 @@ namespace Cinder.App.ViewModels.Tools;
 public sealed partial class GalleryTool : ToolViewModel
 {
     public override string Id => "gallery";
-    public override string Title => "Image gallery";
+    public override string Title => "图片画廊";
     public override string Icon => "🖼";
-    public override string Subtitle => "Browse the pictures in a folder as thumbnails and read each one's camera details and GPS position.";
+    public override string Subtitle => "以缩略图浏览文件夹中的图片，并读取每张照片的拍摄参数与 GPS 位置。";
     public override string Phase => "1";
     public override string Kind => "gallery";
 

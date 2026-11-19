@@ -11,34 +11,34 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <Button Classes="tb" Command="{Binding IngestPhotosCommand}"
-                            ToolTip.Tip="Reads the GPS position stored in each photo under a folder (subfolders included)">
+                            ToolTip.Tip="读取文件夹下每张照片里存储的 GPS 位置（包括子文件夹）。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Image}" Width="14" Height="14" />
-                            <TextBlock Text="Add photos from folder…" VerticalAlignment="Center" />
+                            <TextBlock Text="从文件夹添加照片…" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Content="Stop" Command="{Binding IngestPhotosCancelCommand}"
+                    <Button Classes="tb" Content="停止" Command="{Binding IngestPhotosCancelCommand}"
                             IsVisible="{Binding IngestPhotosCommand.IsRunning}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center"
                             IsVisible="{Binding Points.Count}">
                     <c:ExportButton ExportCommand="{Binding ExportCommand}" Formats="csv,json,kml" />
-                    <Button Classes="tb" Content="Clear" Command="{Binding ClearCommand}"
-                            ToolTip.Tip="Remove every point from this list (the photos are not touched)" />
+                    <Button Classes="tb" Content="清除" Command="{Binding ClearCommand}"
+                            ToolTip.Tip="清空这个列表中的所有点（不会改动照片本身）。" />
                 </StackPanel>
             </Grid>
         </Border>
 
         <Border Grid.Row="1" Classes="subbar">
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="Add a point" Classes="label" Margin="0,0,4,0" />
-                <TextBox Width="120" Text="{Binding Latitude}" Watermark="Latitude" ToolTip.Tip="Decimal degrees, north positive (-90 to 90)"
+                <TextBlock Text="添加一个点" Classes="label" Margin="0,0,4,0" />
+                <TextBox Width="120" Text="{Binding Latitude}" Watermark="纬度" ToolTip.Tip="十进制度，北为正（-90 到 90）。"
                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                <TextBox Width="120" Text="{Binding Longitude}" Watermark="Longitude" ToolTip.Tip="Decimal degrees, east positive (-180 to 180)"
+                <TextBox Width="120" Text="{Binding Longitude}" Watermark="经度" ToolTip.Tip="十进制度，东为正（-180 到 180）。"
                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                <TextBox Width="220" Text="{Binding Label}" Watermark="What is at this location" />
-                <TextBox Width="140" Text="{Binding Source}" Watermark="Where it came from" />
-                <Button Classes="tb" Content="Add" Command="{Binding AddPointCommand}" />
+                <TextBox Width="220" Text="{Binding Label}" Watermark="这个位置有什么" />
+                <TextBox Width="140" Text="{Binding Source}" Watermark="信息来自哪里" />
+                <Button Classes="tb" Content="添加" Command="{Binding AddPointCommand}" />
             </StackPanel>
         </Border>
 
@@ -46,27 +46,27 @@
             <DataGrid ItemsSource="{Binding Points}" AutoGenerateColumns="False" IsReadOnly="True"
                       IsVisible="{Binding Points.Count}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Latitude" Binding="{Binding Latitude, StringFormat=F6}" Width="120"
+                    <DataGridTextColumn Header="纬度" Binding="{Binding Latitude, StringFormat=F6}" Width="120"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Longitude" Binding="{Binding Longitude, StringFormat=F6}" Width="120"
+                    <DataGridTextColumn Header="经度" Binding="{Binding Longitude, StringFormat=F6}" Width="120"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Time" Binding="{Binding TimeDisplay}" Width="230"
+                    <DataGridTextColumn Header="时间" Binding="{Binding TimeDisplay}" Width="230"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Time from" Binding="{Binding TimeSource}" Width="140" />
-                    <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="110" />
-                    <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="*" />
+                    <DataGridTextColumn Header="时间来源" Binding="{Binding TimeSource}" Width="140" />
+                    <DataGridTextColumn Header="来源" Binding="{Binding Source}" Width="110" />
+                    <DataGridTextColumn Header="标签" Binding="{Binding Label}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="No locations yet" IsVisible="{Binding !Points.Count}"
-                          Message="Point Cinder at a folder of photos and it lists every one that carries a GPS position, with the time the camera recorded. Export the list as KML to see it on a map in Google Earth or QGIS.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Add photos from folder…"
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="尚无位置" IsVisible="{Binding !Points.Count}"
+                          Message="让 Cinder 指向一个照片文件夹，它会列出每一张带有 GPS 位置的照片，以及相机记录的拍摄时间。把列表导出为 KML，就能在 Google Earth 或 QGIS 的地图上查看。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="从文件夹添加照片…"
                         Command="{Binding IngestPhotosCommand}" />
             </c:EmptyState>
         </Panel>
 
         <Border Grid.Row="3" Classes="footer">
             <Grid ColumnDefinitions="Auto,*">
-                <TextBlock Text="{Binding Points.Count, StringFormat='{}{0:N0} points'}" Classes="mono" />
+                <TextBlock Text="{Binding Points.Count, StringFormat='{}{0:N0} 个点'}" Classes="mono" />
                 <TextBlock Grid.Column="1" Text="{Binding StatusLine}" Margin="16,0,0,0" />
             </Grid>
         </Border>

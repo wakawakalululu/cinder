@@ -52,29 +52,29 @@ public class ShellRoundTwoTests
         var ws = new WorkspaceViewModel();
         string[] Open() => ws.RailSections.Where(s => s.IsExpanded).Select(s => s.Title).ToArray();
 
-        Open().Should().Equal("Examine");
+        Open().Should().Equal("检查");
 
         ws.RailFilter = "a";
         ws.RailSections.Should().OnlyContain(s => s.IsExpanded, "every group shows its matches while filtering");
 
         ws.RailFilter = null;
-        Open().Should().Equal(["Examine"], "the filter must not leave every group open behind it");
+        Open().Should().Equal(["检查"], "the filter must not leave every group open behind it");
     }
 
     [Fact]
     public void Group_arrangement_round_trips_and_always_keeps_the_selected_tools_group_open()
     {
         var ws = new WorkspaceViewModel();
-        var acquire = ws.RailSections.Single(s => s.Title == "Acquire");
+        var acquire = ws.RailSections.Single(s => s.Title == "采集");
         ws.ToggleSectionCommand.Execute(acquire);
-        ws.ExpandedSections.Should().BeEquivalentTo("Examine", "Acquire");
+        ws.ExpandedSections.Should().BeEquivalentTo("检查", "采集");
 
         var restored = new WorkspaceViewModel();
         restored.SelectedTool = restored.FindByKind("custody");
-        restored.RestoreExpandedSections(["Acquire", "No such group"]);
+        restored.RestoreExpandedSections(["采集", "No such group"]);
 
         restored.RailSections.Where(s => s.IsExpanded).Select(s => s.Title)
-            .Should().BeEquivalentTo("Acquire", "Case");
+            .Should().BeEquivalentTo("采集", "案件管理");
     }
 
     [Fact]

@@ -9,37 +9,37 @@
     <c:TaskPage>
         <StackPanel Spacing="18">
             <StackPanel>
-                <TextBlock Classes="field-label" Text="What to image" />
+                <TextBlock Classes="field-label" Text="采集来源" />
                 <Grid ColumnDefinitions="*,Auto">
-                    <TextBox Text="{Binding Source}" Watermark="\\.\PhysicalDrive1, /dev/sdb or an image file"
+                    <TextBox Text="{Binding Source}" Watermark="\\.\PhysicalDrive1、/dev/sdb 或镜像文件"
                              FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="Pick…" Command="{Binding PickSourceCommand}" />
+                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="选择…" Command="{Binding PickSourceCommand}" />
                 </Grid>
             </StackPanel>
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Save the image as" />
+                <TextBlock Classes="field-label" Text="镜像保存为" />
                 <Grid ColumnDefinitions="*,Auto">
-                    <TextBox Text="{Binding Output}" Watermark="A new file, not on the source drive"
+                    <TextBox Text="{Binding Output}" Watermark="新文件，且不要位于源盘上"
                              FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="Save as…" Command="{Binding PickOutputCommand}" />
+                    <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Height="28" Content="另存为…" Command="{Binding PickOutputCommand}" />
                 </Grid>
             </StackPanel>
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Image format" />
+                <TextBlock Classes="field-label" Text="镜像格式" />
                 <ComboBox ItemsSource="{Binding Formats}" SelectedItem="{Binding Format}" MinWidth="160" />
             </StackPanel>
-            <CheckBox IsChecked="{Binding Overwrite}" Content="Replace an existing image at this path"
-                      ToolTip.Tip="Off by default. Without it, imaging refuses to start if a file is already there, including what is left of an earlier failed run." />
+            <CheckBox IsChecked="{Binding Overwrite}" Content="替换此路径下已有的镜像文件"
+                      ToolTip.Tip="默认关闭。不勾选时，若该路径已有文件（包括此前失败运行留下的残余），采集镜像将拒绝开始。" />
             <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,4,0,0">
                 <Button Classes="accent" Height="30" Padding="14,0" Command="{Binding StartCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <c:CinderIcon Data="{x:Static c:Icons.Disk}" Width="15" Height="15" />
-                        <TextBlock Text="Start imaging" VerticalAlignment="Center" />
+                        <TextBlock Text="开始采集镜像" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Button Classes="tb" Height="30" Padding="12,0" Content="Stop imaging"
+                <Button Classes="tb" Height="30" Padding="12,0" Content="停止采集镜像"
                         Command="{Binding StartCancelCommand}" IsVisible="{Binding StartCommand.IsRunning}"
-                        ToolTip.Tip="Stops and deletes the unfinished output" />
+                        ToolTip.Tip="停止采集并删除未完成的输出" />
             </StackPanel>
         </StackPanel>
 
@@ -47,28 +47,28 @@
             <StackPanel>
                 <!-- Before a run: what the button will do. -->
                 <StackPanel IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNull}}">
-                    <TextBlock Classes="section" Text="WHAT HAPPENS" Margin="0,0,0,14" />
-                    <c:Step Number="1" Title="Reads the source once, from start to end"
-                            Text="A disk, a partition or an existing image. Sectors that cannot be read are retried, then filled with zeros and listed in the acquisition log saved beside the image." />
-                    <c:Step Number="2" Title="Hashes every byte as it is read"
-                            Text="MD5, SHA-1 and SHA-256 are worked out during the copy, so the hashes describe exactly what was written." />
-                    <c:Step Number="3" Title="Writes the image in the format you chose"
-                            Text="Raw, E01, AFF4, VHD or VHDX. The file only appears under its final name once it is complete, so an interrupted run cannot be mistaken for a finished image." />
-                    <c:Step Number="4" Title="Records the acquisition"
-                            Text="E01 and AFF4 carry their hashes inside the file; the other formats get a .sha256 file beside them, which Image verify reads. With a case open, the source, output and hashes go into its custody log." />
+                    <TextBlock Classes="section" Text="执行过程" Margin="0,0,0,14" />
+                    <c:Step Number="1" Title="从头到尾读取一次源"
+                            Text="可以是磁盘、分区或已有镜像。无法读取的扇区会先重试，之后以零填充，并列入保存在镜像旁的采集日志。" />
+                    <c:Step Number="2" Title="边读取边计算每个字节的哈希"
+                            Text="MD5、SHA-1 和 SHA-256 在复制过程中同步计算，因此哈希值精确对应实际写入的内容。" />
+                    <c:Step Number="3" Title="按所选格式写入镜像"
+                            Text="Raw、E01、AFF4、VHD 或 VHDX。文件只有在完成后才会以最终名称出现，因此中断的运行不会被误认为已完成的镜像。" />
+                    <c:Step Number="4" Title="记录本次采集"
+                            Text="E01 和 AFF4 将哈希保存在文件内部；其他格式会在旁边生成 .sha256 文件，供镜像校验读取。若打开了案件，来源、输出与哈希都会写入该案件的监管链日志。" />
                     <Border Classes="note" Margin="0,6,0,0">
                         <Grid ColumnDefinitions="Auto,*">
                             <c:CinderIcon Data="{x:Static c:Icons.Shield}" Width="15" Height="15" Margin="0,2,10,0" VerticalAlignment="Top"
                                           Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                             <TextBlock Grid.Column="1" Classes="muted" FontSize="12.5" LineHeight="18" TextWrapping="Wrap"
-                                       Text="Imaging a physical disk needs Cinder to be started as Administrator (Windows) or root (Linux). Attach the source through a hardware write-blocker: Cinder opens it read-only, but it cannot stop the operating system writing to it." />
+                                       Text="采集物理磁盘镜像需要以管理员（Windows）或 root（Linux）身份启动 Cinder。请通过硬件写保护设备接入源盘：Cinder 会以只读方式打开它，但无法阻止操作系统向其写入。" />
                         </Grid>
                     </Border>
                 </StackPanel>
 
                 <!-- During and after a run. -->
                 <StackPanel Spacing="12" IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Classes="section" Text="RESULT" />
+                    <TextBlock Classes="section" Text="结果" />
                     <StackPanel Spacing="8" IsVisible="{Binding StartCommand.IsRunning}">
                         <ProgressBar IsIndeterminate="True" />
                         <TextBlock Text="{Binding BytesRead, StringFormat='{}{0:N0} bytes read so far'}" Classes="mono dim" FontSize="12" />

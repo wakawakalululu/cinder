@@ -160,18 +160,19 @@ public class CaseCreationTests : IDisposable
         var refusal = CommandRegistration.ExistingFileRefusal(path);
 
         refusal.Should().NotBeNull();
-        refusal.Should().Contain("existing.cinder").And.Contain("already exists").And.Contain("will not create a case over an existing file");
+        // [zh-cn] 与 CommandRegistration.ExistingFileRefusal 的中文文案同步。
+        refusal.Should().Contain("existing.cinder").And.Contain("已存在").And.Contain("不会在现有文件上创建案件");
         new FileInfo(path).Length.Should().Be(before);
     }
 
     [Fact]
     public void A_folder_or_any_other_existing_file_is_refused_too()
     {
-        CommandRegistration.ExistingFileRefusal(_dir).Should().Contain("folder");
+        CommandRegistration.ExistingFileRefusal(_dir).Should().Contain("文件夹");
 
         var other = Path.Combine(_dir, "notes.txt");
         File.WriteAllText(other, "not a case");
-        CommandRegistration.ExistingFileRefusal(other).Should().Contain("already exists");
+        CommandRegistration.ExistingFileRefusal(other).Should().Contain("已存在");
     }
 
     [Fact]

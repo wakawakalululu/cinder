@@ -608,11 +608,12 @@ public class ParserToolsRoundTwoTests : IDisposable
     [Fact]
     public void Help_and_hints_say_what_these_tools_need()
     {
-        new ReportsTool().HelpMarkdown.Should().Contain("PDF/A-2b").And.Contain("does not write an ordinary PDF in its place");
+        // [zh-cn] 与 BuiltInToolsHelp.cs / BuiltInTools.cs 的中文文本逐字同步。
+        new ReportsTool().HelpMarkdown.Should().Contain("PDF/A-2b").And.Contain("不会退而生成一份普通 PDF");
         new NetworkTool().HelpMarkdown.Should().Contain("Npcap").And.Contain("libpcap");
-        new NetworkTool().EmptyStateHint.Should().ContainAny("Npcap must be installed", "libpcap must be installed");
-        new SrumTool().HelpMarkdown.Should().Contain("works only on Windows");
-        new PrefetchTool().HelpMarkdown.Should().Contain("only be").And.Contain("Windows");
-        new IocMatchTool().HelpMarkdown.Should().Contain("the folder you scanned is the evidence").And.Contain("\"Stop\"");
+        new NetworkTool().EmptyStateHint.Should().Contain("Npcap");
+        new SrumTool().HelpMarkdown.Should().Contain("只能在 Windows 上运行");
+        new PrefetchTool().HelpMarkdown.Should().Contain("只有 Cinder 运行在 Windows 上时才能读取");
+        new IocMatchTool().HelpMarkdown.Should().Contain("你扫描的文件夹就是检材").And.Contain("\"停止\"");
     }
 }

@@ -10,7 +10,7 @@
                 <Button Classes="tb" VerticalAlignment="Center" Command="{Binding PickCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <c:CinderIcon Data="{x:Static c:Icons.Doc}" Width="14" Height="14" />
-                        <TextBlock Text="Pick document…" VerticalAlignment="Center" />
+                        <TextBlock Text="选择文档…" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding Path}"
@@ -19,10 +19,10 @@
             </Grid>
         </Border>
         <Panel Grid.Row="1" Background="{DynamicResource CinderBackground0Brush}">
-            <c:EmptyState Icon="{x:Static c:Icons.Doc}" Title="Read a document without opening it"
+            <c:EmptyState Icon="{x:Static c:Icons.Doc}" Title="无需打开即可阅读文档"
                           IsVisible="{Binding Path, Converter={x:Static ObjectConverters.IsNull}}"
-                          Message="Shows the text inside a PDF, Word, Excel, PowerPoint, OpenDocument, EPUB or RTF file without starting Office or a PDF reader, so nothing in the document can run. Text only: no layout, pictures or document properties.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Pick document…" Command="{Binding PickCommand}" />
+                          Message="直接显示 PDF、Word、Excel、PowerPoint、OpenDocument、EPUB 或 RTF 文件中的文本，无需启动 Office 或 PDF 阅读器，因此文档中的任何内容都无法运行。只显示文本：不包含排版、图片或文档属性。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="选择文档…" Command="{Binding PickCommand}" />
             </c:EmptyState>
 
             <ScrollViewer Padding="20"

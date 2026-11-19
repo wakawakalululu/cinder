@@ -26,12 +26,12 @@
                         </StackPanel>
                     </Border>
                     <!-- A tool that reads only files gets one "Change…"; one that also reads folders gets both. -->
-                    <Button Classes="tb" Content="Change…" Click="OnPickFileClick"
+                    <Button Classes="tb" Content="更换…" Click="OnPickFileClick"
                             IsEnabled="{Binding !IsLoading}" IsVisible="{Binding !AcceptsFolder}"
-                            ToolTip.Tip="Read a different file" />
-                    <Button Classes="tb" Content="Pick file…" Click="OnPickFileClick"
+                            ToolTip.Tip="读取另一个文件" />
+                    <Button Classes="tb" Content="选择文件…" Click="OnPickFileClick"
                             IsEnabled="{Binding !IsLoading}"
-                            ToolTip.Tip="Read a single file">
+                            ToolTip.Tip="读取单个文件">
                         <Button.IsVisible>
                             <MultiBinding Converter="{x:Static BoolConverters.And}">
                                 <Binding Path="AcceptsFolder" />
@@ -39,16 +39,16 @@
                             </MultiBinding>
                         </Button.IsVisible>
                     </Button>
-                    <Button Classes="tb" Content="Pick folder…" Click="OnPickFolderClick"
+                    <Button Classes="tb" Content="选择文件夹…" Click="OnPickFolderClick"
                             IsEnabled="{Binding !IsLoading}" IsVisible="{Binding AcceptsFolder}"
-                            ToolTip.Tip="Read every matching file in a folder" />
-                    <Button Classes="tb icon" ToolTip.Tip="Read it again"
+                            ToolTip.Tip="读取文件夹中所有匹配的文件" />
+                    <Button Classes="tb icon" ToolTip.Tip="重新读取"
                             Command="{Binding LoadEvidenceCommand}" CommandParameter="{Binding EvidencePath}"
                             IsVisible="{Binding !IsLoading}">
                         <c:CinderIcon Data="{x:Static c:Icons.Swap}" Width="14" Height="14" />
                     </Button>
-                    <Button Classes="tb" Content="Stop" Command="{Binding LoadEvidenceCancelCommand}"
-                            IsVisible="{Binding IsLoading}" ToolTip.Tip="Stop reading. Nothing is loaded." />
+                    <Button Classes="tb" Content="停止" Command="{Binding LoadEvidenceCancelCommand}"
+                            IsVisible="{Binding IsLoading}" ToolTip.Tip="停止读取。不会加载任何内容。" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center"
@@ -58,25 +58,25 @@
                             <c:CinderIcon Data="{x:Static c:Icons.Filter}" Width="14" Height="14"
                                           Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
                             <TextBox Grid.Column="1" Classes="bare" Margin="8,0,0,0" FontSize="12.5"
-                                     Watermark="Filter rows"
+                                     Watermark="筛选行"
                                      Text="{Binding RowFilter, UpdateSourceTrigger=PropertyChanged}"
-                                     ToolTip.Tip="Shows rows with this text in any column. Export writes the rows the filter shows." />
+                                     ToolTip.Tip="显示任意列中包含此文本的行。导出时写入筛选后显示的行。" />
                         </Grid>
                     </Border>
 
                     <!-- Bookmark: the note is part of the finding, so it lives with the action. -->
-                    <Button Classes="tb" ToolTip.Tip="Keep the selected row as a finding in the open case. Reports turns bookmarks into exhibits.">
+                    <Button Classes="tb" ToolTip.Tip="把选中的行保存为当前案件中的一个发现。报告会把书签编号为附件。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Bookmark}" Width="14" Height="14" />
-                            <TextBlock Text="Bookmark" VerticalAlignment="Center" />
+                            <TextBlock Text="加书签" VerticalAlignment="Center" />
                         </StackPanel>
                         <Button.Flyout>
                             <Flyout Placement="BottomEdgeAlignedRight">
                                 <StackPanel Width="300" Spacing="10">
-                                    <TextBlock Text="BOOKMARK SELECTED ROW" Classes="section" />
-                                    <TextBox Watermark="Note (optional): why this row matters"
+                                    <TextBlock Text="为选中行加书签" Classes="section" />
+                                    <TextBox Watermark="备注（可选）：这一行为什么重要"
                                              Text="{Binding BookmarkNote}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60" />
-                                    <Button Classes="accent" HorizontalAlignment="Right" Content="Add bookmark"
+                                    <Button Classes="accent" HorizontalAlignment="Right" Content="加入书签"
                                             Command="{Binding BookmarkSelectedCommand}" />
                                 </StackPanel>
                             </Flyout>
@@ -124,7 +124,7 @@
             <c:EmptyState Icon="{Binding IconGeometry}" Title="{Binding Title}" Message="{Binding EmptyStateHint}">
                 <StackPanel Spacing="12" HorizontalAlignment="Center">
                     <StackPanel Spacing="6" HorizontalAlignment="Center" IsVisible="{Binding RequiredPythonPackages.Count}">
-                        <TextBlock Text="NEEDS" Classes="section" HorizontalAlignment="Center" />
+                        <TextBlock Text="依赖组件" Classes="section" HorizontalAlignment="Center" />
                         <ItemsControl ItemsSource="{Binding RequiredPythonPackages}" HorizontalAlignment="Center">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate><WrapPanel HorizontalAlignment="Center" /></ItemsPanelTemplate>
@@ -141,9 +141,9 @@
                     <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
                         <!-- One primary action. Where a tool takes either, the folder is the usual
                              case (a whole Prefetch or Recent folder) and a single file is the alternative. -->
-                        <Button Classes="accent" Height="30" Padding="14,0" Content="Pick folder…"
+                        <Button Classes="accent" Height="30" Padding="14,0" Content="选择文件夹…"
                                 Click="OnPickFolderClick" IsVisible="{Binding AcceptsFolder}" />
-                        <Button Classes="accent" Height="30" Padding="14,0" Content="Pick file…" Click="OnPickFileClick">
+                        <Button Classes="accent" Height="30" Padding="14,0" Content="选择文件…" Click="OnPickFileClick">
                             <Button.IsVisible>
                                 <MultiBinding Converter="{x:Static BoolConverters.And}">
                                     <Binding Path="AcceptsFile" />
@@ -151,7 +151,7 @@
                                 </MultiBinding>
                             </Button.IsVisible>
                         </Button>
-                        <Button Classes="tb" Height="30" Padding="14,0" Content="Pick a single file…" Click="OnPickFileClick">
+                        <Button Classes="tb" Height="30" Padding="14,0" Content="选择单个文件…" Click="OnPickFileClick">
                             <Button.IsVisible>
                                 <MultiBinding Converter="{x:Static BoolConverters.And}">
                                     <Binding Path="AcceptsFile" />
@@ -175,13 +175,13 @@
                 <ProgressBar IsIndeterminate="True" Width="160" />
                 <TextBlock Text="{Binding StatusLine}" Classes="muted" HorizontalAlignment="Center"
                            MaxWidth="460" TextWrapping="Wrap" TextAlignment="Center" />
-                <Button Classes="tb" Content="Stop" HorizontalAlignment="Center"
+                <Button Classes="tb" Content="停止" HorizontalAlignment="Center"
                         Command="{Binding LoadEvidenceCancelCommand}" />
             </StackPanel>
             <!-- Read without error and found nothing: say so, with the reason, instead of a blank grid. -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="6" MaxWidth="520"
                         IsVisible="{Binding ShowNoRows}">
-                <TextBlock Text="Nothing to show" FontSize="15" FontWeight="600" HorizontalAlignment="Center" />
+                <TextBlock Text="没有可显示的内容" FontSize="15" FontWeight="600" HorizontalAlignment="Center" />
                 <TextBlock Text="{Binding StatusLine}" Classes="muted" FontSize="13"
                            TextAlignment="Center" TextWrapping="Wrap" />
             </StackPanel>

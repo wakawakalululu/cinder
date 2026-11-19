@@ -221,8 +221,8 @@ public class ToolBehaviourTests : IDisposable
         var subtitle = Blank(typeName).Subtitle;
 
         subtitle.Should().NotBeNullOrWhiteSpace();
-        subtitle.Should().EndWith(".");
-        subtitle.Should().MatchRegex("^[A-Z]", "sentence case");
+        // [zh-cn] 副标题是一句中文、以「。」结尾；保留英文句点兼容，便于与上游对照。
+        (subtitle.EndsWith("。") || subtitle.EndsWith(".")).Should().BeTrue();
         subtitle.Should().NotContain(" · ", "a subtitle is a sentence, not a feature list");
         subtitle.TrimEnd('.').Should().NotContain(". ", "one sentence");
         subtitle.Should().NotContainAny(DeveloperWords);
@@ -239,11 +239,12 @@ public class ToolBehaviourTests : IDisposable
 
         tool.EmptyStateHint.Should().NotBeNullOrWhiteSpace($"{tool.Title} needs its own hint");
         tool.EmptyStateHint.Should().NotBe("Load evidence to populate this tool.");
-        tool.EmptyStateHint.Should().StartWith("Pick ").And.EndWith(".");
+        // [zh-cn] 提示以「选择」开头、以「。」结尾。
+        tool.EmptyStateHint.Should().StartWith("选择").And.EndWith("。");
         tool.EmptyStateHint.Should().NotContainAny(DeveloperWords);
         if (tool.AcceptsFolder)
         {
-            tool.EmptyStateHint.Should().Contain("folder", $"{tool.Title} can read a folder, so the hint must say so");
+            tool.EmptyStateHint.Should().Contain("文件夹", $"{tool.Title} can read a folder, so the hint must say so");
             tool.DropHint.Should().Contain("folder");
         }
     }
@@ -271,6 +272,7 @@ public class ToolBehaviourTests : IDisposable
         guide.Should().HaveCount(5);
         var text = string.Join(" ", guide.Select(g => g.Title + " " + g.Body));
         text.Should().NotContain("court-ready").And.NotContain("appended automatically").And.NotContain("hashes it on import");
-        text.Should().Contain("Each export is recorded in the case's custody log");
+        // [zh-cn] Home 引导第 5 步说明每次导出都记录到监管链。
+        text.Should().Contain("每次导出都会记录到案件的监管链日志");
     }
 }

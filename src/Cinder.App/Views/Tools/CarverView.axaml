@@ -10,25 +10,25 @@
         <Border Grid.Row="0" Padding="14,12,12,12" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1">
             <StackPanel Spacing="8" MaxWidth="900" HorizontalAlignment="Left">
                 <Grid ColumnDefinitions="120,560,Auto">
-                    <TextBlock Text="Carve from" Classes="label" />
-                    <TextBox Grid.Column="1" Text="{Binding Source}" Watermark="A disk image, memory dump or any file"
+                    <TextBlock Text="雕刻来源" Classes="label" />
+                    <TextBox Grid.Column="1" Text="{Binding Source}" Watermark="磁盘镜像、内存转储或任意文件"
                              FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                    <Button Grid.Column="2" Classes="tb" Margin="6,0,0,0" Height="28" Content="Pick…" Command="{Binding PickSourceCommand}" />
+                    <Button Grid.Column="2" Classes="tb" Margin="6,0,0,0" Height="28" Content="选择…" Command="{Binding PickSourceCommand}" />
                 </Grid>
                 <Grid ColumnDefinitions="120,560,Auto">
-                    <TextBlock Text="Save files to" Classes="label" />
-                    <TextBox Grid.Column="1" Text="{Binding OutputDir}" Watermark="An empty folder, not on the evidence drive"
+                    <TextBlock Text="文件保存到" Classes="label" />
+                    <TextBox Grid.Column="1" Text="{Binding OutputDir}" Watermark="空文件夹，且不要位于检材盘上"
                              FontFamily="{DynamicResource CinderFontFamilyMono}" />
-                    <Button Grid.Column="2" Classes="tb" Margin="6,0,0,0" Height="28" Content="Pick…" Command="{Binding PickOutputDirCommand}" />
+                    <Button Grid.Column="2" Classes="tb" Margin="6,0,0,0" Height="28" Content="选择…" Command="{Binding PickOutputDirCommand}" />
                 </Grid>
                 <StackPanel Orientation="Horizontal" Spacing="8" Margin="120,2,0,0">
                     <Button Classes="accent" Height="30" Padding="14,0" Command="{Binding RunCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <c:CinderIcon Data="{x:Static c:Icons.Cut}" Width="15" Height="15" />
-                            <TextBlock Text="Carve" VerticalAlignment="Center" />
+                            <TextBlock Text="雕刻" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Height="30" Content="Stop" Command="{Binding RunCancelCommand}"
+                    <Button Classes="tb" Height="30" Content="停止" Command="{Binding RunCancelCommand}"
                             IsVisible="{Binding RunCommand.IsRunning}" />
                     <ProgressBar IsIndeterminate="True" Width="120" VerticalAlignment="Center" IsVisible="{Binding RunCommand.IsRunning}" />
                     <c:ExportButton ExportCommand="{Binding ExportCommand}" Height="30" IsVisible="{Binding Hits.Count}" />
@@ -40,28 +40,28 @@
             <DataGrid ItemsSource="{Binding Hits}" SelectedItem="{Binding SelectedHit}" AutoGenerateColumns="False" IsReadOnly="True"
                       IsVisible="{Binding Hits.Count}" DoubleTapped="OnHitDoubleTapped">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Label}" Width="200" />
-                    <DataGridTextColumn Header="Extension" Binding="{Binding Extension}" Width="100"
+                    <DataGridTextColumn Header="类型" Binding="{Binding Label}" Width="200" />
+                    <DataGridTextColumn Header="扩展名" Binding="{Binding Extension}" Width="100"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Found at" Binding="{Binding Offset, StringFormat='0x{0:X12}'}" Width="150"
+                    <DataGridTextColumn Header="发现位置" Binding="{Binding Offset, StringFormat='0x{0:X12}'}" Width="150"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Size (bytes)" Binding="{Binding Length, StringFormat=N0}" Width="130"
+                    <DataGridTextColumn Header="大小（字节）" Binding="{Binding Length, StringFormat=N0}" Width="130"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridCheckBoxColumn Header="Structure checked" Binding="{Binding Validated}" Width="140" />
-                    <DataGridTextColumn Header="Saved as" Binding="{Binding OutputPath}" Width="2*"
+                    <DataGridCheckBoxColumn Header="结构校验" Binding="{Binding Validated}" Width="140" />
+                    <DataGridTextColumn Header="保存为" Binding="{Binding OutputPath}" Width="2*"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Note" Binding="{Binding Note}" Width="*" />
+                    <DataGridTextColumn Header="备注" Binding="{Binding Note}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="Recover files by their signatures" IsVisible="{Binding !Hits.Count}"
-                          Message="Carving ignores the file system and looks for the byte patterns that start (and end) known file types: pictures, documents, archives, databases. It finds deleted files and files in unallocated space. Names and folders are not recovered, and a fragmented file may come out incomplete." />
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="按文件签名恢复文件" IsVisible="{Binding !Hits.Count}"
+                          Message="雕刻不理会文件系统，直接寻找已知文件类型起始（及结束）处的字节特征：图片、文档、压缩包、数据库等。它能找到已删除的文件以及未分配空间中的文件。文件名和文件夹无法恢复，碎片化的文件恢复出来可能不完整。" />
         </Panel>
 
         <Border Grid.Row="2" Classes="footer">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <TextBlock Text="{Binding Hits.Count, StringFormat='{}{0:N0} files'}" Classes="mono" IsVisible="{Binding Hits.Count}" />
                 <TextBlock Grid.Column="1" Text="{Binding StatusLine}" Margin="16,0,0,0" />
-                <TextBlock Grid.Column="2" Text="Double-click a file to open it in the Hex Viewer" IsVisible="{Binding Hits.Count}"
+                <TextBlock Grid.Column="2" Text="双击文件可在 Hex 查看器中打开" IsVisible="{Binding Hits.Count}"
                            Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
             </Grid>
         </Border>

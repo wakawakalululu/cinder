@@ -12,7 +12,7 @@
                 <Button Classes="tb" VerticalAlignment="Center" Command="{Binding PickFolderCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                        <TextBlock Text="Pick folder…" VerticalAlignment="Center" />
+                        <TextBlock Text="选择文件夹…" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding FolderPath}"
@@ -24,10 +24,10 @@
         <Panel Grid.Row="1" Background="{DynamicResource CinderBackground0Brush}">
 
             <!-- Empty state (no folder picked yet) -->
-            <c:EmptyState Icon="{x:Static c:Icons.Image}" Title="Look through a folder of pictures"
+            <c:EmptyState Icon="{x:Static c:Icons.Image}" Title="浏览一个图片文件夹"
                           IsVisible="{Binding FolderPath, Converter={x:Static ObjectConverters.IsNull}}"
-                          Message="Shows every picture under a folder (subfolders included) as thumbnails. Click one to see it larger, with the details the camera stored in it: when it was taken, the device, and the GPS position if there is one.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Pick folder…" Command="{Binding PickFolderCommand}" />
+                          Message="以缩略图显示文件夹下的每一张图片（包括子文件夹）。单击一张即可放大查看，并能看到相机存储在其中的详细信息：拍摄时间、设备，以及 GPS 位置（如果有的话）。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="选择文件夹…" Command="{Binding PickFolderCommand}" />
             </c:EmptyState>
 
             <!-- Populated state: thumb grid + preview panel split -->
@@ -63,7 +63,7 @@
                                             <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"
                                                        FontSize="{DynamicResource CinderFontSizeXs}"
                                                        Foreground="{DynamicResource CinderForegroundBrush}" />
-                                            <TextBlock Text="{Binding SizeBytes, StringFormat='{}{0:N0} bytes'}"
+                                            <TextBlock Text="{Binding SizeBytes, StringFormat='{}{0:N0} 字节'}"
                                                        FontSize="{DynamicResource CinderFontSizeXs}"
                                                        Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                                         </StackPanel>
@@ -101,7 +101,7 @@
                                         Background="Transparent" BorderThickness="0"
                                         Foreground="{DynamicResource CinderForegroundMutedBrush}"
                                         Command="{Binding ClosePreviewCommand}"
-                                        ToolTip.Tip="Close preview" />
+                                        ToolTip.Tip="关闭预览" />
                             </Grid>
                         </Border>
 
@@ -111,7 +111,7 @@
                             <Grid>
                                 <Image Source="{Binding PreviewBitmap}" Stretch="Uniform"
                                        IsVisible="{Binding PreviewBitmap, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                                <TextBlock Text="Preview unavailable for this format"
+                                <TextBlock Text="此格式无法预览"
                                            Foreground="{DynamicResource CinderForegroundDisabledBrush}"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            IsVisible="{Binding PreviewBitmap, Converter={x:Static ObjectConverters.IsNull}}" />
@@ -124,21 +124,21 @@
                             <ScrollViewer MaxHeight="260">
                                 <StackPanel Margin="14,10" Spacing="6">
                                     <Grid ColumnDefinitions="100,*">
-                                        <TextBlock Grid.Column="0" Text="DIMENSIONS" Classes="section" />
+                                        <TextBlock Grid.Column="0" Text="尺寸" Classes="section" />
                                         <SelectableTextBlock Grid.Column="1" Classes="mono"
                                                              FontSize="{DynamicResource CinderFontSizeSm}"
                                                              Text="{Binding PreviewDimensions, TargetNullValue='—'}"
                                                              Foreground="{DynamicResource CinderForegroundBrush}" />
                                     </Grid>
                                     <Grid ColumnDefinitions="100,*">
-                                        <TextBlock Grid.Column="0" Text="SIZE" Classes="section" />
+                                        <TextBlock Grid.Column="0" Text="大小" Classes="section" />
                                         <SelectableTextBlock Grid.Column="1" Classes="mono"
                                                              FontSize="{DynamicResource CinderFontSizeSm}"
                                                              Text="{Binding PreviewSize}"
                                                              Foreground="{DynamicResource CinderForegroundBrush}" />
                                     </Grid>
                                     <Grid ColumnDefinitions="100,*">
-                                        <TextBlock Grid.Column="0" Text="MODIFIED" Classes="section" />
+                                        <TextBlock Grid.Column="0" Text="修改时间" Classes="section" />
                                         <SelectableTextBlock Grid.Column="1" Classes="mono"
                                                              FontSize="{DynamicResource CinderFontSizeSm}"
                                                              Text="{Binding PreviewModified}"

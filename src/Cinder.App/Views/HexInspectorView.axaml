@@ -14,23 +14,23 @@
 
             <!-- Nothing open -->
             <StackPanel Margin="16,18" Spacing="6" IsVisible="{Binding Buffer, Converter={x:Static ObjectConverters.IsNull}}">
-                <TextBlock Text="INSPECTOR" Classes="section" />
+                <TextBlock Text="检查器" Classes="section" />
                 <TextBlock Classes="dim" TextWrapping="Wrap"
-                           Text="Open a file and click any byte. Its offset, value and decoded forms show here." />
+                           Text="打开文件并点击任意字节，其偏移量、数值及各种解码结果会显示在这里。" />
             </StackPanel>
 
             <!-- ===== Caret ===== -->
             <Border Padding="16,14,16,16" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1"
                     IsVisible="{Binding Buffer, Converter={x:Static ObjectConverters.IsNotNull}}">
                 <StackPanel Spacing="10">
-                    <TextBlock Text="CARET" Classes="section" />
+                    <TextBlock Text="光标" Classes="section" />
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <SelectableTextBlock Text="{Binding CaretOffsetPadded}" Classes="mono" FontSize="17"
                                              VerticalAlignment="Bottom" />
                         <TextBlock Text="{Binding CaretOffsetDec}" Classes="mono dim" FontSize="12"
                                    VerticalAlignment="Bottom" Margin="0,0,0,2" />
                         <Button Classes="ghost icon" Width="22" Height="22" VerticalAlignment="Bottom"
-                                ToolTip.Tip="Copy offset" Command="{Binding CopyCaretOffsetCommand}">
+                                ToolTip.Tip="复制偏移量" Command="{Binding CopyCaretOffsetCommand}">
                             <c:CinderIcon Data="{x:Static c:Icons.Copy}" Width="13" Height="13" />
                         </Button>
                     </StackPanel>
@@ -68,18 +68,18 @@
                     IsVisible="{Binding Buffer, Converter={x:Static ObjectConverters.IsNotNull}}">
                 <StackPanel Spacing="10">
                     <Grid ColumnDefinitions="*,Auto">
-                        <TextBlock Text="SELECTION" Classes="section" />
+                        <TextBlock Text="选区" Classes="section" />
                         <TextBlock Grid.Column="1" Text="{Binding SelectionLengthDisplay}" Classes="mono muted" FontSize="12" />
                     </Grid>
                     <SelectableTextBlock Text="{Binding SelectionRangeDisplay}" Classes="mono" FontSize="12.5"
                                          Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <Button Classes="tb" Content="Copy hex" Command="{Binding CopySelectionHexCommand}"
-                                ToolTip.Tip="Bytes as contiguous hex (max 1 MiB)" />
-                        <Button Classes="tb" Content="Copy text" Command="{Binding CopySelectionAsTextCommand}"
-                                ToolTip.Tip="Printable bytes as text, others as '.'" />
+                        <Button Classes="tb" Content="复制十六进制" Command="{Binding CopySelectionHexCommand}"
+                                ToolTip.Tip="以连续十六进制形式复制字节（最多 1 MiB）" />
+                        <Button Classes="tb" Content="复制文本" Command="{Binding CopySelectionAsTextCommand}"
+                                ToolTip.Tip="可打印字节按文本复制，其余以“.”表示" />
                         <Button Classes="tb icon" Command="{Binding AddBookmarkCommand}"
-                                ToolTip.Tip="Bookmark the caret offset (Ctrl+D)">
+                                ToolTip.Tip="为光标偏移量添加书签（Ctrl+D）">
                             <c:CinderIcon Data="{x:Static c:Icons.Bookmark}" Width="14" Height="14" />
                         </Button>
                     </StackPanel>
@@ -92,17 +92,17 @@
                 <StackPanel Spacing="8">
                     <Grid ColumnDefinitions="*,Auto">
                         <StackPanel Orientation="Horizontal" Spacing="8">
-                            <TextBlock Text="DATA INSPECTOR" Classes="section" VerticalAlignment="Center" />
+                            <TextBlock Text="数据检查器" Classes="section" VerticalAlignment="Center" />
                             <TextBlock Text="{Binding InspectorBasis}" Classes="dim" FontSize="10.5" VerticalAlignment="Center"
-                                       ToolTip.Tip="Values are decoded starting at this byte. Timestamps are shown in UTC." />
+                                       ToolTip.Tip="各值从此字节开始解码。时间戳以 UTC 显示。" />
                         </StackPanel>
                         <Border Grid.Column="1" Classes="seg">
                             <StackPanel Orientation="Horizontal">
                                 <Button Classes="seg" Classes.on="{Binding IsLittleEndian}" Content="LE"
-                                        ToolTip.Tip="Little-endian (Windows, x86, most file formats)"
+                                        ToolTip.Tip="小端序（Windows、x86 及多数文件格式）"
                                         Command="{Binding SetEndianCommand}" CommandParameter="le" />
                                 <Button Classes="seg" Classes.on="{Binding IsBigEndian}" Content="BE"
-                                        ToolTip.Tip="Big-endian (network order, HFS+, Java class files)"
+                                        ToolTip.Tip="大端序（网络字节序、HFS+、Java class 文件）"
                                         Command="{Binding SetEndianCommand}" CommandParameter="be" />
                             </StackPanel>
                         </Border>
@@ -126,7 +126,7 @@
                                         </WrapPanel>
                                         <Button Grid.Column="2" Classes="ghost icon copy" Width="22" Height="20"
                                                 VerticalAlignment="Top" Margin="0,2,0,0"
-                                                ToolTip.Tip="Copy value"
+                                                ToolTip.Tip="复制数值"
                                                 Command="{Binding $parent[UserControl].((vm:HexViewModel)DataContext).CopyInspectorValueCommand}"
                                                 CommandParameter="{Binding}">
                                             <c:CinderIcon Data="{x:Static c:Icons.Copy}" Width="12" Height="12" />
@@ -143,7 +143,7 @@
             <Border Padding="16,14,16,16" IsVisible="{Binding Bookmarks.Count}">
                 <StackPanel Spacing="6">
                     <Grid ColumnDefinitions="*,Auto">
-                        <TextBlock Text="BOOKMARKS" Classes="section" />
+                        <TextBlock Text="书签" Classes="section" />
                         <Border Grid.Column="1" Classes="kbd"><TextBlock Text="Ctrl D" /></Border>
                     </Grid>
                     <ItemsControl ItemsSource="{Binding Bookmarks}">

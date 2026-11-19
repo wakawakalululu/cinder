@@ -18,9 +18,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "file.open",
-            Title: "Open file…",
-            Subtitle: "Open any file in the Hex Viewer.",
-            Category: "File",
+            Title: "打开文件…",
+            Subtitle: "在十六进制查看器中打开任意文件。",
+            Category: "文件",
             Invoke: async ct =>
             {
                 var window = ResolveMainWindow();
@@ -30,7 +30,7 @@ public static class CommandRegistration
                 }
                 var picked = await window.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
                 {
-                    Title = "Open file in Cinder",
+                    Title = "在 Cinder 中打开文件",
                     AllowMultiple = false,
                 }).ConfigureAwait(false);
                 var path = picked.FirstOrDefault()?.TryGetLocalPath();
@@ -57,9 +57,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "hex.find",
-            Title: "Find in file (list all matches)…",
-            Subtitle: "Search the open file for text, hex bytes or a regular expression and list every match.",
-            Category: "Hex",
+            Title: "在文件中查找（列出全部匹配）…",
+            Subtitle: "在打开的文件中搜索文本、十六进制字节或正则表达式，并列出所有匹配。",
+            Category: "十六进制",
             Invoke: _ =>
             {
                 Dispatcher.UIThread.Post(() =>
@@ -77,9 +77,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "hex.goto",
-            Title: "Go to offset…",
-            Subtitle: "Jump to a position in the open file, in decimal or 0x hex.",
-            Category: "Hex",
+            Title: "跳转到偏移量…",
+            Subtitle: "跳到打开文件中的某个位置，支持十进制或 0x 十六进制。",
+            Category: "十六进制",
             Invoke: _ =>
             {
                 Dispatcher.UIThread.Post(() =>
@@ -97,9 +97,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "app.settings",
-            Title: "Settings",
-            Subtitle: "Theme, hash-set database, custody time-stamp service, AI model.",
-            Category: "App",
+            Title: "设置",
+            Subtitle: "主题、哈希样本集数据库、监管链时间戳服务、AI 模型。",
+            Category: "应用",
             Invoke: _ =>
             {
                 Dispatcher.UIThread.Post(() => mainVm.Workspace.SelectedTool = mainVm.Workspace.SettingsEntry);
@@ -108,9 +108,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "case.open",
-            Title: "Open case…",
-            Subtitle: "Open a .cinder case file.",
-            Category: "Case",
+            Title: "打开案件…",
+            Subtitle: "打开一个 .cinder 案件文件。",
+            Category: "案件",
             Invoke: async ct =>
             {
                 var owner = ResolveMainWindow();
@@ -120,9 +120,9 @@ public static class CommandRegistration
                 }
                 var picked = await owner.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
                 {
-                    Title = "Open Cinder case",
+                    Title = "打开 Cinder 案件",
                     AllowMultiple = false,
-                    FileTypeFilter = [new FilePickerFileType("Cinder case") { Patterns = ["*.cinder"] }],
+                    FileTypeFilter = [new FilePickerFileType("Cinder 案件") { Patterns = ["*.cinder"] }],
                 }).ConfigureAwait(false);
                 var path = picked.FirstOrDefault()?.TryGetLocalPath();
                 if (string.IsNullOrEmpty(path))
@@ -134,9 +134,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "case.create",
-            Title: "Create case…",
-            Subtitle: "Start a new case file (.cinder) with its own custody log.",
-            Category: "Case",
+            Title: "新建案件…",
+            Subtitle: "开始一个新的案件文件（.cinder），带自己的监管链日志。",
+            Category: "案件",
             Invoke: async ct =>
             {
                 var owner = ResolveMainWindow();
@@ -146,10 +146,10 @@ public static class CommandRegistration
                 }
                 var picked = await owner.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
                 {
-                    Title = "Create Cinder case",
+                    Title = "新建 Cinder 案件",
                     DefaultExtension = "cinder",
                     SuggestedFileName = "case.cinder",
-                    FileTypeChoices = [new FilePickerFileType("Cinder case") { Patterns = ["*.cinder"] }],
+                    FileTypeChoices = [new FilePickerFileType("Cinder 案件") { Patterns = ["*.cinder"] }],
                 }).ConfigureAwait(false);
                 var path = picked?.TryGetLocalPath();
                 if (string.IsNullOrEmpty(path))
@@ -171,20 +171,20 @@ public static class CommandRegistration
                     {
                         mainVm.ActiveCaseName = c.Name;
                         mainVm.OpenCase(c.Id, c.Name, c.Examiner, path);
-                        mainVm.Announce($"Case created: {c.Name}");
+                        mainVm.Announce($"案件已创建：{c.Name}");
                     });
                 }
                 catch (Exception ex)
                 {
-                    mainVm.AnnounceError($"Failed to create case: {ex.Message}");
+                    mainVm.AnnounceError($"创建案件失败：{ex.Message}");
                 }
             }));
 
         registry.Register(new CommandDescriptor(
             Id: "view.theme.toggle",
-            Title: "Toggle theme (dark / light)",
-            Subtitle: "Switch between dark and light. The choice is remembered.",
-            Category: "View",
+            Title: "切换主题（深色 / 浅色）",
+            Subtitle: "在深色与浅色之间切换。选择会被记住。",
+            Category: "视图",
             Invoke: _ =>
             {
                 Dispatcher.UIThread.Post(() =>
@@ -206,7 +206,7 @@ public static class CommandRegistration
                     catch (Exception ex)
                     {
                         Serilog.Log.Warning(ex, "The theme choice was not saved");
-                        mainVm.AnnounceError($"Theme changed for this session only — it could not be saved: {ex.Message}");
+                        mainVm.AnnounceError($"主题仅本次会话生效 —— 保存失败：{ex.Message}");
                     }
                 });
                 return Task.CompletedTask;
@@ -214,9 +214,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "app.about",
-            Title: "About Cinder",
-            Subtitle: "Version and license.",
-            Category: "Help",
+            Title: "关于 Cinder",
+            Subtitle: "版本与许可证。",
+            Category: "帮助",
             Invoke: _ =>
             {
                 Dispatcher.UIThread.Post(() =>
@@ -226,9 +226,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "file.hash",
-            Title: "Hash a file…",
-            Subtitle: "MD5, SHA-1, SHA-256 and BLAKE3 of any file; recorded in the custody log when a case is open.",
-            Category: "File",
+            Title: "计算文件哈希…",
+            Subtitle: "对任意文件计算 MD5、SHA-1、SHA-256 与 BLAKE3；打开案件时会记录到监管链。",
+            Category: "文件",
             Invoke: async _ =>
             {
                 var owner = ResolveMainWindow();
@@ -238,7 +238,7 @@ public static class CommandRegistration
                 }
                 var picked = await owner.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
                 {
-                    Title = "Choose the file to hash",
+                    Title = "选择要哈希的文件",
                     AllowMultiple = false,
                 }).ConfigureAwait(false);
                 var path = picked.FirstOrDefault()?.TryGetLocalPath();
@@ -256,14 +256,14 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "app.update.check",
-            Title: "Check for updates",
-            Subtitle: "Asks GitHub for the latest release, now. Cinder never checks on its own, and nothing is downloaded.",
-            Category: "Help",
+            Title: "检查更新",
+            Subtitle: "现在向 GitHub 询问最新版本。Cinder 绝不会自行检查，也不会下载任何东西。",
+            Category: "帮助",
             Invoke: async ct =>
             {
                 // The only network request Cinder makes on its own account, and only because
                 // the examiner just asked for it. See UpdateChecker.
-                mainVm.Announce("Checking for updates…");
+                mainVm.Announce("正在检查更新…");
                 UpdateCheckResult result;
                 try
                 {
@@ -271,7 +271,7 @@ public static class CommandRegistration
                 }
                 catch (OperationCanceledException)
                 {
-                    mainVm.Announce("Update check cancelled.");
+                    mainVm.Announce("已取消检查更新。");
                     return;
                 }
                 if (result.Status == UpdateStatus.UpToDate)
@@ -291,9 +291,9 @@ public static class CommandRegistration
 
         registry.Register(new CommandDescriptor(
             Id: "app.exit",
-            Title: "Exit Cinder",
+            Title: "退出 Cinder",
             Subtitle: null,
-            Category: "App",
+            Category: "应用",
             Invoke: _ =>
             {
                 Dispatcher.UIThread.Post(() =>
@@ -345,7 +345,7 @@ public static class CommandRegistration
                     Id: "tool." + t.Id,
                     Title: t.Title,
                     Subtitle: t.Subtitle,
-                    Category: section.Title == "Home" ? "Go to" : section.Title,
+                    Category: section.Title == "主页" ? "转到" : section.Title,
                     Invoke: _ =>
                     {
                         Dispatcher.UIThread.Post(() => mainVm.Workspace.SelectedTool = t);
@@ -361,24 +361,24 @@ public static class CommandRegistration
                 return Task.CompletedTask;
             }, keys));
 
-        Action("view.rail", "Toggle sidebar", "View", "Ctrl B", () => mainVm.ToggleRailCommand.Execute(null));
-        Action("view.inspector", "Toggle inspector", "View", "Ctrl Shift B", () => mainVm.ToggleInspectorCommand.Execute(null),
-            "The byte inspector beside the hex viewer.");
-        Action("hex.findinline", "Find in hex viewer", "Hex", "Ctrl F", () => mainVm.FocusFindCommand.Execute(null));
-        Action("hex.findnext", "Find next", "Hex", "F3", () => mainVm.Hex.FindNextCommand.Execute(null));
-        Action("hex.findprev", "Find previous", "Hex", "Shift F3", () => mainVm.Hex.FindPreviousCommand.Execute(null));
-        Action("hex.bookmark", "Bookmark caret", "Hex", "Ctrl D", () => mainVm.Hex.AddBookmarkCommand.Execute(null));
-        Action("hex.copyhex", "Copy selection as hex", "Hex", "Ctrl C", () => mainVm.Hex.CopySelectionAsHexCommand.Execute(null));
-        Action("hex.back", "Back to previous offset", "Hex", "Alt Left", () => mainVm.Hex.NavigateBackCommand.Execute(null));
-        Action("hex.forward", "Forward to next offset", "Hex", "Alt Right", () => mainVm.Hex.NavigateForwardCommand.Execute(null));
-        Action("hex.strings", "Open current file in Strings", "Hex", null, () => mainVm.OpenInStringsCommand.Execute(null));
-        Action("hex.hash", "Hash current file (SHA-256)", "Hex", null, () => mainVm.Hex.StartHashCommand.Execute(null),
-            "Reads every byte; files up to 2 GiB are hashed automatically on open.");
-        Action("hex.utf16", "Show text pane as UTF-16LE", "Hex", null, () => mainVm.Hex.TextIsUtf16 = true);
-        Action("hex.ascii", "Show text pane as ASCII", "Hex", null, () => mainVm.Hex.TextIsUtf16 = false);
-        Action("hex.close", "Close file tab", "Hex", "Ctrl W", () => mainVm.CloseBufferCommand.Execute(mainVm.Hex));
-        Action("case.close", "Close case", "Case", null, () => mainVm.CloseCaseCommand.Execute(mainVm.ActiveCase));
-        Action("help.tool", "Help for this tool", "Help", "F1", () => mainVm.OpenHelpCommand.Execute(null));
+        Action("view.rail", "切换侧栏", "视图", "Ctrl B", () => mainVm.ToggleRailCommand.Execute(null));
+        Action("view.inspector", "切换检查器", "视图", "Ctrl Shift B", () => mainVm.ToggleInspectorCommand.Execute(null),
+            "十六进制查看器旁边的字节检查器。");
+        Action("hex.findinline", "在十六进制查看器中查找", "十六进制", "Ctrl F", () => mainVm.FocusFindCommand.Execute(null));
+        Action("hex.findnext", "查找下一个", "十六进制", "F3", () => mainVm.Hex.FindNextCommand.Execute(null));
+        Action("hex.findprev", "查找上一个", "十六进制", "Shift F3", () => mainVm.Hex.FindPreviousCommand.Execute(null));
+        Action("hex.bookmark", "为光标位置加书签", "十六进制", "Ctrl D", () => mainVm.Hex.AddBookmarkCommand.Execute(null));
+        Action("hex.copyhex", "以十六进制复制所选", "十六进制", "Ctrl C", () => mainVm.Hex.CopySelectionAsHexCommand.Execute(null));
+        Action("hex.back", "回到上一个偏移量", "十六进制", "Alt Left", () => mainVm.Hex.NavigateBackCommand.Execute(null));
+        Action("hex.forward", "前进到下一个偏移量", "十六进制", "Alt Right", () => mainVm.Hex.NavigateForwardCommand.Execute(null));
+        Action("hex.strings", "在字符串提取中打开当前文件", "十六进制", null, () => mainVm.OpenInStringsCommand.Execute(null));
+        Action("hex.hash", "计算当前文件哈希 (SHA-256)", "十六进制", null, () => mainVm.Hex.StartHashCommand.Execute(null),
+            "读取每个字节；2 GiB 以内的文件在打开时自动计算哈希。");
+        Action("hex.utf16", "文本窗格按 UTF-16LE 显示", "十六进制", null, () => mainVm.Hex.TextIsUtf16 = true);
+        Action("hex.ascii", "文本窗格按 ASCII 显示", "十六进制", null, () => mainVm.Hex.TextIsUtf16 = false);
+        Action("hex.close", "关闭文件标签页", "十六进制", "Ctrl W", () => mainVm.CloseBufferCommand.Execute(mainVm.Hex));
+        Action("case.close", "关闭案件", "案件", null, () => mainVm.CloseCaseCommand.Execute(mainVm.ActiveCase));
+        Action("help.tool", "本工具的帮助", "帮助", "F1", () => mainVm.OpenHelpCommand.Execute(null));
     }
 
     /// <summary>
@@ -397,18 +397,18 @@ public static class CommandRegistration
             var info = new FileInfo(path);
             if (Directory.Exists(path))
             {
-                return $"Case not created: {info.Name} is a folder.";
+                return $"未创建案件：{info.Name} 是一个文件夹。";
             }
             if (info.Exists && info.Length > 0)
             {
-                return $"Case not created: {info.Name} already exists. Cinder will not create a case over an existing file — " +
-                       "pick a new name, or use Open case… if it is the case you want.";
+                return $"未创建案件：{info.Name} 已存在。Cinder 不会在现有文件上创建案件 —— " +
+                       "请换一个名字；如果那正是你要的案件，请用“打开案件…”。";
             }
             return null;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException or System.Security.SecurityException)
         {
-            return $"Case not created: {ex.Message}";
+            return $"未创建案件：{ex.Message}";
         }
     }
 

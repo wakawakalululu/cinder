@@ -58,7 +58,7 @@
 
                 <!-- Case crumb: status dot says whether actions are being recorded. -->
                 <Button Grid.Column="1" Classes="ghost" Height="28" Padding="9,0"
-                        ToolTip.Tip="Open, create or switch cases">
+                        ToolTip.Tip="打开、新建或切换案件">
                     <StackPanel Orientation="Horizontal" Spacing="7">
                         <Ellipse Classes="status-dot warn" VerticalAlignment="Center"
                                  IsVisible="{Binding !HasActiveCase}" />
@@ -69,9 +69,9 @@
                     </StackPanel>
                     <Button.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                            <MenuItem Header="New case…" InputGesture="Ctrl+N" Command="{Binding CreateCaseCommand}" />
-                            <MenuItem Header="Open case…" InputGesture="Ctrl+Shift+O" Command="{Binding OpenCaseFromPickerCommand}" />
-                            <MenuItem Header="Close case" IsEnabled="{Binding HasActiveCase}"
+                            <MenuItem Header="新建案件…" InputGesture="Ctrl+N" Command="{Binding CreateCaseCommand}" />
+                            <MenuItem Header="打开案件…" InputGesture="Ctrl+Shift+O" Command="{Binding OpenCaseFromPickerCommand}" />
+                            <MenuItem Header="关闭案件" IsEnabled="{Binding HasActiveCase}"
                                       Command="{Binding CloseCaseCommand}" CommandParameter="{Binding ActiveCase}" />
                         </MenuFlyout>
                     </Button.Flyout>
@@ -94,10 +94,10 @@
 
                 <!-- Write-block state -->
                 <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center" Margin="0,0,6,0"
-                            ToolTip.Tip="Cinder's software write-blocker is not active. Evidence is opened read-only, but attach source media through a hardware write-blocker.">
+                            ToolTip.Tip="Cinder 的软件写保护未启用。检材以只读方式打开，但接入源介质时请通过硬件写保护器。">
                     <c:CinderIcon Data="{x:Static c:Icons.Shield}" Width="14" Height="14"
                                   Foreground="{DynamicResource CinderWarnBrush}" />
-                    <TextBlock Text="Write-block off" FontSize="12" Classes="muted" VerticalAlignment="Center" />
+                    <TextBlock Text="写保护关闭" FontSize="12" Classes="muted" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <Border Grid.Column="6" Classes="badge" Margin="6,0,10,0">
@@ -112,7 +112,7 @@
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <c:CinderIcon Data="{x:Static c:Icons.Search}" Width="14" Height="14"
                                       Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
-                        <TextBlock Grid.Column="1" Text="Search commands and tools" Margin="8,0" Classes="dim"
+                        <TextBlock Grid.Column="1" Text="搜索命令与工具" Margin="8,0" Classes="dim"
                                    VerticalAlignment="Center" FontSize="12" />
                         <Border Grid.Column="2" Classes="kbd"><TextBlock Text="Ctrl K" /></Border>
                     </Grid>
@@ -131,16 +131,16 @@
                 <c:CinderIcon Data="{x:Static c:Icons.Alert}" Width="15" Height="15" Margin="0,0,10,0"
                               Foreground="{DynamicResource CinderWarnBrush}" VerticalAlignment="Center" />
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" Classes="muted">
-                    <Run Text="No case open." FontWeight="500" Foreground="{DynamicResource CinderForegroundBrush}" />
-                    <Run Text="Parsing, bookmarks and exports on this evidence won't be recorded in a custody log." />
+                    <Run Text="尚未打开案件。" FontWeight="500" Foreground="{DynamicResource CinderForegroundBrush}" />
+                    <Run Text="对当前检材的解析、书签与导出将不会记录到监管链日志。" />
                 </TextBlock>
-                <Button Grid.Column="2" Classes="ghost" Margin="0,0,6,0" Content="Open case"
+                <Button Grid.Column="2" Classes="ghost" Margin="0,0,6,0" Content="打开案件"
                         Command="{Binding OpenCaseFromPickerCommand}" />
                 <Button Grid.Column="3" Classes="accent" Height="26" Padding="10,0"
                         Command="{Binding CreateCaseCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <c:CinderIcon Data="{x:Static c:Icons.Plus}" Width="14" Height="14" />
-                        <TextBlock Text="Create case" VerticalAlignment="Center" />
+                        <TextBlock Text="新建案件" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </Grid>
@@ -169,7 +169,7 @@
                                     <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
-                            <Button Classes="ghost icon" Width="22" Height="22" ToolTip.Tip="Close case"
+                            <Button Classes="ghost icon" Width="22" Height="22" ToolTip.Tip="关闭案件"
                                     Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).CloseCaseCommand}"
                                     CommandParameter="{Binding}">
                                 <c:CinderIcon Data="{x:Static c:Icons.Close}" Width="12" Height="12" />
@@ -194,7 +194,7 @@
                             <c:CinderIcon Data="{x:Static c:Icons.Search}" Width="14" Height="14"
                                           Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
                             <TextBox Grid.Column="1" x:Name="RailFilterBox" Classes="bare" Margin="8,0"
-                                     FontSize="12.5" Watermark="Filter tools"
+                                     FontSize="12.5" Watermark="筛选工具"
                                      Text="{Binding Workspace.RailFilter}">
                                 <TextBox.KeyBindings>
                                     <KeyBinding Gesture="Enter" Command="{Binding Workspace.SelectFirstMatchCommand}" />
@@ -212,7 +212,7 @@
                                 CommandParameter="{Binding Workspace.SettingsEntry}">
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <c:CinderIcon Data="{x:Static c:Icons.Cog}" />
-                                <TextBlock Text="Settings" VerticalAlignment="Center" />
+                                <TextBlock Text="设置" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </Border>
@@ -225,7 +225,7 @@
                                     CommandParameter="{Binding Workspace.Dashboard}">
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <c:CinderIcon Data="{x:Static c:Icons.Home}" />
-                                    <TextBlock Text="Home" VerticalAlignment="Center" />
+                                    <TextBlock Text="主页" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Button>
 
@@ -275,7 +275,7 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
 
-                            <TextBlock Text="No tools match." Classes="dim" Margin="10,14,0,0"
+                            <TextBlock Text="没有匹配的工具。" Classes="dim" Margin="10,14,0,0"
                                        IsVisible="{Binding !Workspace.HasRailMatches}" />
                         </StackPanel>
                     </ScrollViewer>
@@ -304,7 +304,7 @@
                             <TextBlock Text="{Binding Workspace.SelectedTool.Maturity}" />
                         </Border>
                         <Button Grid.Column="4" Classes="ghost icon" Command="{Binding OpenHelpCommand}"
-                                ToolTip.Tip="What this tool is, when to use it, how (F1)">
+                                ToolTip.Tip="这个工具是什么、何时使用、怎么使用（F1）">
                             <c:CinderIcon Data="{x:Static c:Icons.Help}" />
                         </Button>
                     </Grid>
@@ -341,13 +341,13 @@
                             IsVisible="{Binding Workspace.IsHexSelected}">
                     <TextBlock Classes="dim" VerticalAlignment="Center"
                                IsVisible="{Binding Hex.Buffer, Converter={x:Static ObjectConverters.IsNotNull}}">
-                        <Run Text="Offset " />
+                        <Run Text="偏移 " />
                         <Run Text="{Binding Hex.CaretOffsetPadded}" FontFamily="{DynamicResource CinderFontFamilyMono}"
                              Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                     </TextBlock>
                     <TextBlock Classes="dim" VerticalAlignment="Center"
                                IsVisible="{Binding Hex.Buffer, Converter={x:Static ObjectConverters.IsNotNull}}">
-                        <Run Text="Selected " />
+                        <Run Text="已选 " />
                         <Run Text="{Binding Hex.SelectionLengthDisplay}" FontFamily="{DynamicResource CinderFontFamilyMono}"
                              Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                     </TextBlock>
@@ -358,38 +358,38 @@
                             IsVisible="{Binding Workspace.IsHexSelected}">
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Width="8" Height="8" CornerRadius="2" Background="{DynamicResource CinderBytePrintableBrush}" />
-                        <TextBlock Text="printable" Classes="legend" />
+                        <TextBlock Text="可打印" Classes="legend" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Width="8" Height="8" CornerRadius="2" Background="{DynamicResource CinderByteWhitespaceBrush}" />
-                        <TextBlock Text="whitespace" Classes="legend" />
+                        <TextBlock Text="空白" Classes="legend" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Width="8" Height="8" CornerRadius="2" Background="{DynamicResource CinderByteControlBrush}" />
-                        <TextBlock Text="control" Classes="legend" />
+                        <TextBlock Text="控制符" Classes="legend" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Width="8" Height="8" CornerRadius="2" Background="{DynamicResource CinderByteHighBrush}" />
-                        <TextBlock Text="high" Classes="legend" />
+                        <TextBlock Text="高位" Classes="legend" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Width="8" Height="8" CornerRadius="2" Background="{DynamicResource CinderByteNullBrush}" />
-                        <TextBlock Text="null" Classes="legend" />
+                        <TextBlock Text="空值" Classes="legend" />
                     </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="5" Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Classes="kbd"><TextBlock Text="F1" /></Border>
-                        <TextBlock Text="help" Classes="legend" />
+                        <TextBlock Text="帮助" Classes="legend" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Classes="kbd"><TextBlock Text="Ctrl K" /></Border>
-                        <TextBlock Text="commands" Classes="legend" />
+                        <TextBlock Text="命令" Classes="legend" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="5">
                         <Border Classes="kbd"><TextBlock Text="Ctrl B" /></Border>
-                        <TextBlock Text="sidebar" Classes="legend" />
+                        <TextBlock Text="侧栏" Classes="legend" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

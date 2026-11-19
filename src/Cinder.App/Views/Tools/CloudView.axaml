@@ -13,13 +13,13 @@
                     <c:CinderIcon Data="{x:Static c:Icons.Alert}" Width="15" Height="15" VerticalAlignment="Top" Margin="0,1,10,0"
                                   Foreground="{DynamicResource CinderWarnBrush}" />
                     <TextBlock Grid.Column="1" TextWrapping="Wrap" FontSize="12.5" LineHeight="18"
-                               Text="Not functional yet. Cinder can build the provider's sign-in link, but it cannot yet complete the sign-in or download anything. To collect cloud data today, use the provider's own export (Google Takeout, Microsoft Purview, Dropbox data export) and examine the result here." />
+                               Text="尚未可用。Cinder 可以生成服务商的登录链接，但还不能完成登录，也无法下载任何内容。如需采集云端数据，请使用服务商自带的导出功能（Google Takeout、Microsoft Purview、Dropbox 数据导出），然后在此处分析导出的结果。" />
                 </Grid>
             </Border>
             <TextBlock Classes="muted" FontSize="13" TextWrapping="Wrap" LineHeight="19" MaxWidth="640" HorizontalAlignment="Left"
-                       Text="When it ships: sign in to the account with read-only access, list its files with their cloud hashes and activity history, and download selected files into the case with every request recorded in the custody log." />
+                       Text="正式发布后：将以只读权限登录账户，列出其文件及其云端哈希与活动历史，并把选中的文件下载到案件中，每一次请求都会记录在监管链日志中。" />
             <Grid ColumnDefinitions="120,*">
-                <TextBlock Text="Provider" Classes="label" />
+                <TextBlock Text="服务商" Classes="label" />
                 <ComboBox Grid.Column="1" ItemsSource="{Binding Providers}" SelectedItem="{Binding Provider}" MinWidth="180" />
             </Grid>
             <Border Background="{DynamicResource CinderSurface2Brush}" CornerRadius="8" Padding="14,12"
@@ -27,14 +27,14 @@
                 <SelectableTextBlock Text="{Binding Instructions}" TextWrapping="Wrap" FontSize="12.5" LineHeight="18" />
             </Border>
             <StackPanel Spacing="8" IsVisible="{Binding AuthorizeUrl, Converter={x:Static ObjectConverters.IsNotNull}}">
-                <TextBlock Text="SIGN-IN LINK" Classes="section" />
+                <TextBlock Text="登录链接" Classes="section" />
                 <Border Background="{DynamicResource CinderSurface2Brush}" CornerRadius="8" Padding="14,12">
                     <SelectableTextBlock Text="{Binding AuthorizeUrl}" Classes="mono" FontSize="12" TextWrapping="Wrap" />
                 </Border>
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Classes="tb" Height="30" Content="Copy link" Command="{Binding CopyAuthorizeUrlCommand}" />
-                    <Button Classes="tb" Height="30" Content="Make a new link" Command="{Binding ConnectCommand}"
-                            ToolTip.Tip="Each link can be used once. Make a new one if this one has expired." />
+                    <Button Classes="tb" Height="30" Content="复制链接" Command="{Binding CopyAuthorizeUrlCommand}" />
+                    <Button Classes="tb" Height="30" Content="生成新链接" Command="{Binding ConnectCommand}"
+                            ToolTip.Tip="每个链接只能使用一次。若已过期，请生成新链接。" />
                 </StackPanel>
             </StackPanel>
             <Border Background="{DynamicResource CinderSurface2Brush}" CornerRadius="8" Padding="14,12"

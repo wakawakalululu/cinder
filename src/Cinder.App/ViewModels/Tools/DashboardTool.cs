@@ -13,53 +13,48 @@ namespace Cinder.App.ViewModels.Tools;
 public sealed partial class DashboardTool : ToolViewModel
 {
     public override string Id => "dashboard";
-    public override string Title => "Home";
+    public override string Title => "主页";
     public override string Icon => "⌂";
-    public override string Subtitle => "Reopen a recent case or file, start a new case, and read a short guide to how the tools fit together.";
+    public override string Subtitle => "重新打开最近的案件或文件、开始新案件，并阅读工具如何配合使用的简短指引。";
     public override string Phase => "0";
     public override string Kind => "dashboard";
 
     public override string HelpMarkdown => """
-## What this is
-The Home screen, shown when Cinder starts. From here you can create a case, reopen a
-recent case or a recently opened file, open a single file without a case, or read the
-short "First time?" guide.
+## 这是什么
+Cinder 启动时显示的主页。在这里可以新建案件、重新打开最近的案件或最近打开过的文件、
+不建案直接打开单个文件，或阅读简短的"首次使用？"指引。
 
-## How it works
-Recent cases and recently opened files are listed so you can return to them with one
-click. The quick actions cover the usual ways to start: new case, open case, open a
-file. The guide describes the order most examinations follow: case, evidence, tools,
-timeline, report.
+## 工作方式
+最近案件和最近文件会列出来，方便一键回到它们。快捷操作覆盖了常见的开始方式：新建案件、
+打开案件、打开文件。指引描述了大多数取证工作遵循的顺序：案件 → 检材 → 工具 → 时间线 → 报告。
 
-## Good to know
-You do not need a case to look at a file. A case is needed for bookmarks and for the
-custody log: without one, nothing you do is recorded.
+## 需要知道
+不建案也可以查看文件。但书签和监管链日志需要案件：没有打开的案件时，任何操作都不会被记录。
 """;
 
     public ObservableCollection<RecentCaseRow> RecentCases { get; } = new();
     public ObservableCollection<RecentEvidenceRow> RecentEvidence { get; } = new();
     public ObservableCollection<GuideStep> Guide { get; } = new()
     {
-        new("1", "Create a case",
-            "A case is one file that holds your bookmarks and a log of what you did. " +
-            "Click \"New case\" and choose where to save it. Without an open case, " +
-            "nothing is logged and rows cannot be bookmarked."),
-        new("2", "Open your evidence",
-            "Cinder does not import evidence into the case. Each tool asks for the file or " +
-            "folder it reads: a disk image, a registry hive, an event log, a folder of " +
-            "exported files. \"Open file\" shows any file in the Hex Viewer."),
-        new("3", "Pick the tool for the evidence",
-            "The left rail is grouped by what you want to do: Examine (look at one piece of " +
-            "evidence), Analyze (look across evidence), Acquire (make or check an image), " +
-            "Case (bookmarks, reports and the custody log)."),
-        new("4", "Bookmark what matters and build a timeline",
-            "Select a row in any tool and choose Bookmark to keep it as a finding. In " +
-            "Super-timeline, \"Ingest folder\" reads the timestamped events from a folder of " +
-            "evidence into one list in time order."),
-        new("5", "Export a report",
-            "Reports lets you write sections from a template, adds your bookmarks as numbered " +
-            "exhibits, and exports Markdown, HTML, PDF, Word or JSON. Each export is recorded " +
-            "in the case's custody log; the log itself is viewed and checked in Chain of custody."),
+        new("1", "新建案件",
+            "案件是一个文件，存放你的书签和操作日志。" +
+            "点击\"新建案件\"并选择保存位置。没有打开的案件时，" +
+            "任何操作都不会被记录，也无法为结果行添加书签。"),
+        new("2", "打开检材",
+            "Cinder 不会把检材导入案件。每个工具都会让你选择它要读取的文件或" +
+            "文件夹：磁盘镜像、注册表配置单元、事件日志、导出文件" +
+            "的文件夹。\"打开文件\"可以在十六进制查看器中查看任意文件。"),
+        new("3", "为检材选择合适的工具",
+            "左侧工具栏按你要做的事分组：检查（查看单个检材）、分析（跨检材分析）、" +
+            "采集（制作或校验镜像）、案件管理（书签、报告和监管链日志）。"),
+        new("4", "给关键发现加书签并建立时间线",
+            "在任何工具中选中一行并选择\"加入书签\"即可保存为发现。" +
+            "在超级时间线中，\"导入文件夹\"会把一个检材文件夹中带时间戳的事件" +
+            "按时间顺序读入一个列表。"),
+        new("5", "导出报告",
+            "报告工具让你按模板撰写各章节，把书签自动编号为附件（Exhibit），并导出 " +
+            "Markdown、HTML、PDF、Word 或 JSON。每次导出都会记录到案件的监管链日志；" +
+            "日志本身可在\"监管链\"中查看和校验。"),
     };
 
     /// <summary>True once at least one recent case/evidence row exists, used to swap empty states.</summary>

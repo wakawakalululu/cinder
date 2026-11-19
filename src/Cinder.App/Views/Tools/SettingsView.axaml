@@ -11,9 +11,9 @@
         <Border DockPanel.Dock="Bottom" Padding="24,10" Background="{DynamicResource CinderSurface0Brush}"
                 BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,1,0,0">
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <Button Classes="accent" Height="30" Padding="16,0" Content="Save settings" Command="{Binding SaveCommand}" />
-                <Button Classes="tb" Height="30" Padding="12,0" Content="Discard changes" Command="{Binding ReloadCommand}"
-                        ToolTip.Tip="Put every field back to what is saved" />
+                <Button Classes="accent" Height="30" Padding="16,0" Content="保存设置" Command="{Binding SaveCommand}" />
+                <Button Classes="tb" Height="30" Padding="12,0" Content="放弃更改" Command="{Binding ReloadCommand}"
+                        ToolTip.Tip="把所有字段恢复为已保存的值" />
                 <TextBlock Text="{Binding StatusLine}" FontSize="12.5" VerticalAlignment="Center" Margin="10,0,0,0"
                            TextWrapping="Wrap" MaxWidth="760"
                            Foreground="{DynamicResource CinderForegroundMutedBrush}"
@@ -32,33 +32,33 @@
                 <StackPanel Grid.Column="0" Spacing="16" Margin="0,0,10,0">
                     <Border Classes="note" Padding="18,16">
                         <StackPanel Spacing="12">
-                            <TextBlock Text="APPEARANCE" Classes="section" />
+                            <TextBlock Text="外观" Classes="section" />
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Theme" />
+                                <TextBlock Classes="field-label" Text="主题" />
                                 <ComboBox ItemsSource="{Binding ThemeOptions}" SelectedItem="{Binding Theme}" MinWidth="200" />
                             </StackPanel>
                             <TextBlock Classes="dim" FontSize="12" TextWrapping="Wrap"
-                                       Text="System follows the light or dark setting of this computer." />
+                                       Text="“跟随系统”会采用这台电脑的浅色或深色设置。" />
                         </StackPanel>
                     </Border>
 
                     <Border Classes="note" Padding="18,16">
                         <StackPanel Spacing="12">
-                            <TextBlock Text="HASH SETS" Classes="section" />
+                            <TextBlock Text="哈希样本集" Classes="section" />
                             <TextBlock Classes="muted" FontSize="12.5" LineHeight="18" TextWrapping="Wrap"
-                                       Text="The hash-set database used by the Hash sets tool. With hashing switched on, the Filesystem tool also hashes every file it lists and marks each one Known, Notable or Unknown, so you can filter out standard operating-system files." />
+                                       Text="哈希样本集工具所使用的数据库。开启后，文件系统工具在列目录时还会对每个文件计算哈希，并标记为 Known（已知）、Notable（值得注意）或 Unknown（未知），便于过滤掉操作系统自带的标准文件。" />
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Database file" />
-                                <TextBox Text="{Binding HashSetDatabase}" Watermark="Choose it in the Hash sets tool"
+                                <TextBlock Classes="field-label" Text="数据库文件" />
+                                <TextBox Text="{Binding HashSetDatabase}" Watermark="在哈希样本集工具中选择"
                                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
                             </StackPanel>
                             <CheckBox IsChecked="{Binding HashFilesOnEnumerate}"
-                                      Content="Hash files while listing a file system" />
+                                      Content="列出文件系统时同时计算文件哈希" />
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Skip files larger than" />
+                                <TextBlock Classes="field-label" Text="跳过大于此大小的文件" />
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <NumericUpDown Value="{Binding HashSizeLimitMb}" Minimum="1" Maximum="4096" Increment="16" FormatString="0" Width="150" />
-                                    <TextBlock Text="megabytes" Classes="label" />
+                                    <TextBlock Text="兆字节" Classes="label" />
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
@@ -66,15 +66,15 @@
 
                     <Border Classes="note" Padding="18,16">
                         <StackPanel Spacing="12">
-                            <TextBlock Text="CHAIN OF CUSTODY" Classes="section" />
+                            <TextBlock Text="监管链" Classes="section" />
                             <TextBlock Classes="muted" FontSize="12.5" LineHeight="18" TextWrapping="Wrap"
-                                       Text="Optional. When an address is set, signing a custody log also asks this time-stamp service (RFC 3161) to countersign, so the time comes from a clock you do not control. Only a hash of your signature is sent, never case content." />
+                                       Text="可选。设置地址后，对监管链日志签名时还会请这个时间戳服务（RFC 3161）会签，使时间来自你无法控制的时钟。发送的只是你签名的哈希，绝无案件内容。" />
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Time-stamp service address" />
+                                <TextBlock Classes="field-label" Text="时间戳服务地址" />
                                 <TextBox Text="{Binding TimestampAuthorityUrl}" Watermark="https://freetsa.org/tsr"
                                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
                             </StackPanel>
-                            <TextBlock Classes="dim" FontSize="12" TextWrapping="Wrap" Text="Leave it empty to sign without a time stamp." />
+                            <TextBlock Classes="dim" FontSize="12" TextWrapping="Wrap" Text="留空则签名时不加时间戳。" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -82,39 +82,39 @@
                 <StackPanel Grid.Column="1" Spacing="16" Margin="10,0,0,0">
                     <Border Classes="note" Padding="18,16">
                         <StackPanel Spacing="12">
-                            <TextBlock Text="AI ASSISTANT" Classes="section" />
+                            <TextBlock Text="AI 助手" Classes="section" />
                             <TextBlock Classes="muted" FontSize="12.5" LineHeight="18" TextWrapping="Wrap"
-                                       Text="The model the AI Copilot tool starts with. Cinder ships no model: point it at one running on this computer (Ollama, LM Studio) or at a hosted service. Anything typed into the assistant is sent to that address." />
+                                       Text="AI 助手工具默认使用的模型。Cinder 不内置模型：请指向本机上正在运行的模型（Ollama、LM Studio）或托管服务。输入助手的任何内容都会发送到该地址。" />
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Where the model runs" />
+                                <TextBlock Classes="field-label" Text="模型运行位置" />
                                 <ComboBox ItemsSource="{Binding AiProviderOptions}" SelectedItem="{Binding AiProviderId}" MinWidth="200" />
                             </StackPanel>
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Address" />
+                                <TextBlock Classes="field-label" Text="地址" />
                                 <TextBox Text="{Binding AiEndpoint}" Watermark="http://localhost:11434"
                                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
                             </StackPanel>
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="Model name" />
+                                <TextBlock Classes="field-label" Text="模型名称" />
                                 <TextBox Text="{Binding AiModel}" Watermark="llama3"
                                          FontFamily="{DynamicResource CinderFontFamilyMono}" />
                             </StackPanel>
                             <StackPanel>
-                                <TextBlock Classes="field-label" Text="API key" />
-                                <TextBox Text="{Binding AiApiKey}" PasswordChar="•" Watermark="Only for a hosted service" />
+                                <TextBlock Classes="field-label" Text="API 密钥" />
+                                <TextBox Text="{Binding AiApiKey}" PasswordChar="•" Watermark="仅托管服务需要" />
                             </StackPanel>
                             <TextBlock Classes="dim" FontSize="12" LineHeight="17" TextWrapping="Wrap"
-                                       Text="The key is saved in your settings file, encrypted for your Windows account. On Linux and macOS it is only obscured, not securely encrypted." />
+                                       Text="密钥保存在你的设置文件中，并按 Windows 账户加密。在 Linux 和 macOS 上仅做混淆，并非安全加密。" />
                         </StackPanel>
                     </Border>
 
                     <Border Classes="note" Padding="18,16">
                         <StackPanel Spacing="8">
-                            <TextBlock Text="WHERE THESE ARE KEPT" Classes="section" />
+                            <TextBlock Text="设置存放位置" Classes="section" />
                             <SelectableTextBlock Text="{Binding SettingsPath}" Classes="mono" FontSize="12" TextWrapping="Wrap"
                                                  Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                             <TextBlock Classes="dim" FontSize="12" LineHeight="17" TextWrapping="Wrap"
-                                       Text="One file for your user account on this computer. Cases do not carry settings with them." />
+                                       Text="本机当前用户账户对应一个设置文件。案件不会携带设置。" />
                         </StackPanel>
                     </Border>
                 </StackPanel>

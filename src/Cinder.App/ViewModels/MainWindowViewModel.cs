@@ -120,7 +120,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     public bool HasActiveCase => !string.IsNullOrEmpty(ActiveCaseName);
 
-    public string CaseCrumb => ActiveCaseName ?? "No case";
+    public string CaseCrumb => ActiveCaseName ?? "无案件";
 
     public MainWindowViewModel(CommandRegistry commands)
     {

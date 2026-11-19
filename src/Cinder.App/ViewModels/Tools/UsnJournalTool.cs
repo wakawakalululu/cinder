@@ -14,10 +14,10 @@ namespace Cinder.App.ViewModels.Tools;
 public sealed partial class UsnJournalTool : SidecarToolViewModel
 {
     public override string Id => "usnjrnl";
-    public override string Title => "USN journal";
+    public override string Title => "USN 日志";
     public override string Icon => "📜";
-    public override string Subtitle => "List every file creation, deletion, rename and write recorded in an NTFS volume's change journal, with the time of each.";
-    public override string EmptyStateHint => "Pick a disk or volume image (.dd, .E01, .vhd, .vhdx), or a $J file extracted from one.";
+    public override string Subtitle => "列出 NTFS 卷变更日志（$UsnJrnl）中记录的每一次文件创建、删除、重命名和写入，并附各自的时间。";
+    public override string EmptyStateHint => "选择磁盘或卷镜像（.dd、.E01、.vhd、.vhdx），或从中提取出的 $J 文件。";
     public override string Phase => "3";
     public override string Kind => "usnjrnl";
 

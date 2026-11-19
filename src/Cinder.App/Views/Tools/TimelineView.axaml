@@ -18,60 +18,60 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <Button Classes="accent" Height="26" Padding="10,0" Command="{Binding IngestFolderCommand}"
-                            ToolTip.Tip="Read a folder of evidence and add its event logs, registry, Prefetch, shortcuts, browser history, mail, Recycle Bin and NTFS journal events to the timeline">
+                            ToolTip.Tip="读取一个检材文件夹，把其中的事件日志、注册表、Prefetch、快捷方式、浏览器历史记录、邮件、回收站和 NTFS 日志事件加入时间线。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                            <TextBlock Text="Ingest folder…" VerticalAlignment="Center" />
+                            <TextBlock Text="导入文件夹…" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Content="Stop" Command="{Binding IngestFolderCancelCommand}"
+                    <Button Classes="tb" Content="停止" Command="{Binding IngestFolderCancelCommand}"
                             IsVisible="{Binding IsIngesting}"
-                            ToolTip.Tip="Stop reading. Nothing from this folder is added." />
+                            ToolTip.Tip="停止读取。该文件夹中的任何内容都不会加入。" />
                     <Button Classes="tb icon" Command="{Binding RefreshCommand}"
-                            ToolTip.Tip="Apply the dates and filters (Enter in a filter box does the same)">
+                            ToolTip.Tip="应用日期和筛选（在筛选框内按回车效果相同）。">
                         <c:CinderIcon Data="{x:Static c:Icons.Swap}" Width="14" Height="14" />
                     </Button>
-                    <TextBlock Text="Filters changed. Press Enter to apply." Classes="dim" FontSize="12"
+                    <TextBlock Text="筛选已更改，按回车应用。" Classes="dim" FontSize="12"
                                VerticalAlignment="Center" Margin="4,0,0,0" IsVisible="{Binding FiltersEdited}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                    <Button Classes="tb" ToolTip.Tip="Flag the selected event as a finding in the open case">
+                    <Button Classes="tb" ToolTip.Tip="把选定的事件标记为当前案件中的一条发现。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Bookmark}" Width="14" Height="14" />
-                            <TextBlock Text="Bookmark" VerticalAlignment="Center" />
+                            <TextBlock Text="书签" VerticalAlignment="Center" />
                         </StackPanel>
                         <Button.Flyout>
                             <Flyout Placement="BottomEdgeAlignedRight">
                                 <StackPanel Width="300" Spacing="10">
-                                    <TextBlock Text="BOOKMARK SELECTED EVENT" Classes="section" />
-                                    <TextBox Watermark="Note (optional)" Text="{Binding BookmarkNote}"
+                                    <TextBlock Text="为选定事件加入书签" Classes="section" />
+                                    <TextBox Watermark="备注（可选）" Text="{Binding BookmarkNote}"
                                              AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60" />
-                                    <Button Classes="accent" HorizontalAlignment="Right" Content="Add bookmark"
+                                    <Button Classes="accent" HorizontalAlignment="Right" Content="添加书签"
                                             Command="{Binding BookmarkSelectedCommand}" />
                                 </StackPanel>
                             </Flyout>
                         </Button.Flyout>
                     </Button>
-                    <Button Classes="tb" ToolTip.Tip="Write every event matching the applied filter, not only the rows shown, in a format other timeline tools read">
+                    <Button Classes="tb" ToolTip.Tip="把符合当前筛选的全部事件（而不只是显示的行）导出为其他时间线工具可读取的格式。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Download}" Width="14" Height="14" />
-                            <TextBlock Text="Export" VerticalAlignment="Center" />
+                            <TextBlock Text="导出" VerticalAlignment="Center" />
                             <c:CinderIcon Data="{x:Static c:Icons.ChevronDown}" Width="12" Height="12" />
                         </StackPanel>
                         <Button.Flyout>
                             <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                <MenuItem Header="Timesketch JSONL — best for large timelines" Command="{Binding ExportCommand}" CommandParameter="jsonl" />
+                                <MenuItem Header="Timesketch JSONL — 适合大型时间线" Command="{Binding ExportCommand}" CommandParameter="jsonl" />
                                 <MenuItem Header="Timesketch CSV" Command="{Binding ExportCommand}" CommandParameter="csv" />
                                 <MenuItem Header="Sleuth Kit bodyfile — mactime / Autopsy / Plaso" Command="{Binding ExportCommand}" CommandParameter="body" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
-                    <Button Classes="ghost icon" ToolTip.Tip="More">
+                    <Button Classes="ghost icon" ToolTip.Tip="更多">
                         <TextBlock Text="⋯" FontSize="16" Margin="0,-4,0,0" />
                         <Button.Flyout>
                             <MenuFlyout Placement="BottomEdgeAlignedRight">
-                                <MenuItem Header="Clear the timeline" Command="{Binding ClearCommand}" />
+                                <MenuItem Header="清空时间线" Command="{Binding ClearCommand}" />
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -93,25 +93,25 @@
                     </Style>
                 </WrapPanel.Styles>
                 <StackPanel>
-                    <TextBlock Text="FROM" Classes="section" />
+                    <TextBlock Text="从" Classes="section" />
                     <DatePicker SelectedDate="{Binding From, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="TO" Classes="section" />
+                    <TextBlock Text="到" Classes="section" />
                     <DatePicker SelectedDate="{Binding To, Mode=TwoWay}" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="USER" Classes="section" />
-                    <TextBox Text="{Binding UserFilter, UpdateSourceTrigger=PropertyChanged}" Watermark="any" Width="130" />
+                    <TextBlock Text="用户" Classes="section" />
+                    <TextBox Text="{Binding UserFilter, UpdateSourceTrigger=PropertyChanged}" Watermark="任意" Width="130" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="SOURCE" Classes="section" />
-                    <TextBox Text="{Binding SourceFilter, UpdateSourceTrigger=PropertyChanged}" Watermark="evtx, browser…" Width="170"
-                             ToolTip.Tip="Part of a source name. Separate several with commas: evtx, prefetch" />
+                    <TextBlock Text="来源" Classes="section" />
+                    <TextBox Text="{Binding SourceFilter, UpdateSourceTrigger=PropertyChanged}" Watermark="evtx、浏览器…" Width="170"
+                             ToolTip.Tip="来源名称的一部分。多个关键词用逗号分隔，例如 evtx, prefetch。" />
                 </StackPanel>
                 <StackPanel>
-                    <TextBlock Text="CONTAINS" Classes="section" />
-                    <TextBox Text="{Binding TextFilter, UpdateSourceTrigger=PropertyChanged}" Watermark="text in summary" Width="190" />
+                    <TextBlock Text="包含" Classes="section" />
+                    <TextBox Text="{Binding TextFilter, UpdateSourceTrigger=PropertyChanged}" Watermark="摘要中的文本" Width="190" />
                 </StackPanel>
                 <StackPanel>
                     <TextBlock Text="ATT&amp;CK" Classes="section" />
@@ -120,7 +120,7 @@
                                      FilterMode="Contains"
                                      Watermark="T1078, TA0002…"
                                      Width="170"
-                                     ToolTip.Tip="Technique or tactic id prefix. Events are auto-tagged on ingest from Windows event ids, Sysmon, PowerShell logging, Prefetch, UserAssist and Recycle Bin." />
+                                     ToolTip.Tip="技术或战术 ID 的前缀。导入时会依据 Windows 事件 ID、Sysmon、PowerShell 日志、Prefetch、UserAssist 和回收站自动为事件打上标签。" />
                 </StackPanel>
             </WrapPanel>
         </Border>
@@ -152,28 +152,28 @@
         <DataGrid Grid.Row="4" ItemsSource="{Binding Events}" SelectedItem="{Binding SelectedEvent}"
                   AutoGenerateColumns="False" IsReadOnly="True" IsVisible="{Binding Events.Count}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Timestamp (UTC)" Binding="{Binding Timestamp, StringFormat='yyyy-MM-dd HH:mm:ss'}" Width="170"
+                <DataGridTextColumn Header="时间戳（UTC）" Binding="{Binding Timestamp, StringFormat='yyyy-MM-dd HH:mm:ss'}" Width="170"
                                     FontFamily="{DynamicResource CinderFontFamilyMono}" FontSize="12.5" />
-                <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="150"
+                <DataGridTextColumn Header="来源" Binding="{Binding Source}" Width="150"
                                     FontFamily="{DynamicResource CinderFontFamilyMono}" FontSize="12.5" />
-                <DataGridTextColumn Header="User" Binding="{Binding User}" Width="120" FontSize="12.5" />
+                <DataGridTextColumn Header="用户" Binding="{Binding User}" Width="120" FontSize="12.5" />
                 <DataGridTextColumn Header="ATT&amp;CK" Binding="{Binding TagsDisplay}" Width="110"
                                     FontFamily="{DynamicResource CinderFontFamilyMono}" FontSize="12.5" />
-                <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" Width="*" FontSize="12.5" />
+                <DataGridTextColumn Header="摘要" Binding="{Binding Summary}" Width="*" FontSize="12.5" />
             </DataGrid.Columns>
         </DataGrid>
 
         <!-- ===== Empty ===== -->
-        <c:EmptyState Grid.Row="4" Icon="{x:Static c:Icons.Clock}" Title="No events yet"
-                      Message="Ingest a folder of evidence: a triage collection, a mounted image, or an exported user profile. Cinder reads the timestamped records it finds there and lists them in time order."
+        <c:EmptyState Grid.Row="4" Icon="{x:Static c:Icons.Clock}" Title="尚无事件"
+                      Message="导入一个检材文件夹：可以是分诊采集包、已挂载的镜像，或导出的用户配置文件。Cinder 会读取其中找到的带时间戳的记录，并按时间顺序列出。"
                       IsVisible="{Binding ShowEmptyState}">
             <Button Classes="accent" HorizontalAlignment="Center" Height="30" Padding="14,0"
-                    Content="Ingest folder…" Command="{Binding IngestFolderCommand}" />
+                    Content="导入文件夹…" Command="{Binding IngestFolderCommand}" />
         </c:EmptyState>
 
         <!-- Events exist, but the applied dates and filters match none of them. -->
-        <c:EmptyState Grid.Row="4" Icon="{x:Static c:Icons.Clock}" Title="No events match"
-                      Message="Nothing on the timeline falls inside these dates and filters. Widen the dates or clear a filter, then press Enter."
+        <c:EmptyState Grid.Row="4" Icon="{x:Static c:Icons.Clock}" Title="没有符合条件的事件"
+                      Message="时间线上没有落在这些日期和筛选范围内的事件。放宽日期范围或清除某个筛选，然后按回车。"
                       IsVisible="{Binding ShowNoMatches}" />
     </Grid>
 </UserControl>

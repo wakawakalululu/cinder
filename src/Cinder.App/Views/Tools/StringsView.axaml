@@ -11,7 +11,7 @@
                 <Button Classes="tb" VerticalAlignment="Center" Command="{Binding PickCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="6">
                         <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                        <TextBlock Text="Pick file…" VerticalAlignment="Center" />
+                        <TextBlock Text="选择文件…" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding Path}"
@@ -33,14 +33,14 @@
                               ToolTip.Tip="{Binding FilterMode.Description}" />
                     <TextBox Grid.Column="1"
                              Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"
-                             Watermark="Type to narrow the list"
+                             Watermark="输入以缩小列表范围"
                              FontSize="{DynamicResource CinderFontSizeSm}" />
                     <CheckBox Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center"
                               IsChecked="{Binding HideGibberish}"
-                              Content="Hide gibberish"
-                              ToolTip.Tip="Hide short runs that are almost certainly chance, such as letters that happen to occur inside compressed data." />
+                              Content="隐藏乱码"
+                              ToolTip.Tip="隐藏几乎可以肯定是巧合的短字符串，例如碰巧出现在压缩数据中的字母。" />
                     <TextBlock Grid.Column="3" Margin="14,0,8,0" VerticalAlignment="Center"
-                               Text="Min length"
+                               Text="最小长度"
                                FontSize="{DynamicResource CinderFontSizeXs}"
                                Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                     <NumericUpDown Grid.Column="4"
@@ -48,8 +48,8 @@
                                    Minimum="3" Maximum="32" Increment="1"
                                    Width="100"
                                    FormatString="0" />
-                    <Button Grid.Column="5" Classes="tb" Margin="8,0,0,0" Content="Scan again" Command="{Binding RunCommand}"
-                            ToolTip.Tip="Run the scan again with the current minimum length" />
+                    <Button Grid.Column="5" Classes="tb" Margin="8,0,0,0" Content="重新扫描" Command="{Binding RunCommand}"
+                            ToolTip.Tip="以当前的最小长度重新运行扫描。" />
                     <c:ExportButton Grid.Column="6" Margin="8,0,0,0" ExportCommand="{Binding ExportCommand}"
                                     IsVisible="{Binding Hits.Count}" />
                 </Grid>
@@ -62,10 +62,10 @@
 
         <Panel Grid.Row="2">
             <!-- Empty state -->
-            <c:EmptyState Icon="{x:Static c:Icons.Text}" Title="Find the readable text in any file"
+            <c:EmptyState Icon="{x:Static c:Icons.Text}" Title="找出任何文件中的可读文本"
                           IsVisible="{Binding Path, Converter={x:Static ObjectConverters.IsNull}}"
-                          Message="Pulls out every run of readable characters: user names, web addresses, file paths, error messages, commands. It works on anything, including programs, memory dumps and disk images, and is often the fastest way to see what a file is about.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Pick file…" Command="{Binding PickCommand}" />
+                          Message="提取出每一段连续的可读字符：用户名、网址、文件路径、错误信息、命令。它对任何文件都有效，包括程序、内存转储和磁盘镜像，通常是了解一个文件是什么的最快途径。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="选择文件…" Command="{Binding PickCommand}" />
             </c:EmptyState>
 
             <!-- Populated state -->
@@ -87,10 +87,10 @@
                           ItemsSource="{Binding Hits}" AutoGenerateColumns="False" IsReadOnly="True"
                           DoubleTapped="OnHitDoubleTapped">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Offset" Binding="{Binding Offset, StringFormat='0x{0:X12}'}" Width="150"
+                        <DataGridTextColumn Header="偏移量" Binding="{Binding Offset, StringFormat='0x{0:X12}'}" Width="150"
                                             FontFamily="{StaticResource CinderFontFamilyMono}" />
-                        <DataGridTextColumn Header="Encoding" Binding="{Binding Encoding}" Width="100" />
-                        <DataGridTextColumn Header="Text" Binding="{Binding Value}" Width="*"
+                        <DataGridTextColumn Header="编码" Binding="{Binding Encoding}" Width="100" />
+                        <DataGridTextColumn Header="文本" Binding="{Binding Value}" Width="*"
                                             FontFamily="{StaticResource CinderFontFamilyMono}" />
                     </DataGrid.Columns>
                 </DataGrid>
@@ -99,9 +99,9 @@
 
         <Border Grid.Row="3" Classes="footer" IsVisible="{Binding Path, Converter={x:Static ObjectConverters.IsNotNull}}">
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <TextBlock Text="{Binding Hits.Count, StringFormat='{}{0:N0} shown'}" Classes="mono" />
+                <TextBlock Text="{Binding Hits.Count, StringFormat='{}已显示 {0:N0} 条'}" Classes="mono" />
                 <TextBlock Grid.Column="1" Text="{Binding StatusLine}" Margin="16,0,0,0" />
-                <TextBlock Grid.Column="2" Text="Double-click a row to see it in the Hex Viewer" IsVisible="{Binding Hits.Count}"
+                <TextBlock Grid.Column="2" Text="双击某一行可在十六进制查看器中查看。" IsVisible="{Binding Hits.Count}"
                            Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
             </Grid>
         </Border>

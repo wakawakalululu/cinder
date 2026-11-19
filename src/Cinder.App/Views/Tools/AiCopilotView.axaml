@@ -10,32 +10,32 @@
         <Border Grid.Column="0" Background="{DynamicResource CinderSurface1Brush}">
             <ScrollViewer VerticalScrollBarVisibility="Auto" AllowAutoHide="True">
                 <StackPanel Margin="16,14" Spacing="12">
-                    <TextBlock Text="MODEL" Classes="section" />
+                    <TextBlock Text="模型" Classes="section" />
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Where the model runs" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="模型运行位置" Classes="label" FontSize="11.5" />
                         <ComboBox ItemsSource="{Binding ProviderOptions}" SelectedItem="{Binding ProviderId}" HorizontalAlignment="Stretch" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Address" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="地址" Classes="label" FontSize="11.5" />
                         <TextBox Text="{Binding Endpoint}" Watermark="http://localhost:11434"
                                  FontFamily="{DynamicResource CinderFontFamilyMono}" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Model name" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="模型名称" Classes="label" FontSize="11.5" />
                         <TextBox Text="{Binding Model}" Watermark="llama3" FontFamily="{DynamicResource CinderFontFamilyMono}" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="API key (only for a hosted service)" Classes="label" FontSize="11.5" />
-                        <TextBox Text="{Binding ApiKey}" PasswordChar="•" Watermark="Leave empty for a local model" />
+                        <TextBlock Text="API 密钥（仅托管服务需要）" Classes="label" FontSize="11.5" />
+                        <TextBox Text="{Binding ApiKey}" PasswordChar="•" Watermark="使用本地模型时留空即可" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Standing instructions to the model" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="给模型的固定指令" Classes="label" FontSize="11.5" />
                         <TextBox Text="{Binding SystemPrompt}" AcceptsReturn="True" TextWrapping="Wrap" Height="96" FontSize="12" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Spacing="6">
-                        <Button Classes="tb" Height="28" Content="Test connection" Command="{Binding TestCommand}"
-                                ToolTip.Tip="Checks that the address answers before you send anything real" />
-                        <Button Classes="tb" Height="28" Content="Clear conversation" Command="{Binding ClearCommand}" />
+                        <Button Classes="tb" Height="28" Content="测试连接" Command="{Binding TestCommand}"
+                                ToolTip.Tip="在真正发送内容之前，先检查该地址是否有响应。" />
+                        <Button Classes="tb" Height="28" Content="清空对话" Command="{Binding ClearCommand}" />
                     </StackPanel>
                     <TextBlock Text="{Binding StatusLine}" Classes="muted" FontSize="12" TextWrapping="Wrap"
                                IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}" />
@@ -46,7 +46,7 @@
                             <c:CinderIcon Data="{x:Static c:Icons.Alert}" Width="15" Height="15" VerticalAlignment="Top" Margin="0,1,10,0"
                                           Foreground="{DynamicResource CinderWarnBrush}" />
                             <TextBlock Grid.Column="1" TextWrapping="Wrap" FontSize="12" LineHeight="17"
-                                       Text="With a model on this computer (Ollama, LM Studio) nothing leaves it. With a hosted service, everything you type or paste here is sent to that company. Do not paste case material into a hosted model unless the case allows it." />
+                                       Text="使用本机上的模型（Ollama、LM Studio）时，不会有任何数据离开这台计算机。使用托管服务时，你在此输入或粘贴的一切都会发送给那家公司。除非案件允许，否则不要把案件材料粘贴到托管模型中。" />
                         </Grid>
                     </Border>
                 </StackPanel>
@@ -72,23 +72,23 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <c:EmptyState Icon="{x:Static c:Icons.Spark}" Title="Ask about text you paste in" IsVisible="{Binding !Messages.Count}"
-                              Message="The assistant sees only what you type or paste below. It cannot open the case or read the evidence itself. Use it to explain an unfamiliar log line, summarise a long extract or suggest where to look next, and check anything it says against the evidence before relying on it." />
+                <c:EmptyState Icon="{x:Static c:Icons.Spark}" Title="针对你粘贴的文本提问" IsVisible="{Binding !Messages.Count}"
+                              Message="助手只能看到你在下方输入或粘贴的内容，无法打开案件，也无法自行读取检材。可以用它解释一条陌生的日志、概括一段较长的摘录，或建议接下来去哪里查；在采信它的任何说法之前，请先与检材核对。" />
             </Panel>
             <Border Grid.Row="1" Padding="14,10,12,10" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,1,0,0">
                 <Grid ColumnDefinitions="*,Auto">
                     <Border Classes="field" Height="34" Padding="10,0,8,0">
                         <TextBox Classes="bare" FontSize="13" Text="{Binding Input, Mode=TwoWay}" AcceptsReturn="False"
-                                 Watermark="Type a question, or paste text and ask about it">
+                                 Watermark="输入问题，或粘贴文本并就其提问">
                             <TextBox.KeyBindings>
                                 <KeyBinding Gesture="Return" Command="{Binding SendCommand}" />
                             </TextBox.KeyBindings>
                         </TextBox>
                     </Border>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6" Margin="8,0,0,0">
-                        <Button Classes="tb" Height="34" Padding="14,0" Content="Stop" Command="{Binding SendCancelCommand}"
+                        <Button Classes="tb" Height="34" Padding="14,0" Content="停止" Command="{Binding SendCancelCommand}"
                                 IsVisible="{Binding IsStreaming}" />
-                        <Button Classes="accent" Height="34" Padding="16,0" Content="Send"
+                        <Button Classes="accent" Height="34" Padding="16,0" Content="发送"
                                 Command="{Binding SendCommand}" IsEnabled="{Binding !IsStreaming}" />
                     </StackPanel>
                 </Grid>

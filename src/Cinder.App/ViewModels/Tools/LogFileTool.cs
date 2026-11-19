@@ -14,10 +14,10 @@ namespace Cinder.App.ViewModels.Tools;
 public sealed partial class LogFileTool : SidecarToolViewModel
 {
     public override string Id => "logfile";
-    public override string Title => "$LogFile";
+    public override string Title => "$LogFile 日志";
     public override string Icon => "🧾";
-    public override string Subtitle => "List the recent file creations, deletions and renames recorded in an NTFS volume's transaction log, with the file names it still holds.";
-    public override string EmptyStateHint => "Pick a disk or volume image (.dd, .E01, .vhd, .vhdx), or a $LogFile extracted from one.";
+    public override string Subtitle => "列出 NTFS 卷事务日志中记录的最近的文件创建、删除和重命名，以及其中仍保留的文件名。";
+    public override string EmptyStateHint => "选择磁盘或卷镜像（.dd、.E01、.vhd、.vhdx），或从中提取出的 $LogFile 文件。";
     public override string Phase => "3";
     public override string Kind => "logfile";
 

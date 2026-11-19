@@ -9,7 +9,7 @@
     <c:TaskPage>
         <StackPanel Spacing="18">
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Image to mount" />
+                <TextBlock Classes="field-label" Text="要挂载的镜像" />
                 <Border Classes="note" Padding="12,10">
                     <Grid ColumnDefinitions="Auto,*">
                         <c:CinderIcon Data="{x:Static c:Icons.Doc}" Width="14" Height="14" Margin="0,0,9,0"
@@ -23,18 +23,18 @@
             <Button Classes="accent" HorizontalAlignment="Left" Height="30" Padding="14,0" Command="{Binding PickAndMountCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <c:CinderIcon Data="{x:Static c:Icons.Mount}" Width="15" Height="15" />
-                    <TextBlock Text="Pick image and mount read-only…" VerticalAlignment="Center" />
+                    <TextBlock Text="选择镜像并以只读方式挂载…" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Border Classes="result" IsVisible="{Binding IsMounted}">
                 <Grid ColumnDefinitions="*,Auto">
                     <StackPanel Spacing="4">
-                        <TextBlock Text="MOUNTED AT" Classes="section" />
+                        <TextBlock Text="挂载位置" Classes="section" />
                         <SelectableTextBlock Text="{Binding MountedAt}" Classes="mono" FontSize="13" />
                     </StackPanel>
-                    <Button Grid.Column="1" Classes="tb" Height="30" Padding="12,0" VerticalAlignment="Center" Content="Unmount image"
+                    <Button Grid.Column="1" Classes="tb" Height="30" Padding="12,0" VerticalAlignment="Center" Content="卸载镜像"
                             Command="{Binding UnmountCommand}"
-                            ToolTip.Tip="Detach the image. Close any program that has files open on it first." />
+                            ToolTip.Tip="分离该镜像。请先关闭所有正在打开其中文件的程序。" />
                 </Grid>
             </Border>
         </StackPanel>
@@ -42,17 +42,17 @@
         <c:TaskPage.Aside>
             <StackPanel>
                 <StackPanel IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNull}}">
-                    <TextBlock Classes="section" Text="WHAT HAPPENS" Margin="0,0,0,14" />
-                    <c:Step Number="1" Title="Attaches the image to this computer, read-only"
-                            Text="It shows up as a drive or folder that other programs can browse. Nothing is written to the image." />
-                    <c:Step Number="2" Title="Uses what the operating system provides"
-                            Text="On Windows, VHD, VHDX and ISO images are mounted by Windows itself. On Linux, raw images are attached through a loop device. E01 images need Arsenal Image Mounter to be installed." />
-                    <c:Step Number="3" Title="Stays mounted until you unmount it here"
-                            Text="Closing Cinder does not detach the image. Come back to this screen and choose Unmount image when you are done." />
+                    <TextBlock Classes="section" Text="执行过程" Margin="0,0,0,14" />
+                    <c:Step Number="1" Title="以只读方式将镜像接入本机"
+                            Text="它会以驱动器或文件夹的形式出现，供其他程序浏览。不会向镜像写入任何内容。" />
+                    <c:Step Number="2" Title="使用操作系统自带的能力"
+                            Text="在 Windows 上，VHD、VHDX 和 ISO 镜像由 Windows 自身挂载；在 Linux 上，raw 镜像通过 loop 设备接入。E01 镜像需要已安装 Arsenal Image Mounter。" />
+                    <c:Step Number="3" Title="保持挂载，直到在此处卸载"
+                            Text="关闭 Cinder 并不会分离镜像。用完后回到本页面，选择「卸载镜像」即可。" />
                 </StackPanel>
 
                 <StackPanel Spacing="12" IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Classes="section" Text="RESULT" />
+                    <TextBlock Classes="section" Text="结果" />
                     <Border Classes="result">
                         <SelectableTextBlock Text="{Binding StatusLine}" TextWrapping="Wrap" FontSize="12.5" LineHeight="19" />
                     </Border>

@@ -23,7 +23,7 @@
                     </Viewbox>
                     <TextBlock Text="Cinder" FontSize="22" FontWeight="600" LetterSpacing="-0.4" VerticalAlignment="Center" />
                 </StackPanel>
-                <TextBlock Text="What remains tells the story." Classes="muted" FontSize="13.5" />
+                <TextBlock Text="剩下的痕迹，会讲出整个故事。" Classes="muted" FontSize="13.5" />
             </StackPanel>
 
             <!-- ==================== The open case: carry on from here ==================== -->
@@ -44,10 +44,10 @@
                         <StackPanel Grid.Column="1" Margin="12,0,0,0" Spacing="3">
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="600" VerticalAlignment="Center" />
-                                <Border Classes="badge" VerticalAlignment="Center"><TextBlock Text="open case" /></Border>
+                                <Border Classes="badge" VerticalAlignment="Center"><TextBlock Text="已打开案件" /></Border>
                             </StackPanel>
                             <TextBlock Classes="muted" FontSize="12.5" TextTrimming="CharacterEllipsis">
-                                <Run Text="Examiner" /> <Run Text="{Binding Examiner}" Foreground="{DynamicResource CinderForegroundBrush}" />
+                                <Run Text="取证员" /> <Run Text="{Binding Examiner}" Foreground="{DynamicResource CinderForegroundBrush}" />
                             </TextBlock>
                             <TextBlock Text="{Binding Path}" Classes="mono dim" FontSize="11.5"
                                        TextTrimming="PrefixCharacterEllipsis" ToolTip.Tip="{Binding Path}" />
@@ -55,38 +55,38 @@
                     </Grid>
                     <WrapPanel Orientation="Horizontal">
                         <Button Classes="tb casestep" Command="{Binding $parent[UserControl].((tools:DashboardTool)DataContext).ShowToolCommand}" CommandParameter="filesystem"
-                                ToolTip.Tip="List the files and folders inside a disk image">
+                                ToolTip.Tip="列出磁盘镜像中的文件与文件夹">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                                <TextBlock Text="Browse a disk image" VerticalAlignment="Center" />
+                                <TextBlock Text="浏览磁盘镜像" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Classes="tb casestep" Command="{Binding $parent[UserControl].((tools:DashboardTool)DataContext).ShowToolCommand}" CommandParameter="timeline"
-                                ToolTip.Tip="Put every timestamped event from a folder of evidence in one list">
+                                ToolTip.Tip="把一个检材文件夹中所有带时间戳的事件合并到一个列表">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <c:CinderIcon Data="{x:Static c:Icons.Clock}" Width="14" Height="14" />
-                                <TextBlock Text="Build a timeline" VerticalAlignment="Center" />
+                                <TextBlock Text="建立时间线" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Classes="tb casestep" Command="{Binding $parent[UserControl].((tools:DashboardTool)DataContext).ShowToolCommand}" CommandParameter="bookmarks"
-                                ToolTip.Tip="The findings you bookmarked in this case">
+                                ToolTip.Tip="本案件中你加过书签的发现">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <c:CinderIcon Data="{x:Static c:Icons.Bookmark}" Width="14" Height="14" />
-                                <TextBlock Text="Review bookmarks" VerticalAlignment="Center" />
+                                <TextBlock Text="查看书签" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Classes="tb casestep" Command="{Binding $parent[UserControl].((tools:DashboardTool)DataContext).ShowToolCommand}" CommandParameter="reports"
-                                ToolTip.Tip="Write the report and export it">
+                                ToolTip.Tip="撰写报告并导出">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <c:CinderIcon Data="{x:Static c:Icons.Report}" Width="14" Height="14" />
-                                <TextBlock Text="Write the report" VerticalAlignment="Center" />
+                                <TextBlock Text="撰写报告" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                         <Button Classes="tb casestep" Command="{Binding $parent[UserControl].((tools:DashboardTool)DataContext).ShowToolCommand}" CommandParameter="custody"
-                                ToolTip.Tip="Check that the log of what was done has not been altered">
+                                ToolTip.Tip="检查操作日志是否被篡改">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <c:CinderIcon Data="{x:Static c:Icons.Lock}" Width="14" Height="14" />
-                                <TextBlock Text="Check the custody log" VerticalAlignment="Center" />
+                                <TextBlock Text="核查监管链日志" VerticalAlignment="Center" />
                             </StackPanel>
                         </Button>
                     </WrapPanel>
@@ -100,15 +100,15 @@
 
                 <!-- Start -->
                 <StackPanel Spacing="6">
-                    <TextBlock Text="START" Classes="section" Margin="0,0,0,4" />
+                    <TextBlock Text="开始" Classes="section" Margin="0,0,0,4" />
                     <Button Classes="startrow" Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).CreateCaseCommand}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <Border Classes="starticon accent">
                                 <c:CinderIcon Data="{x:Static c:Icons.Plus}" Foreground="{DynamicResource CinderOnAccentBrush}" />
                             </Border>
                             <StackPanel Grid.Column="1" Margin="12,0" VerticalAlignment="Center" Spacing="1">
-                                <TextBlock Text="New case" FontWeight="500" />
-                                <TextBlock Text="A case keeps evidence, parsed results and a hash-chained custody log together."
+                                <TextBlock Text="新建案件" FontWeight="500" />
+                                <TextBlock Text="案件把检材、解析结果与哈希链监管日志集中存放。"
                                            Classes="dim" FontSize="12" TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                             <Border Grid.Column="2" Classes="kbd"><TextBlock Text="Ctrl N" /></Border>
@@ -120,8 +120,8 @@
                                 <c:CinderIcon Data="{x:Static c:Icons.Folder}" />
                             </Border>
                             <StackPanel Grid.Column="1" Margin="12,0" VerticalAlignment="Center" Spacing="1">
-                                <TextBlock Text="Open case…" FontWeight="500" />
-                                <TextBlock Text="Pick up a .cinder case file where you left it." Classes="dim" FontSize="12" />
+                                <TextBlock Text="打开案件…" FontWeight="500" />
+                                <TextBlock Text="从上次离开的地方继续一个 .cinder 案件文件。" Classes="dim" FontSize="12" />
                             </StackPanel>
                             <Border Grid.Column="2" Classes="kbd"><TextBlock Text="Ctrl Shift O" /></Border>
                         </Grid>
@@ -132,8 +132,8 @@
                                 <c:CinderIcon Data="{x:Static c:Icons.Hex}" />
                             </Border>
                             <StackPanel Grid.Column="1" Margin="12,0" VerticalAlignment="Center" Spacing="1">
-                                <TextBlock Text="Open evidence without a case" FontWeight="500" />
-                                <TextBlock Text="A quick look at one file in the hex viewer. Nothing is logged." Classes="dim" FontSize="12" />
+                                <TextBlock Text="不建案直接打开检材" FontWeight="500" />
+                                <TextBlock Text="在十六进制查看器中快速查看单个文件。不会记录任何操作。" Classes="dim" FontSize="12" />
                             </StackPanel>
                             <Border Grid.Column="2" Classes="kbd"><TextBlock Text="Ctrl O" /></Border>
                         </Grid>
@@ -143,12 +143,12 @@
                 <!-- Recent cases -->
                 <StackPanel Spacing="6">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,4">
-                        <TextBlock Text="RECENT CASES" Classes="section" VerticalAlignment="Center" />
+                        <TextBlock Text="最近案件" Classes="section" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding RecentCases.Count}" Classes="mono dim" FontSize="10.5" VerticalAlignment="Center" />
                     </StackPanel>
                     <TextBlock Classes="dim" FontSize="12.5" TextWrapping="Wrap"
                                IsVisible="{Binding !RecentCases.Count}"
-                               Text="No cases yet. Cases you create or open appear here." />
+                               Text="还没有案件。你新建或打开的案件会出现在这里。" />
                     <ItemsControl ItemsSource="{Binding RecentCases}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="tools:RecentCaseRow">
@@ -173,12 +173,12 @@
                 <!-- Recent evidence -->
                 <StackPanel Spacing="6">
                     <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,4">
-                        <TextBlock Text="RECENT EVIDENCE" Classes="section" VerticalAlignment="Center" />
+                        <TextBlock Text="最近检材" Classes="section" VerticalAlignment="Center" />
                         <TextBlock Text="{Binding RecentEvidence.Count}" Classes="mono dim" FontSize="10.5" VerticalAlignment="Center" />
                     </StackPanel>
                     <TextBlock Classes="dim" FontSize="12.5" TextWrapping="Wrap"
                                IsVisible="{Binding !RecentEvidence.Count}"
-                               Text="Nothing opened yet. Press Ctrl+O, or drop a file on the hex viewer." />
+                               Text="还没有打开过文件。按 Ctrl+O，或把文件拖到十六进制查看器上。" />
                     <ItemsControl ItemsSource="{Binding RecentEvidence}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="tools:RecentEvidenceRow">
@@ -205,7 +205,7 @@
             <!-- ==================== Right: first-time guide ==================== -->
             <StackPanel Grid.Row="3" Grid.Column="2" Spacing="6">
                 <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,4">
-                    <TextBlock Text="NEW TO FORENSICS?" Classes="section" VerticalAlignment="Center" />
+                    <TextBlock Text="首次接触取证？" Classes="section" VerticalAlignment="Center" />
                 </StackPanel>
                 <Border Background="{DynamicResource CinderSurface2Brush}" CornerRadius="8" Padding="4,6">
                     <ItemsControl ItemsSource="{Binding Guide}">
@@ -227,9 +227,9 @@
                     <c:CinderIcon Data="{x:Static c:Icons.Help}" Width="15" Height="15" VerticalAlignment="Top" Margin="0,1,0,0"
                                   Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                     <TextBlock Grid.Column="1" Classes="muted" FontSize="12" TextWrapping="Wrap" Margin="10,0,0,0" LineHeight="17">
-                        <Run Text="Every tool explains itself. Press" />
+                        <Run Text="每个工具都自带说明。按" />
                         <Run Text="F1" FontFamily="{DynamicResource CinderFontFamilyMono}" Foreground="{DynamicResource CinderForegroundBrush}" />
-                        <Run Text="or the ? in its header: what the artefact is, when an examiner uses it, and how to read Cinder's view of it." />
+                        <Run Text="或点击工具标题栏中的 ? ：这类痕迹是什么、取证员何时使用它，以及如何解读 Cinder 呈现的内容。" />
                     </TextBlock>
                 </Grid>
             </StackPanel>

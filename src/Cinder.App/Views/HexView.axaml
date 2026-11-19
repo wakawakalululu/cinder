@@ -62,17 +62,17 @@
                         </StackPanel>
                     </Button>
                     <Border Classes="chip" IsVisible="{Binding HashIsRunning}"
-                            ToolTip.Tip="Hashing the whole file in the background. Switching tabs cancels it.">
+                            ToolTip.Tip="正在后台计算整个文件的哈希。切换标签页会取消计算。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <TextBlock Text="SHA-256" FontSize="12" Classes="dim" VerticalAlignment="Center" />
                             <TextBlock Text="{Binding HashStatus}" Classes="mono muted" FontSize="12" VerticalAlignment="Center" />
                         </StackPanel>
                     </Border>
                     <Button Classes="tb" Height="24" IsVisible="{Binding CanStartHash}" Command="{Binding StartHashCommand}"
-                            ToolTip.Tip="Files over 2 GiB are hashed on request — it reads every byte.">
+                            ToolTip.Tip="超过 2 GiB 的文件按需计算哈希——这会读取每一个字节。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Hash}" Width="13" Height="13" />
-                            <TextBlock Text="Hash SHA-256" VerticalAlignment="Center" />
+                            <TextBlock Text="计算 SHA-256" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
                 </WrapPanel>
@@ -84,8 +84,8 @@
                             <c:CinderIcon Data="{x:Static c:Icons.Search}" Width="14" Height="14"
                                           Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
                             <TextBox Grid.Column="1" x:Name="FindBox" Classes="bare" Margin="7,0,6,0" FontSize="12.5"
-                                     Watermark="Find…" Text="{Binding FindQuery}"
-                                     ToolTip.Tip="Find (Ctrl+F). Enter runs, F3 / Shift+F3 step, Esc clears.">
+                                     Watermark="查找…" Text="{Binding FindQuery}"
+                                     ToolTip.Tip="查找（Ctrl+F）。Enter 执行查找，F3 / Shift+F3 逐个跳转，Esc 清除。">
                                 <TextBox.KeyBindings>
                                     <KeyBinding Gesture="Enter" Command="{Binding RunFindCommand}" />
                                     <KeyBinding Gesture="Shift+Enter" Command="{Binding FindPreviousCommand}" />
@@ -96,13 +96,13 @@
                                        VerticalAlignment="Center" Margin="0,0,4,0" />
                             <StackPanel Grid.Column="3" Orientation="Horizontal"
                                         IsVisible="{Binding SearchResults.Count}">
-                                <Button Classes="ghost icon" Width="20" Height="20" ToolTip.Tip="Previous (Shift+F3)"
+                                <Button Classes="ghost icon" Width="20" Height="20" ToolTip.Tip="上一个（Shift+F3）"
                                         Command="{Binding FindPreviousCommand}">
                                     <c:CinderIcon Data="{x:Static c:Icons.ChevronDown}" Width="12" Height="12">
                                         <c:CinderIcon.RenderTransform><RotateTransform Angle="180" /></c:CinderIcon.RenderTransform>
                                     </c:CinderIcon>
                                 </Button>
-                                <Button Classes="ghost icon" Width="20" Height="20" ToolTip.Tip="Next (F3)"
+                                <Button Classes="ghost icon" Width="20" Height="20" ToolTip.Tip="下一个（F3）"
                                         Command="{Binding FindNextCommand}">
                                     <c:CinderIcon Data="{x:Static c:Icons.ChevronDown}" Width="12" Height="12" />
                                 </Button>
@@ -111,16 +111,16 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button Classes="seg" Classes.on="{Binding FindIsAscii}" Content="ASCII"
                                             Command="{Binding SetFindKindCommand}" CommandParameter="ascii"
-                                            ToolTip.Tip="Text, case-insensitive" />
+                                            ToolTip.Tip="文本，不区分大小写" />
                                     <Button Classes="seg" Classes.on="{Binding FindIsUtf16}" Content="UTF-16"
                                             Command="{Binding SetFindKindCommand}" CommandParameter="utf16"
-                                            ToolTip.Tip="UTF-16LE text — Windows registry, LNK, EVTX strings" />
+                                            ToolTip.Tip="UTF-16LE 文本——Windows 注册表、LNK、EVTX 字符串" />
                                     <Button Classes="seg" Classes.on="{Binding FindIsHex}" Content="Hex"
                                             Command="{Binding SetFindKindCommand}" CommandParameter="hex"
-                                            ToolTip.Tip="Byte pattern, e.g. 4D 5A 90 00" />
+                                            ToolTip.Tip="字节模式，例如 4D 5A 90 00" />
                                     <Button Classes="seg" Classes.on="{Binding FindIsRegex}" Content="Regex"
                                             Command="{Binding SetFindKindCommand}" CommandParameter="regex"
-                                            ToolTip.Tip=".NET regular expression over ASCII" />
+                                            ToolTip.Tip="作用于 ASCII 的 .NET 正则表达式" />
                                 </StackPanel>
                             </Border>
                         </Grid>
@@ -128,14 +128,14 @@
 
                 <!-- What else you can do: jump, switch text encoding, bookmark, hand off. -->
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                    <Button Classes="tb icon" ToolTip.Tip="Go to offset (Ctrl+G): hex with 0x, or decimal"
+                    <Button Classes="tb icon" ToolTip.Tip="跳转到偏移量（Ctrl+G）：0x 开头的十六进制，或十进制"
                             Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).OpenGotoCommand}">
                         <c:CinderIcon Data="{x:Static c:Icons.Goto}" Width="14" Height="14" />
                     </Button>
 
                     <Border Width="1" Height="18" Background="{DynamicResource CinderBorderStrongBrush}" Margin="4,0" />
 
-                    <Border Classes="seg" ToolTip.Tip="How the right-hand text pane decodes bytes">
+                    <Border Classes="seg" ToolTip.Tip="右侧文本窗格如何解码字节">
                         <StackPanel Orientation="Horizontal">
                             <Button Classes="seg" Classes.on="{Binding !TextIsUtf16}" Content="ASCII"
                                     Command="{Binding SetTextEncodingCommand}" CommandParameter="ascii" />
@@ -144,17 +144,17 @@
                         </StackPanel>
                     </Border>
 
-                    <Button Classes="tb icon" ToolTip.Tip="Bookmark caret (Ctrl+D)" Command="{Binding AddBookmarkCommand}">
+                    <Button Classes="tb icon" ToolTip.Tip="为光标处添加书签（Ctrl+D）" Command="{Binding AddBookmarkCommand}">
                         <c:CinderIcon Data="{x:Static c:Icons.Bookmark}" Width="14" Height="14" />
                     </Button>
-                    <Button Classes="tb" ToolTip.Tip="Extract every printable string from this file in the Strings tool"
+                    <Button Classes="tb" ToolTip.Tip="在 Strings 工具中提取此文件的全部可打印字符串"
                             Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).OpenInStringsCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <TextBlock Text="Strings" VerticalAlignment="Center" />
                             <c:CinderIcon Data="{x:Static c:Icons.Out}" Width="13" Height="13" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="ghost icon" ToolTip.Tip="How to use the hex viewer (F1)"
+                    <Button Classes="ghost icon" ToolTip.Tip="Hex 查看器使用说明（F1）"
                             Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).OpenHelpCommand}">
                         <c:CinderIcon Data="{x:Static c:Icons.Help}" />
                     </Button>
@@ -174,17 +174,17 @@
                     <c:CinderIcon Data="{x:Static c:Icons.Hex}" Width="24" Height="24"
                                   Foreground="{DynamicResource CinderAccentBrush}" />
                 </Border>
-                <TextBlock Text="No file open" FontSize="18" FontWeight="600" HorizontalAlignment="Center" />
+                <TextBlock Text="未打开文件" FontSize="18" FontWeight="600" HorizontalAlignment="Center" />
                 <TextBlock TextAlignment="Center" TextWrapping="Wrap" Classes="muted" FontSize="13"
-                           Text="Open any file to read its raw bytes. Files are memory-mapped and opened read-only, so a 100 GB disk image opens as fast as a text file." />
+                           Text="打开任意文件查看其原始字节。文件以内存映射、只读方式打开，100 GB 的磁盘镜像也能像文本文件一样迅速打开。" />
                 <Button Classes="accent" HorizontalAlignment="Center" Height="30" Padding="14,0"
                         Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).OpenFileCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="Open file…" VerticalAlignment="Center" />
+                        <TextBlock Text="打开文件…" VerticalAlignment="Center" />
                         <Border Classes="kbd" BorderBrush="#40000000"><TextBlock Text="Ctrl O" Foreground="{DynamicResource CinderOnAccentBrush}" /></Border>
                     </StackPanel>
                 </Button>
-                <TextBlock Text="or drop a file anywhere on this pane" Classes="dim" FontSize="12" HorizontalAlignment="Center" />
+                <TextBlock Text="或将文件拖放到本窗格任意位置" Classes="dim" FontSize="12" HorizontalAlignment="Center" />
             </StackPanel>
 
             <!-- Grid + entropy minimap (which is also the scrollbar) -->

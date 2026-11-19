@@ -40,7 +40,7 @@
                                                 </StackPanel>
                                             </Button>
                                             <Button Classes="ghost icon tabclose" Width="20" Height="20" VerticalAlignment="Center"
-                                                    ToolTip.Tip="Close (Ctrl+W)"
+                                                    ToolTip.Tip="关闭 (Ctrl+W)"
                                                     Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).CloseBufferCommand}"
                                                     CommandParameter="{Binding}">
                                                 <c:CinderIcon Data="{x:Static c:Icons.Close}" Width="12" Height="12" />
@@ -52,7 +52,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Button Classes="ghost icon" Width="28" Height="28" Margin="2,0,0,3" VerticalAlignment="Bottom"
-                                ToolTip.Tip="Open file (Ctrl+O)"
+                                ToolTip.Tip="打开文件 (Ctrl+O)"
                                 Command="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).OpenFileCommand}">
                             <c:CinderIcon Data="{x:Static c:Icons.Plus}" Width="14" Height="14" />
                         </Button>

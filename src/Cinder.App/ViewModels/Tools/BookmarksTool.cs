@@ -19,9 +19,9 @@ namespace Cinder.App.ViewModels.Tools;
 public sealed partial class BookmarksTool : ToolViewModel
 {
     public override string Id => "bookmarks";
-    public override string Title => "Bookmarks";
+    public override string Title => "书签";
     public override string Icon => "🔖";
-    public override string Subtitle => "Review, delete and export the findings you bookmarked in the open case.";
+    public override string Subtitle => "查看、删除并导出你在当前案件中加书签的发现。";
     public override string Phase => "8";
     public override string Kind => "bookmarks";
 

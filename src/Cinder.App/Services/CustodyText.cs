@@ -13,16 +13,16 @@ public static class CustodyText
     /// <summary>"case.opened" becomes "Case opened"; an id this build does not know is shown as stored.</summary>
     public static string Action(string? action) => action switch
     {
-        "case.created" => "Case created",
-        "case.opened" => "Case opened",
-        "evidence.hashed" => "Evidence hashed",
-        "evidence.imaged" => "Evidence imaged",
-        "evidence.mounted" => "Evidence mounted",
-        "evidence.unmounted" => "Evidence unmounted",
-        "parser.ran" => "Tool run",
-        "report.exported" => "Report exported",
-        "data.exported" => "Data exported",
-        "annotation" => "Note",
+        "case.created" => "新建案件",
+        "case.opened" => "打开案件",
+        "evidence.hashed" => "检材哈希",
+        "evidence.imaged" => "检材采集镜像",
+        "evidence.mounted" => "挂载检材",
+        "evidence.unmounted" => "卸载检材",
+        "parser.ran" => "工具运行",
+        "report.exported" => "报告导出",
+        "data.exported" => "数据导出",
+        "annotation" => "备注",
         null => "",
         _ => action,
     };
@@ -51,8 +51,8 @@ public static class CustodyText
                 {
                     JsonValueKind.Null or JsonValueKind.Undefined => null,
                     JsonValueKind.String => property.Value.GetString(),
-                    JsonValueKind.True => "yes",
-                    JsonValueKind.False => "no",
+                    JsonValueKind.True => "是",
+                    JsonValueKind.False => "否",
                     JsonValueKind.Number => property.Value.GetRawText(),
                     _ => property.Value.GetRawText(),
                 };
@@ -77,6 +77,31 @@ public static class CustodyText
     /// <summary>"BytesWritten" becomes "Bytes written"; "MD5" and "Sha256" keep their shape.</summary>
     private static string Label(string name)
     {
+        // [zh-cn] 已知字段名的固定中文标签；未知字段回退到驼峰拆词的英文原文。
+        var zh = name switch
+        {
+            "Tool" => "工具",
+            "Evidence" => "检材",
+            "Rows" => "行数",
+            "Truncated" => "已截断",
+            "BytesWritten" => "写入字节",
+            "Padded" => "有填充",
+            "Note" => "备注",
+            "Path" => "路径",
+            "Source" => "来源",
+            "Destination" => "目标",
+            "Format" => "格式",
+            "Template" => "模板",
+            "Output" => "输出",
+            "Examiner" => "取证员",
+            "Verdict" => "结论",
+            "Mount" => "挂载",
+            _ => null,
+        };
+        if (zh is not null)
+        {
+            return zh;
+        }
         if (name.Length < 2 || name.All(c => char.IsUpper(c) || char.IsDigit(c)))
         {
             return name;

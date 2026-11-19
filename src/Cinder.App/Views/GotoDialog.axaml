@@ -3,7 +3,7 @@
         xmlns:vm="using:Cinder.App.ViewModels"
         x:Class="Cinder.App.Views.GotoDialog"
         x:DataType="vm:HexViewModel"
-        Title="Go to offset"
+        Title="跳转到偏移量"
         Width="420" Height="160"
         WindowStartupLocation="CenterOwner"
         SystemDecorations="BorderOnly"
@@ -15,12 +15,12 @@
     <Border BorderBrush="{DynamicResource CinderBorderStrongBrush}" BorderThickness="1" CornerRadius="6">
         <DockPanel Margin="18">
             <TextBlock DockPanel.Dock="Top"
-                       Text="GO TO OFFSET"
+                       Text="跳转到偏移量"
                        FontWeight="600"
                        FontSize="{DynamicResource CinderFontSizeXs}"
                        Foreground="{DynamicResource CinderForegroundMutedBrush}" />
             <TextBlock DockPanel.Dock="Top"
-                       Text="Type a position in the file, in decimal or in hex with 0x in front. Enter jumps there; Esc closes."
+                       Text="输入文件中的位置：十进制，或以 0x 开头的十六进制。按 Enter 跳转；按 Esc 关闭。"
                        Margin="0,4,0,12"
                        FontSize="{DynamicResource CinderFontSizeXs}"
                        Foreground="{DynamicResource CinderForegroundDisabledBrush}"

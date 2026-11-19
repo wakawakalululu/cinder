@@ -8,7 +8,7 @@
     <c:TaskPage>
         <StackPanel Spacing="18">
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Image to verify" />
+                <TextBlock Classes="field-label" Text="要校验的镜像" />
                 <Border Classes="note" Padding="12,10">
                     <Grid ColumnDefinitions="Auto,*">
                         <c:CinderIcon Data="{x:Static c:Icons.Doc}" Width="14" Height="14" Margin="0,0,9,0"
@@ -23,10 +23,10 @@
                 <Button Classes="accent" Height="30" Padding="14,0" Command="{Binding PickAndRunCommand}">
                     <StackPanel Orientation="Horizontal" Spacing="8">
                         <c:CinderIcon Data="{x:Static c:Icons.Check}" Width="15" Height="15" />
-                        <TextBlock Text="Pick image and verify…" VerticalAlignment="Center" />
+                        <TextBlock Text="选择镜像并校验…" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-                <Button Classes="tb" Height="30" Padding="12,0" Content="Stop verifying"
+                <Button Classes="tb" Height="30" Padding="12,0" Content="停止校验"
                         Command="{Binding PickAndRunCancelCommand}" IsVisible="{Binding PickAndRunCommand.IsRunning}" />
             </StackPanel>
         </StackPanel>
@@ -34,19 +34,19 @@
         <c:TaskPage.Aside>
             <StackPanel>
                 <StackPanel IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNull}}">
-                    <TextBlock Classes="section" Text="WHAT HAPPENS" Margin="0,0,0,14" />
-                    <c:Step Number="1" Title="Reads every byte of the image again"
-                            Text="Large images take a while: the whole file is read, not a sample of it." />
-                    <c:Step Number="2" Title="Compares the result with the hash recorded at acquisition"
-                            Text="E01 and AFF4 keep that hash inside the file. Raw, VHD and VHDX images are compared with the .sha256 or .md5 file saved beside them." />
-                    <c:Step Number="3" Title="Tells you one of three things"
-                            Text="Verified: the image still matches. Failed: it does not, so it has changed or is damaged. Cannot be verified: there is no recorded hash to compare against." />
-                    <c:Step Number="4" Title="Records the outcome"
-                            Text="With a case open, the result is written to its custody log." />
+                    <TextBlock Classes="section" Text="执行过程" Margin="0,0,0,14" />
+                    <c:Step Number="1" Title="重新读取镜像的每一个字节"
+                            Text="大镜像需要一些时间：读取的是整个文件，而非抽样。" />
+                    <c:Step Number="2" Title="与采集时记录的哈希比对"
+                            Text="E01 和 AFF4 将该哈希保存在文件内部；Raw、VHD 和 VHDX 镜像则与保存在旁边的 .sha256 或 .md5 文件比对。" />
+                    <c:Step Number="3" Title="给出三种结论之一"
+                            Text="校验通过：镜像仍然一致。校验失败：不一致，说明镜像已被改动或已损坏。无法校验：没有可供比对的已记录哈希。" />
+                    <c:Step Number="4" Title="记录校验结果"
+                            Text="若打开了案件，结果会写入该案件的监管链日志。" />
                 </StackPanel>
 
                 <StackPanel Spacing="12" IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Classes="section" Text="RESULT" />
+                    <TextBlock Classes="section" Text="结果" />
                     <ProgressBar IsIndeterminate="True" IsVisible="{Binding PickAndRunCommand.IsRunning}" />
                     <Border Classes="result">
                         <SelectableTextBlock Text="{Binding StatusLine}" TextWrapping="Wrap" FontSize="12.5" LineHeight="19" />

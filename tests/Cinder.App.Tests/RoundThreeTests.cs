@@ -10,11 +10,11 @@ namespace Cinder.App.Tests;
 public sealed class CustodyTextTests
 {
     [Theory]
-    [InlineData("case.created", "Case created")]
-    [InlineData("case.opened", "Case opened")]
-    [InlineData("evidence.imaged", "Evidence imaged")]
-    [InlineData("parser.ran", "Tool run")]
-    [InlineData("annotation", "Note")]
+    [InlineData("case.created", "新建案件")]
+    [InlineData("case.opened", "打开案件")]
+    [InlineData("evidence.imaged", "检材采集镜像")]
+    [InlineData("parser.ran", "工具运行")]
+    [InlineData("annotation", "备注")]
     public void Known_actions_are_shown_in_words(string stored, string shown) =>
         CustodyText.Action(stored).Should().Be(shown);
 
@@ -27,7 +27,7 @@ public sealed class CustodyTextTests
     {
         var shown = CustodyText.Details("""{"Tool":"filesystem","Evidence":"R:\\evidence\\usb.img","Rows":39}""");
 
-        shown.Should().Be(@"Tool: filesystem  ·  Evidence: R:\evidence\usb.img  ·  Rows: 39");
+        shown.Should().Be(@"工具: filesystem  ·  检材: R:\evidence\usb.img  ·  行数: 39");
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public sealed class CustodyTextTests
     {
         var shown = CustodyText.Details("""{"BytesWritten":1024,"Description":null,"Note":"","Padded":true,"MD5":"abc"}""");
 
-        shown.Should().Be("Bytes written: 1024  ·  Padded: yes  ·  MD5: abc");
+        shown.Should().Be("写入字节: 1024  ·  有填充: 是  ·  MD5: abc");
     }
 
     [Theory]

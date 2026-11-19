@@ -11,19 +11,19 @@
         <Border Grid.Column="0" Background="{DynamicResource CinderSurface1Brush}">
             <DockPanel Margin="16,14">
                 <StackPanel DockPanel.Dock="Top" Spacing="10">
-                    <TextBlock Text="REPORT" Classes="section" />
+                    <TextBlock Text="报告" Classes="section" />
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Title" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="标题" Classes="label" FontSize="11.5" />
                         <TextBox Text="{Binding Title, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Examiner" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="取证员" Classes="label" FontSize="11.5" />
                         <TextBox Text="{Binding Examiner, Mode=TwoWay}" />
                     </StackPanel>
                     <StackPanel Spacing="4">
-                        <TextBlock Text="Template" Classes="label" FontSize="11.5" />
+                        <TextBlock Text="模板" Classes="label" FontSize="11.5" />
                         <ComboBox ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}" HorizontalAlignment="Stretch"
-                                  ToolTip.Tip="A template is a starting set of sections. Choosing another one replaces the sections below.">
+                                  ToolTip.Tip="模板是一组预设的起始章节。选择其他模板会替换下方的章节。">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="rep:ReportTemplate">
                                     <TextBlock Text="{Binding Name}" />
@@ -36,12 +36,12 @@
                 <!-- Export, pinned to the bottom: the last thing you do. -->
                 <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,12,0,0">
                     <Border Height="1" Background="{DynamicResource CinderBorderBrush}" />
-                    <TextBlock Text="EXHIBITS FROM BOOKMARKS" Classes="section" Margin="0,4,0,0" />
+                    <TextBlock Text="来自书签的附件" Classes="section" Margin="0,4,0,0" />
                     <Grid ColumnDefinitions="Auto,*">
-                        <Button Classes="tb" Height="28" Content="Load bookmarks" Command="{Binding LoadBookmarksCommand}"
-                                ToolTip.Tip="Reads the open case's bookmarks so they can be included as numbered exhibits" />
+                        <Button Classes="tb" Height="28" Content="载入书签" Command="{Binding LoadBookmarksCommand}"
+                                ToolTip.Tip="读取已打开案件的书签，以便作为编号附件纳入报告" />
                         <CheckBox Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center"
-                                  IsChecked="{Binding IncludeBookmarks}" Content="Include in the report" />
+                                  IsChecked="{Binding IncludeBookmarks}" Content="纳入报告" />
                     </Grid>
                     <TextBlock Text="{Binding BookmarkSummary}" Classes="muted" FontSize="12" TextWrapping="Wrap" />
                     <c:ExportButton Classes="accent" Height="30" HorizontalAlignment="Left" Margin="0,4,0,0"
@@ -51,11 +51,11 @@
                 </StackPanel>
 
                 <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,16,0,6">
-                    <TextBlock Text="SECTIONS" Classes="section" VerticalAlignment="Center" />
+                    <TextBlock Text="章节" Classes="section" VerticalAlignment="Center" />
                     <Button Grid.Column="1" Classes="ghost" Height="22" Padding="8,0" FontSize="11.5" Command="{Binding AddSectionCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <c:CinderIcon Data="{x:Static c:Icons.Plus}" Width="12" Height="12" />
-                            <TextBlock Text="Add" VerticalAlignment="Center" />
+                            <TextBlock Text="添加" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
                 </Grid>
@@ -73,20 +73,20 @@
 
         <Grid Grid.Column="2" RowDefinitions="*,4,*">
             <DockPanel Grid.Row="0" Margin="16,14">
-                <TextBlock DockPanel.Dock="Top" Text="SECTION" Classes="section" Margin="0,0,0,8" />
+                <TextBlock DockPanel.Dock="Top" Text="章节内容" Classes="section" Margin="0,0,0,8" />
                 <TextBox DockPanel.Dock="Top" Text="{Binding SelectedSection.Title, Mode=TwoWay, FallbackValue=''}"
-                         FontWeight="600" FontSize="14" Margin="0,0,0,8" Watermark="Section heading" />
+                         FontWeight="600" FontSize="14" Margin="0,0,0,8" Watermark="章节标题" />
                 <TextBox Text="{Binding SelectedSection.Body, Mode=TwoWay, FallbackValue=''}"
                          AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top"
                          FontFamily="{DynamicResource CinderFontFamilyMono}" FontSize="12.5"
-                         Watermark="Write this section here. Plain text works; Markdown is supported if you want it (# heading, **bold**, - list item)." />
+                         Watermark="在此撰写本章节。纯文本即可；如需也可使用 Markdown（# 标题、**加粗**、- 列表项）。" />
             </DockPanel>
             <GridSplitter Grid.Row="1" />
             <Border Grid.Row="2" Background="{DynamicResource CinderSurface1Brush}">
                 <DockPanel Margin="16,12">
                     <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                        <TextBlock Text="PREVIEW (AS MARKDOWN)" Classes="section" VerticalAlignment="Center" />
-                        <Button Grid.Column="1" Classes="ghost" Height="22" Padding="8,0" FontSize="11.5" Content="Update preview"
+                        <TextBlock Text="预览（Markdown）" Classes="section" VerticalAlignment="Center" />
+                        <Button Grid.Column="1" Classes="ghost" Height="22" Padding="8,0" FontSize="11.5" Content="更新预览"
                                 Command="{Binding RefreshCommand}" />
                     </Grid>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">

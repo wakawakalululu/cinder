@@ -12,10 +12,10 @@
             <DockPanel Grid.Column="0">
                 <Border DockPanel.Dock="Top" Classes="toolbar">
                     <Grid ColumnDefinitions="*,Auto">
-                        <TextBlock Text="RULES" Classes="section" VerticalAlignment="Center" />
-                        <Button Grid.Column="1" Classes="tb" VerticalAlignment="Center" Content="Load rules file…"
+                        <TextBlock Text="规则" Classes="section" VerticalAlignment="Center" />
+                        <Button Grid.Column="1" Classes="tb" VerticalAlignment="Center" Content="读取规则文件…"
                                 Command="{Binding LoadRulesFileCommand}"
-                                ToolTip.Tip="Replace the editor contents with a .yar file" />
+                                ToolTip.Tip="用 .yar 文件替换编辑器中的内容。" />
                     </Grid>
                 </Border>
                 <TextBox Text="{Binding Rules}" AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"
@@ -32,9 +32,9 @@
                 <Border DockPanel.Dock="Top" Classes="toolbar">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                            <Button Classes="accent" Height="26" Padding="12,0" Content="Scan a file…"
+                            <Button Classes="accent" Height="26" Padding="12,0" Content="扫描文件…"
                                     Command="{Binding PickAndScanCommand}" />
-                            <Button Classes="tb" Content="Stop" Command="{Binding PickAndScanCancelCommand}"
+                            <Button Classes="tb" Content="停止" Command="{Binding PickAndScanCancelCommand}"
                                     IsVisible="{Binding IsScanning}" />
                         </StackPanel>
                         <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding ScanTarget}"
@@ -51,35 +51,35 @@
                         <DataGrid Grid.Row="0" ItemsSource="{Binding Hits}" SelectedItem="{Binding SelectedHit}"
                                   AutoGenerateColumns="False" IsReadOnly="True" DoubleTapped="OnHitDoubleTapped">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Rule" Binding="{Binding Rule}" Width="180" />
-                                <DataGridTextColumn Header="String" Binding="{Binding Identifier}" Width="90"
+                                <DataGridTextColumn Header="规则" Binding="{Binding Rule}" Width="180" />
+                                <DataGridTextColumn Header="字符串" Binding="{Binding Identifier}" Width="90"
                                                     FontFamily="{StaticResource CinderFontFamilyMono}" />
-                                <DataGridTextColumn Header="Offset" Binding="{Binding OffsetHex}" Width="140"
+                                <DataGridTextColumn Header="偏移量" Binding="{Binding OffsetHex}" Width="140"
                                                     FontFamily="{StaticResource CinderFontFamilyMono}" />
-                                <DataGridTextColumn Header="Matched bytes" Binding="{Binding Matched}" Width="*"
+                                <DataGridTextColumn Header="匹配到的字节" Binding="{Binding Matched}" Width="*"
                                                     FontFamily="{StaticResource CinderFontFamilyMono}" />
                             </DataGrid.Columns>
                         </DataGrid>
                         <GridSplitter Grid.Row="1" />
                         <DockPanel Grid.Row="2">
                             <Border DockPanel.Dock="Top" Padding="14,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1">
-                                <TextBlock Text="WHAT EACH RULE DID" Classes="section" />
+                                <TextBlock Text="每条规则的执行结果" Classes="section" />
                             </Border>
                             <DataGrid ItemsSource="{Binding RuleSummary}" AutoGenerateColumns="False" IsReadOnly="True">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Rule" Binding="{Binding Name}" Width="200" />
-                                    <DataGridTextColumn Header="Result" Binding="{Binding Status}" Width="110" />
-                                    <DataGridTextColumn Header="Matches" Binding="{Binding Hits}" Width="90"
+                                    <DataGridTextColumn Header="规则" Binding="{Binding Name}" Width="200" />
+                                    <DataGridTextColumn Header="结果" Binding="{Binding Status}" Width="110" />
+                                    <DataGridTextColumn Header="匹配数" Binding="{Binding Hits}" Width="90"
                                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                                    <DataGridTextColumn Header="Note" Binding="{Binding Note}" Width="*" />
+                                    <DataGridTextColumn Header="备注" Binding="{Binding Note}" Width="*" />
                                 </DataGrid.Columns>
                             </DataGrid>
                         </DockPanel>
                     </Grid>
-                    <c:EmptyState Icon="{Binding IconGeometry}" Title="Scan a file with these rules"
+                    <c:EmptyState Icon="{Binding IconGeometry}" Title="用这些规则扫描一个文件"
                                   IsVisible="{Binding !RuleSummary.Count}"
-                                  Message="Write or load YARA rules on the left, then pick a file: a disk image, a memory dump, a suspicious program. Cinder lists every place a rule's strings occur and what each rule did. Only part of the YARA language is supported; rules that use anything else are listed as skipped, with the reason.">
-                        <Button Classes="accent" Height="30" Padding="14,0" Content="Scan a file…" Command="{Binding PickAndScanCommand}" />
+                                  Message="在左侧编写或读取 YARA 规则，然后选择一个文件：磁盘镜像、内存转储或可疑程序。Cinder 会列出规则字符串出现的每一处位置，以及每条规则的执行结果。本工具仅支持 YARA 语言的一部分；使用了其他语法的规则会连同原因一起列为已跳过。">
+                        <Button Classes="accent" Height="30" Padding="14,0" Content="扫描文件…" Command="{Binding PickAndScanCommand}" />
                     </c:EmptyState>
                 </Panel>
             </DockPanel>
@@ -87,9 +87,9 @@
 
         <Border Grid.Row="1" Classes="footer">
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <TextBlock Text="{Binding Hits.Count, StringFormat='{}{0:N0} matches'}" Classes="mono" IsVisible="{Binding Hits.Count}" />
+                <TextBlock Text="{Binding Hits.Count, StringFormat='{}{0:N0} 处匹配'}" Classes="mono" IsVisible="{Binding Hits.Count}" />
                 <TextBlock Grid.Column="1" Text="{Binding StatusLine}" Margin="16,0,0,0" />
-                <TextBlock Grid.Column="2" Text="Double-click a match to see it in the Hex Viewer" IsVisible="{Binding Hits.Count}"
+                <TextBlock Grid.Column="2" Text="双击某个匹配可在十六进制查看器中查看。" IsVisible="{Binding Hits.Count}"
                            Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
             </Grid>
         </Border>

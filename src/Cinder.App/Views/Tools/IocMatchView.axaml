@@ -17,30 +17,30 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <Button Classes="tb" Command="{Binding PickIocListCommand}"
-                            ToolTip.Tip="{Binding EvidencePath, TargetNullValue='A text file with one indicator per line: hashes, addresses, domains, paths or any text'}">
+                            ToolTip.Tip="{Binding EvidencePath, TargetNullValue='一个每行一条指标的文本文件：哈希、地址、域名、路径或任意文本'}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Target}" Width="14" Height="14" />
-                            <TextBlock Text="{Binding EvidencePath, TargetNullValue='Indicator list…'}" VerticalAlignment="Center"
+                            <TextBlock Text="{Binding EvidencePath, TargetNullValue='指标列表…'}" VerticalAlignment="Center"
                                        MaxWidth="220" TextTrimming="PrefixCharacterEllipsis" />
                         </StackPanel>
                     </Button>
                     <c:CinderIcon Data="{x:Static c:Icons.Chevron}" Width="12" Height="12"
                                   Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
                     <Button Classes="tb" Command="{Binding PickFolderCommand}"
-                            ToolTip.Tip="{Binding TargetFolder, TargetNullValue='The folder to scan: a mounted image, a triage collection or an export'}">
+                            ToolTip.Tip="{Binding TargetFolder, TargetNullValue='要扫描的文件夹：已挂载的镜像、分诊采集包或导出目录'}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                            <TextBlock Text="{Binding TargetFolder, TargetNullValue='Folder to scan…'}" VerticalAlignment="Center"
+                            <TextBlock Text="{Binding TargetFolder, TargetNullValue='要扫描的文件夹…'}" VerticalAlignment="Center"
                                        MaxWidth="260" TextTrimming="PrefixCharacterEllipsis" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="accent" Height="26" Padding="12,0" Content="Run scan"
+                    <Button Classes="accent" Height="26" Padding="12,0" Content="运行扫描"
                             Command="{Binding LoadEvidenceCommand}" CommandParameter="{Binding EvidencePath}"
                             IsEnabled="{Binding CanRunScan}" IsVisible="{Binding !IsLoading}"
-                            ToolTip.Tip="Check every file in the folder against the list" />
-                    <Button Classes="tb" Content="Stop" Command="{Binding LoadEvidenceCancelCommand}"
+                            ToolTip.Tip="把文件夹中的每个文件与该列表逐一比对。" />
+                    <Button Classes="tb" Content="停止" Command="{Binding LoadEvidenceCancelCommand}"
                             IsVisible="{Binding IsLoading}"
-                            ToolTip.Tip="Stop the scan. Matches found so far are not shown, because the scan did not finish." />
+                            ToolTip.Tip="停止扫描。由于扫描没有完成，目前已找到的匹配不会显示。" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center"
@@ -49,23 +49,23 @@
                         <Grid ColumnDefinitions="Auto,*">
                             <c:CinderIcon Data="{x:Static c:Icons.Filter}" Width="14" Height="14"
                                           Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
-                            <TextBox Grid.Column="1" Classes="bare" Margin="8,0,0,0" FontSize="12.5" Watermark="Filter matches"
+                            <TextBox Grid.Column="1" Classes="bare" Margin="8,0,0,0" FontSize="12.5" Watermark="筛选匹配结果"
                                      Text="{Binding RowFilter, UpdateSourceTrigger=PropertyChanged}"
-                                     ToolTip.Tip="Shows matches with this text in any column. Export writes the matches the filter shows." />
+                                     ToolTip.Tip="显示任一列中包含此文本的匹配。导出时写入的是筛选后显示的匹配。" />
                         </Grid>
                     </Border>
-                    <Button Classes="tb" ToolTip.Tip="Keep the selected match as a finding in the open case. Reports turns bookmarks into exhibits.">
+                    <Button Classes="tb" ToolTip.Tip="把选定的匹配保存为当前案件中的一条发现。报告功能会把书签整理成附件（Exhibit）。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Bookmark}" Width="14" Height="14" />
-                            <TextBlock Text="Bookmark" VerticalAlignment="Center" />
+                            <TextBlock Text="书签" VerticalAlignment="Center" />
                         </StackPanel>
                         <Button.Flyout>
                             <Flyout Placement="BottomEdgeAlignedRight">
                                 <StackPanel Width="300" Spacing="10">
-                                    <TextBlock Text="BOOKMARK SELECTED MATCH" Classes="section" />
-                                    <TextBox Watermark="Note (optional): why this match matters"
+                                    <TextBlock Text="为选定匹配加入书签" Classes="section" />
+                                    <TextBox Watermark="备注（可选）：这条匹配为什么重要"
                                              Text="{Binding BookmarkNote}" AcceptsReturn="True" TextWrapping="Wrap" MinHeight="60" />
-                                    <Button Classes="accent" HorizontalAlignment="Right" Content="Add bookmark"
+                                    <Button Classes="accent" HorizontalAlignment="Right" Content="添加书签"
                                             Command="{Binding BookmarkSelectedCommand}" />
                                 </StackPanel>
                             </Flyout>
@@ -116,7 +116,7 @@
                       c:AutoColumns.FromFirstItem="True" IsReadOnly="True" IsVisible="{Binding Rows.Count}" />
 
             <!-- Nothing chosen yet, or a scan that found nothing: say which. -->
-            <c:EmptyState Icon="{x:Static c:Icons.Target}" Title="Check a folder against a list of indicators"
+            <c:EmptyState Icon="{x:Static c:Icons.Target}" Title="用指标列表核查一个文件夹"
                           Message="{Binding EmptyStateHint}">
                 <c:EmptyState.IsVisible>
                     <MultiBinding Converter="{x:Static BoolConverters.And}">
@@ -135,7 +135,7 @@
                 <ProgressBar IsIndeterminate="True" Width="160" />
                 <TextBlock Text="{Binding StatusLine}" Classes="muted" HorizontalAlignment="Center"
                            MaxWidth="460" TextWrapping="Wrap" TextAlignment="Center" />
-                <Button Classes="tb" Content="Stop" HorizontalAlignment="Center"
+                <Button Classes="tb" Content="停止" HorizontalAlignment="Center"
                         Command="{Binding LoadEvidenceCancelCommand}" />
             </StackPanel>
         </Panel>

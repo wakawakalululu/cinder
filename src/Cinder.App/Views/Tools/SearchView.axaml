@@ -11,16 +11,16 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <Button Classes="tb" Command="{Binding BuildIndexCommand}"
-                            ToolTip.Tip="Reads the text of every file under a folder (documents, plus readable strings from binaries) into the index">
+                            ToolTip.Tip="读取文件夹下每个文件的文本（文档，以及二进制文件中的可读字符串）并写入索引。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Plus}" Width="14" Height="14" />
-                            <TextBlock Text="Index a folder…" VerticalAlignment="Center" />
+                            <TextBlock Text="为文件夹建立索引…" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Content="Stop" Command="{Binding BuildIndexCancelCommand}"
+                    <Button Classes="tb" Content="停止" Command="{Binding BuildIndexCancelCommand}"
                             IsVisible="{Binding IsIndexing}" />
-                    <Button Classes="tb" Content="Open existing index…" Command="{Binding PickIndexFolderCommand}"
-                            ToolTip.Tip="Reopen an index folder you built earlier" />
+                    <Button Classes="tb" Content="打开现有索引…" Command="{Binding PickIndexFolderCommand}"
+                            ToolTip.Tip="重新打开你之前建立的索引文件夹。" />
                 </StackPanel>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding IndexPath}"
                            ToolTip.Tip="{Binding IndexPath}" />
@@ -38,14 +38,14 @@
                                       Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
                         <TextBox Grid.Column="1" Classes="bare" Margin="8,0,0,0" FontSize="13"
                                  Text="{Binding Query, Mode=TwoWay}"
-                                 Watermark="Words to find. Use &quot;quotes&quot; for a phrase, AND / OR between terms, path: or text: to search one field">
+                                 Watermark="要查找的词语。用 “引号” 括住短语，词之间用 AND / OR 连接，用 path: 或 text: 只搜索某个字段">
                             <TextBox.KeyBindings>
                                 <KeyBinding Gesture="Return" Command="{Binding RunCommand}" />
                             </TextBox.KeyBindings>
                         </TextBox>
                     </Grid>
                 </Border>
-                <Button Grid.Column="1" Margin="8,0,0,0" Classes="accent" Height="32" Padding="16,0" Content="Search"
+                <Button Grid.Column="1" Margin="8,0,0,0" Classes="accent" Height="32" Padding="16,0" Content="搜索"
                         Command="{Binding RunCommand}" />
             </Grid>
         </Border>
@@ -55,19 +55,19 @@
                       AutoGenerateColumns="False" IsReadOnly="True" IsVisible="{Binding Hits.Count}"
                       DoubleTapped="OnHitDoubleTapped">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Match" Binding="{Binding Score, StringFormat=F2}" Width="70"
+                    <DataGridTextColumn Header="匹配度" Binding="{Binding Score, StringFormat=F2}" Width="70"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="File" Binding="{Binding Summary}" Width="240" />
-                    <DataGridTextColumn Header="Path" Binding="{Binding Path}" Width="*"
+                    <DataGridTextColumn Header="文件" Binding="{Binding Summary}" Width="240" />
+                    <DataGridTextColumn Header="路径" Binding="{Binding Path}" Width="*"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Modified (UTC)" Binding="{Binding Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="170"
+                    <DataGridTextColumn Header="修改时间（UTC）" Binding="{Binding Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="170"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <c:EmptyState Icon="{x:Static c:Icons.Search}" Title="Search across a whole folder"
+            <c:EmptyState Icon="{x:Static c:Icons.Search}" Title="在整个文件夹中搜索"
                           IsVisible="{Binding !HasIndex}"
-                          Message="Cinder reads the text out of every file under a folder (documents, and readable strings from programs and other binaries) and builds an index. After that, searches come back instantly. The index is stored in a folder you choose and can be reopened later.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Index a folder…"
+                          Message="Cinder 会读取文件夹下每个文件的文本（文档，以及程序和其他二进制文件中的可读字符串）并建立索引。之后搜索会立即返回结果。索引保存在你选择的文件夹里，以后可以重新打开。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="为文件夹建立索引…"
                         Command="{Binding BuildIndexCommand}" />
             </c:EmptyState>
             <c:EmptyState Icon="{x:Static c:Icons.Search}" Title="{Binding ReadyTitle}" Message="{Binding ReadyMessage}"
@@ -80,9 +80,9 @@
 
         <Border Grid.Row="3" Classes="footer">
             <Grid ColumnDefinitions="Auto,*,Auto">
-                <TextBlock Text="{Binding Hits.Count, StringFormat='{}{0:N0} results'}" Classes="mono" IsVisible="{Binding Hits.Count}" />
+                <TextBlock Text="{Binding Hits.Count, StringFormat='{}{0:N0} 个结果'}" Classes="mono" IsVisible="{Binding Hits.Count}" />
                 <TextBlock Grid.Column="1" Text="{Binding StatusLine}" Margin="16,0,0,0" />
-                <TextBlock Grid.Column="2" Text="Double-click a result to open it in the Hex Viewer" IsVisible="{Binding Hits.Count}"
+                <TextBlock Grid.Column="2" Text="双击某个结果可在十六进制查看器中打开。" IsVisible="{Binding Hits.Count}"
                            Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
             </Grid>
         </Border>

@@ -4,7 +4,7 @@
         xmlns:hx="using:Cinder.Hex"
         x:Class="Cinder.App.Views.FindDialog"
         x:DataType="vm:FindDialogViewModel"
-        Title="Find in file"
+        Title="在文件中查找"
         Width="640" Height="480"
         WindowStartupLocation="CenterOwner"
         FontFamily="{DynamicResource CinderFontFamily}"
@@ -16,7 +16,7 @@
         <Grid Margin="18" RowDefinitions="Auto,Auto,Auto,*,Auto">
 
             <TextBlock Grid.Row="0"
-                       Text="FIND IN THIS FILE"
+                       Text="在此文件中查找"
                        FontWeight="600"
                        FontSize="{DynamicResource CinderFontSizeXs}"
                        Foreground="{DynamicResource CinderForegroundMutedBrush}" />
@@ -29,7 +29,7 @@
                 <TextBox Grid.Column="1"
                          Name="QueryInput"
                          Text="{Binding Query, Mode=TwoWay}"
-                         Watermark="Text, hex bytes (4D 5A) or a regular expression, depending on the mode"
+                         Watermark="按模式输入：文本、十六进制字节（4D 5A）或正则表达式"
                          FontFamily="{DynamicResource CinderFontFamilyMono}"
                          FontSize="{DynamicResource CinderFontSizeMd}">
                     <TextBox.KeyBindings>
@@ -39,14 +39,14 @@
                 <Button Grid.Column="2"
                         Margin="8,0,0,0"
                         Classes="accent"
-                        Content="Find"
+                        Content="查找"
                         Command="{Binding RunCommand}"
                         IsEnabled="{Binding !IsSearching}" />
             </Grid>
 
             <CheckBox Grid.Row="2"
                       IsChecked="{Binding CaseSensitive}"
-                      Content="Case sensitive"
+                      Content="区分大小写"
                       Foreground="{DynamicResource CinderForegroundMutedBrush}" />
 
             <ListBox Grid.Row="3"
@@ -59,7 +59,7 @@
                             <TextBlock Text="{Binding Offset, StringFormat='0x{0:X12}'}"
                                        FontFamily="{DynamicResource CinderFontFamilyMono}"
                                        Foreground="{DynamicResource CinderAccentBrush}" />
-                            <TextBlock Text="{Binding Length, StringFormat='{}{0} bytes'}"
+                            <TextBlock Text="{Binding Length, StringFormat='{}{0} 字节'}"
                                        Foreground="{DynamicResource CinderForegroundMutedBrush}" />
                         </StackPanel>
                     </DataTemplate>

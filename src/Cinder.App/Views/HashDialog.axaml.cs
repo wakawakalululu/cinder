@@ -58,7 +58,7 @@ public partial class HashDialog : Window
         {
             var picked = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                Title = "Choose the file to hash",
+                Title = "选择要哈希的文件",
                 AllowMultiple = false,
             });
             Start(picked.FirstOrDefault()?.TryGetLocalPath());
@@ -68,7 +68,7 @@ public partial class HashDialog : Window
             // A picker that fails must not take the dialog (or the app) with it.
             if (DataContext is HashDialogViewModel vm)
             {
-                vm.Error = "The file picker could not be opened: " + ex.Message;
+                vm.Error = "无法打开文件选择器：" + ex.Message;
             }
         }
     }

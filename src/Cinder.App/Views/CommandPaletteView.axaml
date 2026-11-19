@@ -31,7 +31,7 @@
                         <c:CinderIcon Data="{x:Static c:Icons.Search}" Width="16" Height="16"
                                       Foreground="{DynamicResource CinderForegroundDisabledBrush}" />
                         <TextBox Grid.Column="1" x:Name="QueryBox" Classes="bare" Margin="12,0" FontSize="14"
-                                 Watermark="Type a command or a tool name…" Text="{Binding Query}">
+                                 Watermark="输入命令或工具名称…" Text="{Binding Query}">
                             <TextBox.KeyBindings>
                                 <KeyBinding Gesture="Down" Command="{Binding MoveCommand}" CommandParameter="1" />
                                 <KeyBinding Gesture="Up" Command="{Binding MoveCommand}" CommandParameter="-1" />
@@ -48,21 +48,21 @@
                     <StackPanel Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Border Classes="kbd"><TextBlock Text="↑↓" /></Border>
-                            <TextBlock Text="move" Classes="legend" />
+                            <TextBlock Text="移动" Classes="legend" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Border Classes="kbd"><TextBlock Text="Enter" /></Border>
-                            <TextBlock Text="run" Classes="legend" />
+                            <TextBlock Text="运行" Classes="legend" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Border Classes="kbd"><TextBlock Text="Esc" /></Border>
-                            <TextBlock Text="close" Classes="legend" />
+                            <TextBlock Text="关闭" Classes="legend" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
 
                 <Panel>
-                    <TextBlock Text="No matching commands." Classes="dim" Margin="16,14" IsVisible="{Binding HasNoResults}" />
+                    <TextBlock Text="没有匹配的命令。" Classes="dim" Margin="16,14" IsVisible="{Binding HasNoResults}" />
                     <ListBox x:Name="List" ItemsSource="{Binding Results}" SelectedItem="{Binding Selected}"
                              Padding="6" Background="Transparent">
                         <ListBox.Styles>

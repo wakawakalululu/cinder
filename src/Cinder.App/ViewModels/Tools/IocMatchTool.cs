@@ -21,13 +21,13 @@ namespace Cinder.App.ViewModels.Tools;
 public sealed partial class IocMatchTool : SidecarToolViewModel
 {
     public override string Id => "ioc";
-    public override string Title => "IOC match";
+    public override string Title => "IOC 匹配";
     public override string Icon => "🎯";
-    public override string Subtitle => "Check a folder of evidence against a list of indicators: file hashes, names and paths, text inside files, and timeline events.";
+    public override string Subtitle => "用一份指标清单核对一个检材文件夹：文件哈希、名称与路径、文件内文本以及时间线事件。";
     public override string Phase => "6";
     public override string Kind => "ioc";
 
-    public override string? EmptyStateHint => "Pick an indicator list (a text file with one indicator per line) and the folder to scan.";
+    public override string? EmptyStateHint => "选择指标清单（每行一个指标的文本文件）和要扫描的文件夹。";
 
     /// <summary>Most matches one scan shows.</summary>
     internal const int RowBudget = 50_000;

@@ -11,32 +11,32 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <Button Classes="tb" Command="{Binding IngestEmailFolderCommand}"
-                            ToolTip.Tip="Reads the From, To and Cc of every .eml, .msg and .mbox file under a folder">
+                            ToolTip.Tip="读取文件夹下每个 .eml、.msg 和 .mbox 文件的发件人、收件人和抄送。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Mail}" Width="14" Height="14" />
-                            <TextBlock Text="Add mail from folder…" VerticalAlignment="Center" />
+                            <TextBlock Text="从文件夹添加邮件…" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Content="Stop" Command="{Binding IngestEmailFolderCancelCommand}"
+                    <Button Classes="tb" Content="停止" Command="{Binding IngestEmailFolderCancelCommand}"
                             IsVisible="{Binding IngestEmailFolderCommand.IsRunning}" />
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="6" VerticalAlignment="Center"
                             IsVisible="{Binding Nodes.Count}">
                     <c:ExportButton ExportCommand="{Binding ExportCommand}" />
-                    <Button Classes="tb" Content="Clear" Command="{Binding ClearGraphCommand}"
-                            ToolTip.Tip="Remove every person and message from this view (the mail files are not touched)" />
+                    <Button Classes="tb" Content="清除" Command="{Binding ClearGraphCommand}"
+                            ToolTip.Tip="从这个视图中移除所有人员和消息（不会改动邮件文件本身）。" />
                 </StackPanel>
             </Grid>
         </Border>
 
         <Border Grid.Row="1" Classes="subbar">
             <StackPanel Orientation="Horizontal" Spacing="8">
-                <TextBlock Text="Add a link" Classes="label" Margin="0,0,4,0" />
-                <TextBox Width="200" Text="{Binding From}" Watermark="From (address or handle)" />
-                <TextBox Width="200" Text="{Binding To}" Watermark="To" />
-                <TextBox Width="220" Text="{Binding Subject}" Watermark="Subject (optional)" />
-                <TextBox Width="130" Text="{Binding Source}" Watermark="Where it came from" />
-                <Button Classes="tb" Content="Add" Command="{Binding AddEdgeCommand}" />
+                <TextBlock Text="添加一条关联" Classes="label" Margin="0,0,4,0" />
+                <TextBox Width="200" Text="{Binding From}" Watermark="发件人（地址或账号）" />
+                <TextBox Width="200" Text="{Binding To}" Watermark="收件人" />
+                <TextBox Width="220" Text="{Binding Subject}" Watermark="主题（可选）" />
+                <TextBox Width="130" Text="{Binding Source}" Watermark="信息来自哪里" />
+                <Button Classes="tb" Content="添加" Command="{Binding AddEdgeCommand}" />
             </StackPanel>
         </Border>
 
@@ -44,15 +44,15 @@
             <Grid ColumnDefinitions="360,4,*" IsVisible="{Binding Nodes.Count}">
                 <DockPanel Grid.Column="0">
                     <Border DockPanel.Dock="Top" Padding="14,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1">
-                        <TextBlock Text="PEOPLE" Classes="section" />
+                        <TextBlock Text="人员" Classes="section" />
                     </Border>
                     <DataGrid ItemsSource="{Binding Nodes}" SelectedItem="{Binding SelectedNode}"
                               AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Address" Binding="{Binding Identity}" Width="*" />
-                            <DataGridTextColumn Header="Received" Binding="{Binding InCount}" Width="84"
+                            <DataGridTextColumn Header="地址" Binding="{Binding Identity}" Width="*" />
+                            <DataGridTextColumn Header="收到" Binding="{Binding InCount}" Width="84"
                                                 FontFamily="{StaticResource CinderFontFamilyMono}" />
-                            <DataGridTextColumn Header="Sent" Binding="{Binding OutCount}" Width="64"
+                            <DataGridTextColumn Header="发出" Binding="{Binding OutCount}" Width="64"
                                                 FontFamily="{StaticResource CinderFontFamilyMono}" />
                         </DataGrid.Columns>
                     </DataGrid>
@@ -64,33 +64,33 @@
                         <Grid ColumnDefinitions="*,Auto">
                             <TextBlock Text="{Binding EdgesHeading}" Classes="section" VerticalAlignment="Center"
                                        TextTrimming="CharacterEllipsis" />
-                            <Button Grid.Column="1" Classes="ghost" Height="22" Padding="8,0" FontSize="11.5" Content="Show everyone"
+                            <Button Grid.Column="1" Classes="ghost" Height="22" Padding="8,0" FontSize="11.5" Content="显示所有人"
                                     Command="{Binding ShowAllCommand}" IsVisible="{Binding HasSelectedNode}" />
                         </Grid>
                     </Border>
                     <DataGrid ItemsSource="{Binding Edges}" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Sent (UTC)" Binding="{Binding SentUtc}" Width="160"
+                            <DataGridTextColumn Header="发送时间（UTC）" Binding="{Binding SentUtc}" Width="160"
                                                 FontFamily="{StaticResource CinderFontFamilyMono}" />
-                            <DataGridTextColumn Header="From" Binding="{Binding From}" Width="*" />
-                            <DataGridTextColumn Header="To" Binding="{Binding To}" Width="*" />
-                            <DataGridTextColumn Header="Subject" Binding="{Binding Subject}" Width="2*" />
-                            <DataGridTextColumn Header="Source" Binding="{Binding Source}" Width="80" />
+                            <DataGridTextColumn Header="发件人" Binding="{Binding From}" Width="*" />
+                            <DataGridTextColumn Header="收件人" Binding="{Binding To}" Width="*" />
+                            <DataGridTextColumn Header="主题" Binding="{Binding Subject}" Width="2*" />
+                            <DataGridTextColumn Header="来源" Binding="{Binding Source}" Width="80" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
             </Grid>
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="No communications yet" IsVisible="{Binding !Nodes.Count}"
-                          Message="Point Cinder at a folder of mail (.eml, .msg or .mbox) and it lists who wrote to whom, most connected first. Pick a person to see only their messages.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Add mail from folder…"
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="尚无通讯记录" IsVisible="{Binding !Nodes.Count}"
+                          Message="让 Cinder 指向一个邮件文件夹（.eml、.msg 或 .mbox），它会列出谁给谁写过信，联系最多的人排在最前面。选中一个人即可只看与其相关的消息。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="从文件夹添加邮件…"
                         Command="{Binding IngestEmailFolderCommand}" />
             </c:EmptyState>
         </Panel>
 
         <Border Grid.Row="3" Classes="footer">
             <Grid ColumnDefinitions="Auto,Auto,*">
-                <TextBlock Text="{Binding Nodes.Count, StringFormat='{}{0:N0} people'}" Classes="mono" />
-                <TextBlock Grid.Column="1" Text="{Binding Edges.Count, StringFormat='{}{0:N0} messages shown'}" Classes="mono" Margin="16,0,0,0" />
+                <TextBlock Text="{Binding Nodes.Count, StringFormat='{}{0:N0} 人'}" Classes="mono" />
+                <TextBlock Grid.Column="1" Text="{Binding Edges.Count, StringFormat='{}已显示 {0:N0} 条消息'}" Classes="mono" Margin="16,0,0,0" />
                 <TextBlock Grid.Column="2" Text="{Binding StatusLine}" Margin="16,0,0,0" />
             </Grid>
         </Border>

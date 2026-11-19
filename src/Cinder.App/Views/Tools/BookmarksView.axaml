@@ -10,15 +10,15 @@
         <Border Grid.Row="0" Classes="toolbar">
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                    <Button Classes="tb" Command="{Binding RefreshCommand}" ToolTip.Tip="Read the list again from the case file">
+                    <Button Classes="tb" Command="{Binding RefreshCommand}" ToolTip.Tip="从案件文件重新读取这份列表。">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Swap}" Width="14" Height="14" />
-                            <TextBlock Text="Reload" VerticalAlignment="Center" />
+                            <TextBlock Text="重新读取" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Content="Remove selected" Command="{Binding DeleteSelectedCommand}"
+                    <Button Classes="tb" Content="移除所选" Command="{Binding DeleteSelectedCommand}"
                             IsVisible="{Binding Bookmarks.Count}"
-                            ToolTip.Tip="Withdraws the finding. The removal itself is recorded in the custody log, so nothing disappears silently." />
+                            ToolTip.Tip="撤销这条发现。移除操作本身会记入监管链日志，因此不会有任何东西被悄悄删掉。" />
                 </StackPanel>
                 <c:ExportButton Grid.Column="2" ExportCommand="{Binding ExportCommand}" VerticalAlignment="Center"
                                 IsVisible="{Binding Bookmarks.Count}" />
@@ -31,18 +31,18 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="#" Binding="{Binding Id}" Width="56"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Flagged (UTC)" Binding="{Binding CreatedUtc, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="170"
+                    <DataGridTextColumn Header="标记时间（UTC）" Binding="{Binding CreatedUtc, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="170"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="By" Binding="{Binding Examiner}" Width="110" />
-                    <DataGridTextColumn Header="Tool" Binding="{Binding Tool}" Width="120" />
-                    <DataGridTextColumn Header="What" Binding="{Binding Title}" Width="2*" />
-                    <DataGridTextColumn Header="Note" Binding="{Binding Note}" Width="2*" />
-                    <DataGridTextColumn Header="Evidence" Binding="{Binding EvidencePath}" Width="*"
+                    <DataGridTextColumn Header="取证员" Binding="{Binding Examiner}" Width="110" />
+                    <DataGridTextColumn Header="工具" Binding="{Binding Tool}" Width="120" />
+                    <DataGridTextColumn Header="内容" Binding="{Binding Title}" Width="2*" />
+                    <DataGridTextColumn Header="备注" Binding="{Binding Note}" Width="2*" />
+                    <DataGridTextColumn Header="检材" Binding="{Binding EvidencePath}" Width="*"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="No bookmarks yet" IsVisible="{Binding !Bookmarks.Count}"
-                          Message="When a row in any tool matters, select it and choose Bookmark. It is saved to the open case with your note, the tool and the evidence it came from, and appears here. Reports turns this list into numbered exhibits. Bookmarks need an open case." />
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="尚无书签" IsVisible="{Binding !Bookmarks.Count}"
+                          Message="当任何工具中的某一行值得记录时，选中它并选择书签。它会连同你的备注、所用工具和来源检材一起保存到当前打开的案件，并显示在这里。报告功能会把这份列表整理成编号的附件（Exhibit）。加入书签需要先打开案件。" />
         </Panel>
 
         <Border Grid.Row="2" Classes="footer">

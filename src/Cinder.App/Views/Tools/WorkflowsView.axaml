@@ -13,12 +13,12 @@
                     <Button Classes="tb" Command="{Binding LoadCommand}">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Folder}" Width="14" Height="14" />
-                            <TextBlock Text="Open workflow…" VerticalAlignment="Center" />
+                            <TextBlock Text="打开工作流…" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="accent" Height="26" Padding="12,0" Content="Run" Command="{Binding RunCommand}"
+                    <Button Classes="accent" Height="26" Padding="12,0" Content="运行" Command="{Binding RunCommand}"
                             IsVisible="{Binding HasWorkflow}" />
-                    <Button Classes="tb" Content="Stop" Command="{Binding RunCancelCommand}" IsVisible="{Binding IsRunning}" />
+                    <Button Classes="tb" Content="停止" Command="{Binding RunCancelCommand}" IsVisible="{Binding IsRunning}" />
                     <ProgressBar IsIndeterminate="True" Width="80" VerticalAlignment="Center" IsVisible="{Binding IsRunning}" />
                 </StackPanel>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding Path}" ToolTip.Tip="{Binding Path}" />
@@ -29,39 +29,39 @@
             <Grid ColumnDefinitions="2*,4,3*" IsVisible="{Binding Nodes.Count}">
                 <DockPanel Grid.Column="0">
                     <Border DockPanel.Dock="Top" Padding="14,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1">
-                        <TextBlock Text="STEPS, IN RUN ORDER" Classes="section" />
+                        <TextBlock Text="步骤（按运行顺序）" Classes="section" />
                     </Border>
                     <DataGrid ItemsSource="{Binding Nodes}" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Step" Binding="{Binding Id}" Width="*" />
-                            <DataGridTextColumn Header="What it does" Binding="{Binding Kind}" Width="*" />
+                            <DataGridTextColumn Header="步骤" Binding="{Binding Id}" Width="*" />
+                            <DataGridTextColumn Header="作用" Binding="{Binding Kind}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>
                 <GridSplitter Grid.Column="1" />
                 <DockPanel Grid.Column="2">
                     <Border DockPanel.Dock="Top" Padding="14,8" BorderBrush="{DynamicResource CinderBorderBrush}" BorderThickness="0,0,0,1">
-                        <TextBlock Text="RESULTS" Classes="section" />
+                        <TextBlock Text="结果" Classes="section" />
                     </Border>
                     <Panel>
                         <DataGrid ItemsSource="{Binding Outputs}" AutoGenerateColumns="False" IsReadOnly="True"
                                   IsVisible="{Binding Outputs.Count}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Step" Binding="{Binding NodeId}" Width="150" />
-                                <DataGridTextColumn Header="Kind" Binding="{Binding Kind}" Width="130" />
-                                <DataGridTextColumn Header="Outcome" Binding="{Binding Status}" Width="90" />
-                                <DataGridTextColumn Header="Result" Binding="{Binding Result}" Width="*" />
+                                <DataGridTextColumn Header="步骤" Binding="{Binding NodeId}" Width="150" />
+                                <DataGridTextColumn Header="类型" Binding="{Binding Kind}" Width="130" />
+                                <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="90" />
+                                <DataGridTextColumn Header="结果" Binding="{Binding Result}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <TextBlock Text="Nothing has run yet. Press Run to execute the steps on the left, top to bottom."
+                        <TextBlock Text="尚未运行任何步骤。点击「运行」，从上到下执行左侧的步骤。"
                                    Classes="muted" FontSize="13" TextWrapping="Wrap" TextAlignment="Center" MaxWidth="320"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" IsVisible="{Binding !Outputs.Count}" />
                     </Panel>
                 </DockPanel>
             </Grid>
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="Run a saved sequence of steps" IsVisible="{Binding !Nodes.Count}"
-                          Message="A workflow is a small file that lists steps, such as hash a file, pull out its strings, index the results, and the order to run them in. Open one to see its steps, then run it. Use it to repeat the same triage on every piece of evidence.">
-                <Button Classes="accent" Height="30" Padding="14,0" Content="Open workflow…" Command="{Binding LoadCommand}" />
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="运行已保存的步骤序列" IsVisible="{Binding !Nodes.Count}"
+                          Message="工作流是一个小文件，其中列出各步骤及运行顺序，例如计算文件哈希、提取其中的字符串、为结果建立索引。打开工作流即可查看步骤并运行。可以用它对每份检材重复同样的分诊流程。">
+                <Button Classes="accent" Height="30" Padding="14,0" Content="打开工作流…" Command="{Binding LoadCommand}" />
             </c:EmptyState>
         </Panel>
 

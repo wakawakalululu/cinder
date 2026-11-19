@@ -12,14 +12,14 @@
             <Grid ColumnDefinitions="Auto,*,Auto">
                 <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
                     <Button Classes="tb" Command="{Binding VerifyOpenCaseCommand}" IsVisible="{Binding HasOpenCase}"
-                            ToolTip.Tip="Re-check the log of the case shown in the title bar">
+                            ToolTip.Tip="重新校验标题栏中所示案件的日志">
                         <StackPanel Orientation="Horizontal" Spacing="6">
                             <c:CinderIcon Data="{x:Static c:Icons.Check}" Width="14" Height="14" />
-                            <TextBlock Text="Check the open case" VerticalAlignment="Center" />
+                            <TextBlock Text="校验已打开的案件" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-                    <Button Classes="tb" Content="Check a case file…" Command="{Binding PickAndVerifyCommand}"
-                            ToolTip.Tip="Pick any .cinder file, including one sent to you by another examiner" />
+                    <Button Classes="tb" Content="校验案件文件…" Command="{Binding PickAndVerifyCommand}"
+                            ToolTip.Tip="选择任意 .cinder 文件，包括其他取证员发给你的文件" />
                 </StackPanel>
                 <TextBlock Grid.Column="1" Classes="path" Margin="14,0" Text="{Binding CasePath}" ToolTip.Tip="{Binding CasePath}" />
                 <c:ExportButton Grid.Column="2" ExportCommand="{Binding ExportCommand}" VerticalAlignment="Center"
@@ -40,10 +40,10 @@
         <!-- Signatures: the anchor outside the file. A consistent rewrite passes the chain check; a signed tip does not. -->
         <Border Grid.Row="2" Classes="subbar" IsVisible="{Binding HasCaseFile}">
             <Grid ColumnDefinitions="Auto,Auto,*,Auto">
-                <Button Grid.Column="0" Classes="tb" Content="Sign the log" Command="{Binding SignTipCommand}"
-                        ToolTip.Tip="Signs the latest entry with your examiner key. If someone later rewrites the whole log, the signature no longer matches." />
-                <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Content="Export signature…" Command="{Binding ExportAttestationCommand}"
-                        ToolTip.Tip="Saves the signature and your public key to a file. Send it somewhere you cannot edit afterwards." />
+                <Button Grid.Column="0" Classes="tb" Content="为日志签名" Command="{Binding SignTipCommand}"
+                        ToolTip.Tip="用你的取证员密钥为最新条目签名。若日后有人重写整个日志，签名将不再匹配。" />
+                <Button Grid.Column="1" Classes="tb" Margin="6,0,0,0" Content="导出签名…" Command="{Binding ExportAttestationCommand}"
+                        ToolTip.Tip="将签名和你的公钥保存到文件。请发送到事后无法再修改的地方。" />
                 <TextBlock Grid.Column="2" Margin="14,0" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="12.5"
                            Text="{Binding AttestationVerdict}" />
                 <TextBlock Grid.Column="3" Classes="mono dim" FontSize="11.5" VerticalAlignment="Center"
@@ -57,25 +57,25 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="#" Binding="{Binding Sequence}" Width="64"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Time (UTC)" Binding="{Binding TimestampUtc, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="170"
+                    <DataGridTextColumn Header="时间（UTC）" Binding="{Binding TimestampUtc, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Width="170"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
-                    <DataGridTextColumn Header="Examiner" Binding="{Binding Examiner}" Width="130" />
-                    <DataGridTextColumn Header="Action" Binding="{Binding Action, Converter={x:Static svc:CustodyText.ActionConverter}}" Width="150" />
+                    <DataGridTextColumn Header="取证员" Binding="{Binding Examiner}" Width="130" />
+                    <DataGridTextColumn Header="操作" Binding="{Binding Action, Converter={x:Static svc:CustodyText.ActionConverter}}" Width="150" />
                     <!-- Shown in words; the stored JSON is what is hashed and what Export writes. -->
-                    <DataGridTextColumn Header="Details" Binding="{Binding DetailsJson, Converter={x:Static svc:CustodyText.DetailsConverter}}" Width="*" />
-                    <DataGridTextColumn Header="Entry hash" Binding="{Binding EntryHash}" Width="180"
+                    <DataGridTextColumn Header="详情" Binding="{Binding DetailsJson, Converter={x:Static svc:CustodyText.DetailsConverter}}" Width="*" />
+                    <DataGridTextColumn Header="条目哈希" Binding="{Binding EntryHash}" Width="180"
                                         FontFamily="{StaticResource CinderFontFamilyMono}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <c:EmptyState Icon="{Binding IconGeometry}" Title="Check that a case log has not been altered"
+            <c:EmptyState Icon="{Binding IconGeometry}" Title="校验案件日志是否被改动"
                           IsVisible="{Binding !Entries.Count}"
-                          Message="Every action in a case is written to a log in which each entry is locked to the one before it. Cinder re-computes that chain here: if an entry was changed, removed or reordered after it was written, the check fails and names the entry.">
+                          Message="案件中的每个操作都会写入日志，日志中每条记录都与前一条锁定关联。Cinder 在此重新计算这条链：如果某条记录在写入后被更改、删除或调换顺序，校验就会失败并指出是哪条记录。">
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <Button Classes="accent" Height="30" Padding="14,0" Content="Check the open case"
+                    <Button Classes="accent" Height="30" Padding="14,0" Content="校验已打开的案件"
                             Command="{Binding VerifyOpenCaseCommand}" IsVisible="{Binding HasOpenCase}" />
-                    <Button Classes="tb" Height="30" Padding="14,0" Content="Check a case file…" Command="{Binding PickAndVerifyCommand}"
+                    <Button Classes="tb" Height="30" Padding="14,0" Content="校验案件文件…" Command="{Binding PickAndVerifyCommand}"
                             IsVisible="{Binding HasOpenCase}" />
-                    <Button Classes="accent" Height="30" Padding="14,0" Content="Check a case file…" Command="{Binding PickAndVerifyCommand}"
+                    <Button Classes="accent" Height="30" Padding="14,0" Content="校验案件文件…" Command="{Binding PickAndVerifyCommand}"
                             IsVisible="{Binding !HasOpenCase}" />
                 </StackPanel>
             </c:EmptyState>

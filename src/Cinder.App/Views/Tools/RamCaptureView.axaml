@@ -13,11 +13,11 @@
                     <c:CinderIcon Data="{x:Static c:Icons.Alert}" Width="15" Height="15" VerticalAlignment="Top" Margin="0,1,10,0"
                                   Foreground="{DynamicResource CinderWarnBrush}" />
                     <TextBlock Grid.Column="1" TextWrapping="Wrap" FontSize="12.5" LineHeight="18"
-                               Text="Not functional yet. Live memory capture needs a signed kernel driver on Windows (winpmem) or LiME on Linux, and neither is bundled. Capture with one of those tools today, then open the dump in the Memory tool." />
+                               Text="尚未可用。在 Windows 上进行实时内存采集需要已签名的内核驱动（winpmem），在 Linux 上则需要 LiME，两者都没有随 Cinder 附带。当前请先用这类工具采集，然后在「内存」工具中打开转储文件。" />
                 </Grid>
             </Border>
             <TextBlock Classes="muted" FontSize="13" TextWrapping="Wrap" LineHeight="19" MaxWidth="640" HorizontalAlignment="Left"
-                       Text="When it ships: pick where the dump goes, Cinder captures physical memory, hashes it as it writes, and records the capture in the custody log." />
+                       Text="正式发布后：你可以选择转储文件的保存位置，Cinder 会采集物理内存、在写入的同时计算哈希，并把本次采集记录到监管链日志。" />
             <!-- No action button: nothing here can capture yet, and a button that asks for an output
                  path and then captures nothing is worse than no button. -->
             <Border Background="{DynamicResource CinderSurface2Brush}" CornerRadius="8" Padding="14,12"

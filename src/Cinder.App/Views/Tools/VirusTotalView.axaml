@@ -9,11 +9,11 @@
     <c:TaskPage>
         <StackPanel Spacing="18">
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Your VirusTotal API key" />
-                <TextBox Text="{Binding ApiKey}" PasswordChar="•" Watermark="Kept in memory only, never saved" />
+                <TextBlock Classes="field-label" Text="你的 VirusTotal API 密钥" />
+                <TextBox Text="{Binding ApiKey}" PasswordChar="•" Watermark="仅保存在内存中，从不写入磁盘" />
             </StackPanel>
             <StackPanel>
-                <TextBlock Classes="field-label" Text="Hash of the file to look up" />
+                <TextBlock Classes="field-label" Text="要查询的文件哈希" />
                 <TextBox Text="{Binding Hash}" Watermark="MD5, SHA-1 or SHA-256"
                          FontFamily="{DynamicResource CinderFontFamilyMono}">
                     <TextBox.KeyBindings>
@@ -25,7 +25,7 @@
                     Command="{Binding LookupCommand}">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <c:CinderIcon Data="{x:Static c:Icons.Globe}" Width="15" Height="15" />
-                    <TextBlock Text="Look up on VirusTotal" VerticalAlignment="Center" />
+                    <TextBlock Text="在 VirusTotal 上查询" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
         </StackPanel>
@@ -38,22 +38,22 @@
                         <c:CinderIcon Data="{x:Static c:Icons.Alert}" Width="15" Height="15" VerticalAlignment="Top" Margin="0,1,10,0"
                                       Foreground="{DynamicResource CinderWarnBrush}" />
                         <TextBlock Grid.Column="1" TextWrapping="Wrap" FontSize="12.5" LineHeight="18"
-                                   Text="This is the one tool that contacts the internet. The hash you look up and your API key are sent to virustotal.com, which records the query. Do not use it where the case forbids revealing that a file exists." />
+                                   Text="这是唯一一个会连接互联网的工具。你查询的哈希和 API 密钥会被发送到 virustotal.com，对方会记录这次查询。如果案件不允许暴露某个文件的存在，请不要使用此工具。" />
                     </Grid>
                 </Border>
 
                 <StackPanel IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNull}}">
-                    <TextBlock Classes="section" Text="WHAT HAPPENS" Margin="0,0,0,14" />
-                    <c:Step Number="1" Title="Sends the hash, never the file"
-                            Text="VirusTotal is asked whether it has seen a file with this hash before. The file itself stays on this computer." />
-                    <c:Step Number="2" Title="Shows what the antivirus engines said"
-                            Text="How many engines flagged the file, and what they called it. A hash VirusTotal has never seen is reported as unknown, which is not the same as clean." />
-                    <c:Step Number="3" Title="Records the lookup"
-                            Text="With a case open, the lookup is written to its custody log." />
+                    <TextBlock Classes="section" Text="执行过程" Margin="0,0,0,14" />
+                    <c:Step Number="1" Title="只发送哈希，从不发送文件"
+                            Text="向 VirusTotal 询问它是否见过带有此哈希的文件。文件本身始终留在这台计算机上。" />
+                    <c:Step Number="2" Title="显示各杀毒引擎的判定结果"
+                            Text="有多少引擎标记了该文件，以及它们把它叫作什么。VirusTotal 从未见过的哈希会报告为未知，这并不等于安全。" />
+                    <c:Step Number="3" Title="记录这次查询"
+                            Text="在打开案件的情况下，这次查询会写入案件的监管链日志。" />
                 </StackPanel>
 
                 <StackPanel Spacing="12" IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}">
-                    <TextBlock Classes="section" Text="RESULT" />
+                    <TextBlock Classes="section" Text="结果" />
                     <ProgressBar IsIndeterminate="True" IsVisible="{Binding LookupCommand.IsRunning}" />
                     <Border Classes="result"
                             IsVisible="{Binding StatusLine, Converter={x:Static ObjectConverters.IsNotNull}}">
