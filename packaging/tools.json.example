@@ -1,0 +1,8 @@
+{
+  "//": "外部工具路径清单（本机专用）。ExternalToolLocator 在手动指定之后、注册表/PATH 之前读取本文件。值可以是完整 exe 路径或目录（目录会自动拼默认程序名）。换机部署时按需改写。",
+  "wireshark": "E:\\Snow\\Desktop\\workspace\\2026\\取证\\changan-cup-forensics-kit\\tools\\wireshark\\Wireshark.exe",
+  "volatility3": "E:\\Snow\\Desktop\\workspace\\2026\\取证\\changan-cup-forensics-kit\\tools\\volatility3\\vol.exe",
+  "ida": "E:\\Snow\\Desktop\\CTF\\ida\\ida93\\ida.exe",
+  "x64dbg": "C:\\Program Files\\Honglian\\ForensicDesktop\\bin\\tools\\x64dbg\\x64\\x64dbg.exe",
+  "x32dbg": "C:\\Program Files\\Honglian\\ForensicDesktop\\bin\\tools\\x64dbg\\x32\\x32dbg.exe"
+}
